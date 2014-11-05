@@ -1,5 +1,6 @@
-import com.golden.gamedev.GameLoader;
+package view;
 
+import com.golden.gamedev.GameLoader;
 
 public class ArkanoidLoader extends GameLoader {
 
