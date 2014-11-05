@@ -8,6 +8,6 @@ import com.golden.gamedev.object.PlayField;
  * @author Gregory Zbitnev <zbitnev@hotmail.com>
  *
  */
-public class ArkanoidPlayField extends PlayField {
+public class GameFieldView extends PlayField {
 
 }
