@@ -2,6 +2,11 @@ package model.collision;
 
 import model.IngameObject;
 
+/**
+ * Поведение отскока от ракетки при столкновении.
+ * @author Nikita Kalinin <nixorv@gmail.com>
+ *
+ */
 public class BehaviourPaddleRebound extends CollisionBehaviour {
 	/**
 	 * Экзмепляр синглтона.
