@@ -2,6 +2,11 @@ package model.collision;
 
 import model.IngameObject;
 
+/**
+ * Поведение упрогого отскока при столкновении.
+ * @author Nikita Kalinin <nixorv@gmail.com>
+ *
+ */
 public class BehaviourRebound extends CollisionBehaviour {
 	/**
 	 * Экзмепляр синглтона.
