@@ -3,6 +3,7 @@
 import java.awt.geom.Point2D.Float;
 
 import model.Speed2D;
+import model.interaction.GenericEventListener;
 import model.interaction.PositionChangeListener;
 import model.interaction.SpeedChangeListener;
 
@@ -11,7 +12,8 @@ import model.interaction.SpeedChangeListener;
  * @author Gregory Zbitnev <zbitnev@hotmail.com>
  *
  */
-public class IngameObjectView implements PositionChangeListener, SpeedChangeListener {
+public class IngameObjectView
+		implements PositionChangeListener, SpeedChangeListener, GenericEventListener {
 
 	@Override
 	public void positionChanged(Float newpos) {
@@ -21,6 +23,18 @@ public class IngameObjectView implements PositionChangeListener, SpeedChangeList
 
 	@Override
 	public void speedChanged(Speed2D newspeed) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void created() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void destroyed() {
 		// TODO Auto-generated method stub
 		
 	}
