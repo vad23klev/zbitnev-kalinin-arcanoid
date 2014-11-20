@@ -60,6 +60,15 @@ public class IngameObject implements PositionChangeListener, SpeedChangeListener
 	}
 	
 	/**
+	 * Сдвинуть объект.
+	 * @param delta Величина изменения позиции
+	 */
+	public void move(Point2D.Float delta) {
+		
+		// TODO Method stub
+	}
+	
+	/**
 	 * Обрабатывает столкновение с другим объектом.
 	 * @param other Объект, столкнувшийся с данным.
 	 */
