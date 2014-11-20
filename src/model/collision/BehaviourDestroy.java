@@ -1,5 +1,7 @@
 package model.collision;
 
+import model.IngameObject;
+
 /**
  * Поведение разрушения при столкновении.
  * @author Gregory Zbitnev <zbitnev@hotmail.com>
@@ -7,6 +9,14 @@ package model.collision;
  */
 public class BehaviourDestroy extends CollisionBehaviour {
 
+	/**
+	 * Экзмепляр синглтона.
+	 */
+	private static BehaviourDestroy instance = null;
+	
+	protected BehaviourDestroy() {
+	}
+	
 	/**
 	 * Возвращает экземпляр поведения разрушения
 	 * @return
@@ -17,6 +27,11 @@ public class BehaviourDestroy extends CollisionBehaviour {
 			instance = new BehaviourDestroy();
 		}
 		
-		return (BehaviourDestroy)instance;
+		return instance;
+	}
+	
+	@Override
+	public void invoke(IngameObject from, IngameObject to) {
+		// TODO
 	}
 }
