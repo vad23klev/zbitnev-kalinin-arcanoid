@@ -1,5 +1,7 @@
 package model;
 
+import java.awt.Dimension;
+
 /**
  * Модель игрового поля.
  * @author Nikita Kalinin <nixorv@gmail.com>
@@ -7,6 +9,14 @@ package model;
  */
 public class GameField {
 
+    /**
+     * Инициализирует поле заданного размера.
+     * @param size Размер поля.
+     */
+    public GameField(Dimension size) {
+        
+    }
+    
 	/**
 	 * Добавить объект на поле
 	 * @param object Объект для добавления
