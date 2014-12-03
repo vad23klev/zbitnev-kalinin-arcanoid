@@ -16,6 +16,7 @@ import model.interaction.SpeedChangeListener;
  */
 public abstract class IngameObject implements PositionChangeListener, SpeedChangeListener {
 
+    private Boolean _isDestroyed = false;
 	private Point2D.Float position = null;
 	private Speed2D speed = null;
 	private ArrayList<CollisionBehaviour> defaultColBehaviour = null;
@@ -164,6 +165,14 @@ public abstract class IngameObject implements PositionChangeListener, SpeedChang
 	public void cleanSpecificCollisionBehaviours(Class<?> cl) {
 		
 		// TODO Method stub
+	}
+	
+	/**
+	 * Уничтожает объект.
+	 * По умолчанию ничего не освобождает.
+	 */
+	public void destroy() {
+	    this._isDestroyed = true;
 	}
 	
 	//-------------------------------------------------------------------------------------------//
