@@ -14,12 +14,13 @@ import model.interaction.SpeedChangeListener;
  * @author Nikita Kalinin <nixorv@gmail.com>
  *
  */
-public class IngameObject implements PositionChangeListener, SpeedChangeListener {
+public abstract class IngameObject implements PositionChangeListener, SpeedChangeListener {
 
 	private Point2D.Float position = null;
 	private Speed2D speed = null;
 	private ArrayList<CollisionBehaviour> defaultColBehaviour = null;
 	private HashMap<Class<?>, ArrayList<CollisionBehaviour>> specialColBehaviours = null;
+	private GameField field = null;
 	
 	/**
 	 * Получить скорость.
