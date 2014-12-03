@@ -1,5 +1,6 @@
 package model;
 
+import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
 import model.paddle.Paddle;
@@ -48,4 +49,20 @@ public class Player {
 		
 	}
 	
+	/**
+	 * Переместить все свои ракетки в указанную позицию по горизонтали
+	 * @param pos Позиция
+	 */
+	public void setPaddlesPosition(Point2D.Float pos) {
+		
+	}
+	
+	/**
+	 * Переместить все свои ракетки в указанном направлении.
+	 * Величину сдвига жёстко задана внутри класса.
+	 * @param dir Направление перемещения
+	 */
+	public void movePaddles(Direction dir) {
+		
+	}
 }
