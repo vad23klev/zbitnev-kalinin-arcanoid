@@ -13,4 +13,11 @@ public class BreakableBrick extends Brick {
 		super(field);
 	}
 
+	/**
+	 * Разрушает кирпич.
+	 */
+	@Override
+	public void destroy() {
+	    super.destroy();
+	}
 }
