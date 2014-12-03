@@ -1,5 +1,6 @@
 package model.swarm;
 
+import model.GameField;
 import model.IngameObject;
 
 /**
@@ -8,5 +9,9 @@ import model.IngameObject;
  *
  */
 public class Swarm extends IngameObject {
+
+	public Swarm(GameField field) {
+		super(field);
+	}
 
 }

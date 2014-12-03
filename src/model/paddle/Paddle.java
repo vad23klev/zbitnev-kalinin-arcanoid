@@ -1,5 +1,6 @@
 package model.paddle;
 
+import model.GameField;
 import model.IngameObject;
 
 /**
@@ -8,5 +9,9 @@ import model.IngameObject;
  *
  */
 public abstract class Paddle extends IngameObject {
+
+	public Paddle(GameField field) {
+		super(field);
+	}
 
 }

@@ -22,6 +22,10 @@ public abstract class IngameObject implements PositionChangeListener, SpeedChang
 	private HashMap<Class<?>, ArrayList<CollisionBehaviour>> specialColBehaviours = null;
 	private GameField field = null;
 	
+	public IngameObject(GameField field) {
+		
+	}
+	
 	/**
 	 * Получить скорость.
 	 * @return Текущая скорость.

@@ -1,5 +1,6 @@
 package model.ball;
 
+import model.GameField;
 import model.swarm.CanBeInSwarm;
 
 /**
@@ -8,5 +9,9 @@ import model.swarm.CanBeInSwarm;
  *
  */
 public class BasicBall extends Ball implements CanBeInSwarm {
+
+	public BasicBall(GameField field) {
+		super(field);
+	}
 
 }

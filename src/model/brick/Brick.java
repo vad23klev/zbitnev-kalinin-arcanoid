@@ -1,5 +1,6 @@
 package model.brick;
 
+import model.GameField;
 import model.IngameObject;
 
 /**
@@ -8,5 +9,9 @@ import model.IngameObject;
  *
  */
 public abstract class Brick extends IngameObject {
+
+	public Brick(GameField field) {
+		super(field);
+	}
 
 }
