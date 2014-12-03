@@ -25,6 +25,7 @@ public class GameModel implements CollisionListener {
 	 */
 	public void setField(GameField field) {
 		
+		// TODO
 	}
 	
 	/**
@@ -33,6 +34,35 @@ public class GameModel implements CollisionListener {
 	 */
 	public GameField getField() {
 		
+		// TODO
+		return null;
+	}
+	
+	/**
+	 * Добавить модели нового игрока
+	 * @param player
+	 */
+	public void addPlayer(Player player) {
+		
+		// TODO
+	}
+	
+	/**
+	 * Убрать игрока из модели
+	 * @param player
+	 */
+	public void removePlayer(Player player) {
+		
+		// TODO
+	}
+	
+	/**
+	 * Полуить игроков модели
+	 * @return
+	 */
+	public ArrayList<Player> getPlayers() {
+		
+		// TODO
 		return null;
 	}
 }
