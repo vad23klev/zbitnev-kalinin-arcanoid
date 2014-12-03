@@ -19,4 +19,20 @@ public class GameModel implements CollisionListener {
 		
 	}
 
+	/**
+	 * Назначить игровое поле
+	 * @param field
+	 */
+	public void setField(GameField field) {
+		
+	}
+	
+	/**
+	 * Получить игровое поле
+	 * @return Текущее поле
+	 */
+	public GameField getField() {
+		
+		return null;
+	}
 }
