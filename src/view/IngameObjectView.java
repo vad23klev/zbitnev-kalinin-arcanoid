@@ -15,6 +15,14 @@ import model.interaction.SpeedChangeListener;
 public class IngameObjectView
 		implements PositionChangeListener, SpeedChangeListener, GenericEventListener {
 
+    /**
+     * Необходимо использовать вместо прямого обращения к спрайту.
+     * @param timeElapsed Прошедшее время.
+     */
+    public void update(int timeElapsed) {
+        
+    }
+    
 	@Override
 	public void positionChanged(Float newpos) {
 		// TODO Auto-generated method stub
