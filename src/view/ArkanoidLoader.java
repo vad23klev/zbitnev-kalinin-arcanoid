@@ -1,5 +1,6 @@
 ﻿package view;
 
+import java.awt.Dimension;
 import com.golden.gamedev.GameLoader;
 
 /**
@@ -10,8 +11,12 @@ import com.golden.gamedev.GameLoader;
 public class ArkanoidLoader extends GameLoader {
 
     public static void main(String[] args) {
-        // TODO Auto-generated method stub
-
+        
+    	ArkanoidLoader loader = new ArkanoidLoader();
+    	loader.setup(new GameView(), 
+    			new Dimension(420, 640), 
+    			false);
+    	loader.start();
     }
 
 }

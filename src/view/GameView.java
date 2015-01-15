@@ -12,7 +12,15 @@ public class GameView extends GameEngine {
 
 	@Override
 	public GameObject getGame(int arg0) {
-		// TODO Auto-generated method stub
+		
+		switch (arg0) {
+			case 0: 
+				return new ScreenGame(this);
+			case 1:
+				return new ScreenMenu(this);
+		}
+		
+		// TODO: Выброс исключения
 		return null;
 	}
 
