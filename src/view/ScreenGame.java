@@ -41,7 +41,7 @@ public class ScreenGame extends GameObject {
 	public void initResources() {
 		
 		// Загрузка фона
-		Image bgimage = bsLoader.getImage("images/bg-blue.png");
+		Image bgimage = bsLoader.getImage("default/gfx/misc/bg-blue.png");
 		BufferedImage bufferedBgImage = new BufferedImage(this.getWidth(), this.getHeight(), 
 														  BufferedImage.TYPE_4BYTE_ABGR);
 		bufferedBgImage.getGraphics().drawImage(bgimage, 0, 0, this.getWidth(), 
@@ -49,8 +49,8 @@ public class ScreenGame extends GameObject {
 		background = new ImageBackground(bufferedBgImage);
 		
 		// Загрузка изображений для игровых объектов
-		basicBallImg = bsLoader.getImage("images/ball32.png");
-		breakableBrickImg = bsLoader.getImage("images/brick_24x48.png");
+		basicBallImg = bsLoader.getImage("default/gfx/balls/basic.png");
+		breakableBrickImg = bsLoader.getImage("default/gfx/bricks/breakable.png");
 		spritesBalls = new SpriteGroup("Balls");
 		spritesBricks = new SpriteGroup("Bricks");
 		spritesPaddles = new SpriteGroup("Paddles");
