@@ -8,7 +8,7 @@ import com.golden.gamedev.GameObject;
  * @author Gregory Zbitnev <zbitnev@hotmail.com>
  *
  */
-public class GameView extends GameEngine {
+public class ArkanoidEngine extends GameEngine {
 
 	@Override
 	public GameObject getGame(int arg0) {
