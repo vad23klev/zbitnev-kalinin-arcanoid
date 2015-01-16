@@ -22,15 +22,8 @@ import com.golden.gamedev.object.background.ImageBackground;
  */
 public class ScreenGame extends GameObject {
 	
-	GameModel model;
-	
-	Background background;
-	BufferedImage basicBallImg;
-	BufferedImage breakableBrickImg;
-	
-	SpriteGroup spritesBalls;
-	SpriteGroup spritesBricks;
-	SpriteGroup spritesPaddles;
+	GameModel model;				// игровая модель
+	GameFieldView fieldView;		// представление игрового поля
 
 	public ScreenGame(GameEngine arg0) {
 		super(arg0);
@@ -40,22 +33,16 @@ public class ScreenGame extends GameObject {
 	@Override
 	public void initResources() {
 		
-		// Загрузка фона
+		// Инициализация представления уровня
+		fieldView = new GameFieldView();
 		Image bgimage = bsLoader.getImage("default/gfx/misc/bg-blue.png");
 		BufferedImage bufferedBgImage = new BufferedImage(this.getWidth(), this.getHeight(), 
 														  BufferedImage.TYPE_4BYTE_ABGR);
 		bufferedBgImage.getGraphics().drawImage(bgimage, 0, 0, this.getWidth(), 
 												this.getHeight(), null);
-		background = new ImageBackground(bufferedBgImage);
+		fieldView.setBackground(new ImageBackground(bufferedBgImage));
 		
-		// Загрузка изображений для игровых объектов
-		basicBallImg = bsLoader.getImage("default/gfx/balls/basic.png");
-		breakableBrickImg = bsLoader.getImage("default/gfx/bricks/breakable.png");
-		spritesBalls = new SpriteGroup("Balls");
-		spritesBricks = new SpriteGroup("Bricks");
-		spritesPaddles = new SpriteGroup("Paddles");
-		
-		// Загрузка игрового уровня
+		// Построение уровня
 		// TODO: Загрузка уровня из файла (пока уровень захардкоден)
 		// TODO: Сообщить окну о габаритах уровня, чтобы то адаптировалось
 		GameField field = new GameField(new Dimension(640, 420));
@@ -64,11 +51,7 @@ public class ScreenGame extends GameObject {
 	@Override
 	public void render(Graphics2D arg0) {
 
-		// Рендерим последовательно фон и все игровые объекты
-		background.render(arg0);
-		spritesBalls.render(arg0);
-		spritesBricks.render(arg0);
-		spritesPaddles.render(arg0);
+		fieldView.render(arg0);
 		
 		// TODO: Рендер кол-ва очков, другой инофрмации (сейчас игра на весь экран)
 	}
@@ -77,12 +60,7 @@ public class ScreenGame extends GameObject {
 	public void update(long arg0) {
 		
 		// Апдейтим всё
-		spritesBalls.update(arg0);
-		spritesBricks.update(arg0);
-		spritesPaddles.update(arg0);
-		
-		// TODO: Проверка всех коллизий
-		// TODO: Апдейт событий пользовательского ввода
+		fieldView.update(arg0);
 	}
 
 }
