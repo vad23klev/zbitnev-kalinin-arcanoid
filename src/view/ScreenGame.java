@@ -4,13 +4,16 @@ import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.geom.Point2D;
+import java.awt.geom.Point2D.Float;
 import java.awt.image.BufferedImage;
 
 import model.GameField;
 import model.GameModel;
+import model.Player;
 import model.Speed2D;
 import model.ball.BasicBall;
 import model.brick.BreakableBrick;
+import model.paddle.BasicPaddle;
 
 import com.golden.gamedev.GameEngine;
 import com.golden.gamedev.GameObject;
@@ -18,54 +21,70 @@ import com.golden.gamedev.object.Background;
 import com.golden.gamedev.object.SpriteGroup;
 import com.golden.gamedev.object.background.ImageBackground;
 
+import controller.GameController;
+
 /**
  * Режим игры
  * @author Gregory Zbitnev <zbitnev@hotmail.com>
  *
  */
 public class ScreenGame extends GameObject {
-	
+    
 	GameModel model;
 	GameFieldView fieldView;
+	GameController controller;
 	
 	public ScreenGame(GameEngine arg0) {
 		super(arg0);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
 	public void initResources() {
-		
+	    
+	    // Загрузка ресурсов
+	    BufferedImage bgImage             = bsLoader.getImage("default/gfx/misc/bg-blue.png");
+	    BufferedImage basicBallImage      = bsLoader.getImage("default/gfx/balls/basic.png");
+	    BufferedImage breakableBrickImage = bsLoader.getImage("default/gfx/bricks/breakable.png");
+	    BufferedImage basicPaddleImage    = bsLoader.getImage("default/gfx/paddles/basic.png");
+	    
 		// Инициализация представления уровня
 		fieldView = new GameFieldView();
-		Image bgimage = bsLoader.getImage("default/gfx/misc/bg-blue.png");
-		BufferedImage bufferedBgImage = new BufferedImage(this.getWidth(), this.getHeight(), 
-														  BufferedImage.TYPE_4BYTE_ABGR);
-		bufferedBgImage.getGraphics().drawImage(bgimage, 0, 0, this.getWidth(), 
-												this.getHeight(), null);
-		fieldView.setBackground(new ImageBackground(bufferedBgImage));
-		fieldView.basicBallImg = bsLoader.getImage("default/gfx/balls/basic.png");
-		fieldView.breakableBrickImg = bsLoader.getImage("default/gfx/bricks/breakable.png");
+		
+		// Задать фон уровня.
+		BufferedImage fieldBg = new BufferedImage(this.getWidth(), this.getHeight(), BufferedImage.TYPE_INT_ARGB);
+		fieldBg.getGraphics().drawImage(bgImage, 0, 0, this.getWidth(), this.getHeight(), null);
+		fieldView.setBackground(new ImageBackground(fieldBg));
 		
 		// Инициализация уровня
-		// TODO: Сообщить окну о габаритах уровня, чтобы то адаптировалось
-		GameField field = new GameField(new Dimension(420, 640));
-		field.addGenericEventListener(fieldView);
+        GameField field = new GameField(this.bsGraphics.getSize());
+		
+		// Фабрика представлений
+		DefaultObjectViewFactory viewfact = new DefaultObjectViewFactory(basicBallImage, breakableBrickImage, null, basicPaddleImage);
 		
 		// Построение уровня
 		// TODO: Загрузка уровня из файла (пока уровень захардкоден)
-		BasicBall newball = new BasicBall(field);
-		newball.setPosition(new Point2D.Float(194, 600));
-		BreakableBrick newbrick = new BreakableBrick(field);
-		BreakableBrick newbrick2 = new BreakableBrick(field);
-		newbrick.setPosition(new Point2D.Float(120, 120));
-		newbrick2.setPosition(new Point2D.Float(168, 120));
-		field.addObject(newball);
-		field.addObject(newbrick);
-		field.addObject(newbrick2);
+		BasicBall newball = new BasicBall(field, new Point2D.Float(55, 500), 16, new Speed2D(-0.2, -0.1));
+		BreakableBrick newbrick = new BreakableBrick(field, new Point2D.Float(180, 120), new Dimension(48, 24));
+        BreakableBrick newbrick2 = new BreakableBrick(field, new Point2D.Float(228, 120), new Dimension(48, 24));
+        BasicPaddle paddle = new BasicPaddle(field, new Point2D.Float(0, 584), new Dimension(100, 16));
+        
+        IngameObjectView ballview = viewfact.newBasicBallView(newball);
+        IngameObjectView brick1view = viewfact.newBreakableBrickView(newbrick);
+        IngameObjectView brick2view = viewfact.newBreakableBrickView(newbrick2);
+        IngameObjectView paddleView = viewfact.newBasicPaddleView(paddle);
+        
+        fieldView.addObjectView(ballview);
+        fieldView.addObjectView(brick1view);
+        fieldView.addObjectView(brick2view);
+        fieldView.addObjectView(paddleView);
+        
+        // Контроллер и игрок.
+        Player player = new Player(paddle);
+        controller = new GameController(player, bsInput);
 		
 		// ЭКСПЕРИМЕНТ
-		newball.setSpeed(new Speed2D(0, -0.1));
+		//newball.setSpeed(new Speed2D(-0.12, -0.1));
+        paddle.addBall(newball);
 	}
 
 	@Override
@@ -81,6 +100,7 @@ public class ScreenGame extends GameObject {
 		
 		// Апдейтим всё
 		fieldView.update(arg0);
+		controller.update();
 	}
 
 }

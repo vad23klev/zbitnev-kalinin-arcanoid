@@ -14,7 +14,7 @@ public class ArkanoidLoader extends GameLoader {
         
     	ArkanoidLoader loader = new ArkanoidLoader();
     	loader.setup(new ArkanoidEngine(), 
-    			new Dimension(420, 640), 
+    			new Dimension(800, 600), 
     			false);
     	loader.start();
     }
