@@ -8,11 +8,6 @@ import model.IngameObject;
  *
  */
 public interface GenericEventListener {
-
-	/**
-	 * Объект был создан.
-	 */
-	void created(IngameObject obj);
 	
 	/**
 	 * Объект был уничтожен.
