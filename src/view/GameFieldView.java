@@ -2,6 +2,9 @@
 
 import java.awt.image.BufferedImage;
 
+import model.IngameObject;
+import model.interaction.GenericEventListener;
+
 import com.golden.gamedev.object.PlayField;
 import com.golden.gamedev.object.SpriteGroup;
 
@@ -11,7 +14,7 @@ import com.golden.gamedev.object.SpriteGroup;
  * @author Gregory Zbitnev <zbitnev@hotmail.com>
  *
  */
-public class GameFieldView extends PlayField {
+public class GameFieldView extends PlayField implements GenericEventListener {
 
 	// Загруженные изображения для игровых объектов
 	BufferedImage basicBallImg;
@@ -19,5 +22,17 @@ public class GameFieldView extends PlayField {
 	
 	public GameFieldView() {
 
+	}
+
+	@Override
+	public void created(IngameObject obj) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void destroyed(IngameObject obj) {
+		// TODO Auto-generated method stub
+		
 	}
 }

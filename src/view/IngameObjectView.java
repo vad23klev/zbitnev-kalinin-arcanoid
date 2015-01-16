@@ -13,7 +13,7 @@ import model.interaction.SpeedChangeListener;
  *
  */
 public class IngameObjectView
-		implements PositionChangeListener, SpeedChangeListener, GenericEventListener {
+		implements PositionChangeListener, SpeedChangeListener {
 
     /**
      * Необходимо использовать вместо прямого обращения к спрайту.
@@ -34,17 +34,4 @@ public class IngameObjectView
 		// TODO Auto-generated method stub
 		
 	}
-
-	@Override
-	public void created() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void destroyed() {
-		// TODO Auto-generated method stub
-		
-	}
-
 }
