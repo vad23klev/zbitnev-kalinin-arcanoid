@@ -1,5 +1,6 @@
 ﻿package view;
 
+import java.awt.Graphics2D;
 import java.awt.geom.Point2D.Float;
 
 import model.Speed2D;
@@ -21,6 +22,10 @@ public class IngameObjectView
      */
     public void update(int timeElapsed) {
         
+    }
+    
+    public void render(Graphics2D g) {
+    	
     }
     
 	@Override
