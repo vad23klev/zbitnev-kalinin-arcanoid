@@ -1,19 +1,18 @@
 package model;
 
 import java.awt.Dimension;
-import java.lang.reflect.GenericSignatureFormatError;
 import java.util.ArrayList;
 
-import model.interaction.GenericEventListener;
+import model.ball.Ball;
+import model.ball.BallPositionChangedListener;
 
 /**
  * Модель игрового поля.
  * @author Nikita Kalinin <nixorv@gmail.com>
  *
  */
-public class GameField {
+public class GameField implements BallPositionChangedListener {
 
-	private ArrayList<GenericEventListener> genericEventListeners;
 	private ArrayList<IngameObject> objects;
 	private Dimension dimensions;
 	
@@ -23,7 +22,6 @@ public class GameField {
      */
     public GameField(Dimension size) {
     	
-    	genericEventListeners = new ArrayList<>();
     	objects = new ArrayList<>();
     	dimensions = size;
     }
@@ -35,9 +33,6 @@ public class GameField {
 	public void addObject(IngameObject object) {
 		
 		objects.add(object);
-		for (GenericEventListener l : genericEventListeners) {
-			l.created(object);
-		}
 	}
 	
 	/**
@@ -47,9 +42,6 @@ public class GameField {
 	public void removeObject(IngameObject object) {
 		
 		objects.remove(object);
-		for (GenericEventListener l : genericEventListeners) {
-			l.destroyed(object);
-		}
 	}
 	
 	/** 
@@ -60,22 +52,19 @@ public class GameField {
 		
 		return dimensions;
 	}
-	
+
 	/**
-	 * Добавить нового слушателя событий добавления/удаления объекта.
-	 * @param l Добавляемый слушатель.
+	 * Реализация этого метода отражает мяч от границ поля.
 	 */
-	public void addGenericEventListener(GenericEventListener l) {
-		
-		genericEventListeners.add(l);
-	}
-	
-	/**
-	 * Удалить слушателя событий добавления/удаления объекта.
-	 * @param l Удаляемый слушатель.
-	 */
-	public void removeGenericEventListener(GenericEventListener l) {
-		
-		genericEventListeners.remove(l);
-	}
+    @Override
+    public void ballPositionChanged(Ball ball) {
+        
+        if (ball.getPosition().y < 0) {
+            ball.setSpeed(ball.getSpeed().flipVertical());
+        }
+        
+        if (ball.getPosition().x < 0 || ball.getPosition().x + ball.getSize().width > dimensions.width) {
+            ball.setSpeed(ball.getSpeed().flipHorizontal());
+        }
+    }
 }
