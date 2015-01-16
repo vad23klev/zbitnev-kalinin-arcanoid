@@ -3,11 +3,14 @@ package view;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 
 import model.GameField;
 import model.GameModel;
+import model.Speed2D;
 import model.ball.BasicBall;
+import model.brick.BreakableBrick;
 
 import com.golden.gamedev.GameEngine;
 import com.golden.gamedev.GameObject;
@@ -22,9 +25,9 @@ import com.golden.gamedev.object.background.ImageBackground;
  */
 public class ScreenGame extends GameObject {
 	
-	GameModel model;				// игровая модель
-	GameFieldView fieldView;		// представление игрового поля
-
+	GameModel model;
+	GameFieldView fieldView;
+	
 	public ScreenGame(GameEngine arg0) {
 		super(arg0);
 		// TODO Auto-generated constructor stub
@@ -41,11 +44,28 @@ public class ScreenGame extends GameObject {
 		bufferedBgImage.getGraphics().drawImage(bgimage, 0, 0, this.getWidth(), 
 												this.getHeight(), null);
 		fieldView.setBackground(new ImageBackground(bufferedBgImage));
+		fieldView.basicBallImg = bsLoader.getImage("default/gfx/balls/basic.png");
+		fieldView.breakableBrickImg = bsLoader.getImage("default/gfx/bricks/breakable.png");
+		
+		// Инициализация уровня
+		// TODO: Сообщить окну о габаритах уровня, чтобы то адаптировалось
+		GameField field = new GameField(new Dimension(420, 640));
+		field.addGenericEventListener(fieldView);
 		
 		// Построение уровня
 		// TODO: Загрузка уровня из файла (пока уровень захардкоден)
-		// TODO: Сообщить окну о габаритах уровня, чтобы то адаптировалось
-		GameField field = new GameField(new Dimension(640, 420));
+		BasicBall newball = new BasicBall(field);
+		newball.setPosition(new Point2D.Float(194, 600));
+		BreakableBrick newbrick = new BreakableBrick(field);
+		BreakableBrick newbrick2 = new BreakableBrick(field);
+		newbrick.setPosition(new Point2D.Float(120, 120));
+		newbrick2.setPosition(new Point2D.Float(168, 120));
+		field.addObject(newball);
+		field.addObject(newbrick);
+		field.addObject(newbrick2);
+		
+		// ЭКСПЕРИМЕНТ
+		newball.setSpeed(new Speed2D(0, -0.1));
 	}
 
 	@Override
