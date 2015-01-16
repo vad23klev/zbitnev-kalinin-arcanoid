@@ -19,14 +19,16 @@ import model.interaction.SpeedChangeListener;
 public class IngameObjectView
 		implements PositionChangeListener, SpeedChangeListener {
 
+    protected final IngameObject ingameObject;
+    
 	protected PublishingSprite sprite = null;
 	protected Point2D.Float position = null;
-	protected ArrayList<PositionChangeListener> positionListeners;
-	protected ArrayList<SpeedChangeListener> speedListeners;
+	protected ArrayList<PositionChangeListener> positionListeners = new ArrayList<>();
+	protected ArrayList<SpeedChangeListener> speedListeners = new ArrayList<>();
 	
 	/**
 	 * Создает представление объекта на основе его модели и спрайта.
-	 * Этот метод автоматически согласует слушателей.
+	 * Этот метод автоматически согласует слушателей и связывает спрайт с объектом представления, которому он принадлежит.
 	 * @param obj Модель игрового объекта.
 	 * @param sprite Спрайт, которым он будет отображен.
 	 */
@@ -36,37 +38,31 @@ public class IngameObjectView
 	        throw new NullPointerException();
 	    }
 	    
-	    this.sprite   = sprite;
-	    this.position = obj.getPosition();
+	    this.ingameObject = obj;
+	    this.sprite       = sprite;
+	    this.position     = obj.getPosition();
+	    this.sprite.setLocation(position.x, position.y);
+	    this.sprite.setObjectView(this);
 	    addPositionChangeListener(obj);
 	    addSpeedChangeListener(obj);
 	    obj.addPositionChangeListener(this);
 	    obj.addSpeedChangeListener(this);
 	}
 	
-	/**
-	 * Создает представление с заданным спрайтом и позицией.
-	 * Этот метод не согласует слушателей, вам необходимо позаботиться об этом самостоятельно.
-	 * @param pos Позиция.
-	 * @param sprite Спрайт, которым будет отображен объект.
-	 */
-	public IngameObjectView(Point2D.Float pos, PublishingSprite sprite) {
-	    
-	    if (pos == null || sprite == null) {
-	        throw new NullPointerException();
-	    }
-	    
-	    this.sprite   = sprite;
-	    this.position = pos;
-	}
-	
     /**
      * Необходимо использовать вместо прямого обращения к спрайту.
      * @param timeElapsed Прошедшее время.
      */
-    public void update(int timeElapsed) {
+    public void update(long timeElapsed) {
         
     	sprite.update(timeElapsed);
+    	
+    	if (sprite.getX() != this.position.x || sprite.getY() != this.position.y) {
+    	    this.position = new Point2D.Float((float)sprite.getX(), (float)sprite.getY());
+    	    for (PositionChangeListener l : positionListeners) {
+    	        l.positionChanged(this.position);
+    	    }
+    	}
     	
     	// TODO Сообщаем об изменениях слушателям (модели, то бишь)
     }
@@ -90,6 +86,15 @@ public class IngameObjectView
 	}
 	
 	/**
+	 * Возвращает модель игрового объекта.
+	 * @return IngameObject.
+	 */
+	public IngameObject getIngameObject() {
+	    
+	    return ingameObject;
+	}
+	
+	/**
 	 * Добавить спрайт, принадлежащий данному представлению объекта
 	 * @param sprite Добавляемый спрайт
 	 */
@@ -100,6 +105,14 @@ public class IngameObjectView
 		}
 		
 		this.sprite = sprite;
+	}
+	
+	/**
+	 * Возвращает спрайт, принадлежащий данному представлению объекта.
+	 * @return Спрайт.
+	 */
+	public PublishingSprite getSprite() {
+	    return sprite;
 	}
 	
 	/**
