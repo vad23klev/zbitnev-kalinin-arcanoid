@@ -5,7 +5,7 @@ package model;
  * @author Gregory Zbitnev <zbitnev@hotmail.com>
  *
  */
-public class Speed2D {
+public class Speed2D implements Cloneable {
 
 	private double x;
 	private double y;
@@ -20,11 +20,25 @@ public class Speed2D {
 		y = yspeed;
 	}
 	
+	@Override
+	public Object clone() {
+	    
+        return new Speed2D(x, y);
+	}
+	
 	public double x() {
 		return x;
 	}
 	
 	public double y() {
 		return y;
+	}
+	
+	public Speed2D flipHorizontal() {
+	    return new Speed2D(-x, y);
+	}
+	
+	public Speed2D flipVertical() {
+	    return new Speed2D(x, -y);
 	}
 }
