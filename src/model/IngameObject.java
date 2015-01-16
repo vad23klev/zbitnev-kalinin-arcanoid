@@ -1,5 +1,6 @@
 package model;
 
+import java.awt.Dimension;
 import java.awt.geom.Point2D;
 import java.awt.geom.Point2D.Float;
 import java.util.ArrayList;
@@ -16,21 +17,63 @@ import model.interaction.SpeedChangeListener;
  */
 public abstract class IngameObject implements PositionChangeListener, SpeedChangeListener {
 
-    private Boolean _isDestroyed = false;
-	private Point2D.Float position = null;
-	private Speed2D speed = null;
-	private ArrayList<CollisionBehaviour> defaultColBehaviour = null;
-	private HashMap<Class<?>, ArrayList<CollisionBehaviour>> specialColBehaviours = null;
-	private GameField field = null;
-	private ArrayList<PositionChangeListener> positionListeners;
-	private ArrayList<SpeedChangeListener> speedListeners;
+    protected Boolean _isDestroyed = false;
+    
+	protected Point2D.Float position = null;
+	protected Dimension size = null;
+	protected Speed2D speed = null;
+	protected ArrayList<CollisionBehaviour> defaultColBehaviour = null;
+	protected HashMap<Class<?>, ArrayList<CollisionBehaviour>> specialColBehaviours = null;
+	protected GameField field = null;
+	protected ArrayList<PositionChangeListener> positionListeners = new ArrayList<>();
+	protected ArrayList<SpeedChangeListener> speedListeners = new ArrayList<>();
 	
+	/**
+	 * Создает игровой объект, координаты (0, 0), нулевая скорость, нулевой размер.
+	 * @param field Игровое поле.
+	 */
 	public IngameObject(GameField field) {
-		 
-		if (field != null)
-			this.field = field;
-		positionListeners = new ArrayList<>();
-		speedListeners = new ArrayList<>();
+		
+	    this(field, new Point2D.Float(0, 0), new Dimension(0, 0));
+	}
+	
+	/**
+	 * Создает игровой объект с нулевой скоростью.
+	 * @param field Игровое поле.
+	 * @param pos Позиция объекта.
+	 * @param dim Размеры объекта.
+	 */
+	public IngameObject(GameField field, Point2D.Float pos, Dimension dim) {
+	    
+	    this(field, pos, dim, new Speed2D(0, 0));
+	}
+	
+	/**
+	 * Создает игровой объект.
+	 * @param field Игровое поле.
+	 * @param pos Позиция объекта.
+	 * @param dim Размеры объекта.
+	 * @param speed Скорость объекта.
+	 */
+	public IngameObject(GameField field, Point2D.Float pos, Dimension dim, Speed2D speed) {
+	    
+	    if (field == null || pos == null || dim == null || speed == null) {
+	        throw new NullPointerException();
+	    }
+	    
+	    this.field = field;
+	    this.setSize(dim);
+        this.setPosition(pos);
+	    this.setSpeed(speed);
+	}
+	
+	/**
+	 * Возвращает поле, на котором находится объект.
+	 * @return Игровое поле.
+	 */
+	public GameField getField() {
+	    
+	    return this.field;
 	}
 	
 	/**
@@ -39,7 +82,7 @@ public abstract class IngameObject implements PositionChangeListener, SpeedChang
 	 */
 	public Speed2D getSpeed() {
 
-		return speed;
+		return (Speed2D) speed.clone();
 	}
 	
 	/**
@@ -60,7 +103,7 @@ public abstract class IngameObject implements PositionChangeListener, SpeedChang
 	 */
 	public Point2D.Float getPosition() {
 
-		return this.position;
+		return (Point2D.Float) position.clone();
 	}
 	
 	/**
@@ -69,16 +112,40 @@ public abstract class IngameObject implements PositionChangeListener, SpeedChang
 	 */
 	public void setPosition(Point2D.Float pos) {
 
+	    if (pos == null) {
+	        throw new NullPointerException();
+	    }
 		if (pos.x < 0 || pos.x > field.getSize().width ||
 				pos.y < 0 || pos.y > field.getSize().height) {
 			
-			// TODO Корректное исключение
-			return;
+			// TODO Корректное исключение. Не стоит, думаю можно вывести предупреждение.
+			//return;
 		}
 		position = pos;
 		for (PositionChangeListener l : positionListeners) {
 			l.positionChanged(this.position);
 		}
+	}
+	
+	/**
+	 * Задает размер объекта в пикселях.
+	 * @param dim
+	 */
+	public void setSize(Dimension dim) {
+	    
+	    if (dim == null) {
+	        throw new NullPointerException();
+	    }
+	    size = dim;
+	}
+	
+	/**
+	 * Возвращает размер объекта в пикселях.
+	 * @return
+	 */
+	public Dimension getSize() {
+	    
+	    return (Dimension) size.clone();
 	}
 	
 	/**
@@ -194,9 +261,8 @@ public abstract class IngameObject implements PositionChangeListener, SpeedChang
 	//-------------------------------------------------------------------------------------------//
 	
 	@Override
-	public void positionChanged(Float newpos) {
-		// TODO Auto-generated method stub
-		
+	public void positionChanged(Point2D.Float newpos) {
+		this.position = newpos;
 	}
 
 	@Override

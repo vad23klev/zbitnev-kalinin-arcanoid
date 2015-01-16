@@ -1,6 +1,10 @@
 package model.brick;
 
+import java.awt.Dimension;
+import java.awt.geom.Point2D.Float;
+
 import model.GameField;
+import model.Speed2D;
 
 /**
  * Модель разрушаемого кирпича.
@@ -10,10 +14,24 @@ import model.GameField;
 public class BreakableBrick extends Brick {
 
 	public BreakableBrick(GameField field) {
-		super(field);
+		
+	    super(field);
 	}
+	
 
-	/**
+	public BreakableBrick(GameField field, Float pos, Dimension dim, Speed2D speed) {
+        
+	    super(field, pos, dim, speed);
+    }
+
+
+    public BreakableBrick(GameField field, Float pos, Dimension dim) {
+        
+        super(field, pos, dim);
+    }
+
+
+    /**
 	 * Разрушает кирпич.
 	 */
 	@Override

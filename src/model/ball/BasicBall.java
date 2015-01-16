@@ -1,6 +1,9 @@
 package model.ball;
 
+import java.awt.geom.Point2D;
+
 import model.GameField;
+import model.Speed2D;
 import model.swarm.CanBeInSwarm;
 
 /**
@@ -11,7 +14,17 @@ import model.swarm.CanBeInSwarm;
 public class BasicBall extends Ball implements CanBeInSwarm {
 
 	public BasicBall(GameField field) {
-		super(field);
+		
+	    super(field);
 	}
 
+	public BasicBall(GameField field, Point2D.Float pos, int radius) {
+	    
+	    super(field, pos, radius);
+	}
+	
+	public BasicBall(GameField field, Point2D.Float pos, int radius, Speed2D speed) {
+	    
+	    super(field, pos, radius, speed);
+	}
 }
