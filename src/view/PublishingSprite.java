@@ -8,5 +8,22 @@ import com.golden.gamedev.object.Sprite;
  *
  */
 public class PublishingSprite extends Sprite {
-
+	
+	/**
+	 * Задать представление игрового объекта, которому принаджелит спрайт
+	 * @param object Игровой объект
+	 */
+	public void setObjectView(IngameObjectView object) {
+		// TODO
+	}
+	
+	/**
+	 * Получить игровой объект, которому принадлежит спрайт.
+	 * @return Игровой объект.
+	 */
+	public IngameObjectView getObjectView() {
+		
+		// TODO
+		return null;
+	}
 }

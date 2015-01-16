@@ -39,4 +39,20 @@ public class IngameObjectView
 		// TODO Auto-generated method stub
 		
 	}
+	
+	/**
+	 * Добавить спрайт, принадлежащий данному представлению объекта
+	 * @param sprite Добавляемый спрайт
+	 */
+	public void addPublishingSprite(PublishingSprite sprite) {
+		
+	}
+	
+	/**
+	 * Удалить спрайт из данного представления объекта
+	 * @param sprite Удаляемый спрайт
+	 */
+	public void removePublishingSprite(PublishingSprite sprite) {
+		
+	}
 }
