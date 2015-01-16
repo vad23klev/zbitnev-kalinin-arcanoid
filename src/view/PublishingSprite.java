@@ -9,12 +9,18 @@ import com.golden.gamedev.object.Sprite;
  */
 public class PublishingSprite extends Sprite {
 	
+    private IngameObjectView _objectView = null;
+    
 	/**
 	 * Задать представление игрового объекта, которому принаджелит спрайт
 	 * @param object Игровой объект
 	 */
 	public void setObjectView(IngameObjectView object) {
-		// TODO
+	    
+		if (object == null) {
+		    throw new NullPointerException();
+		}
+	    _objectView = object;
 	}
 	
 	/**
@@ -23,7 +29,6 @@ public class PublishingSprite extends Sprite {
 	 */
 	public IngameObjectView getObjectView() {
 		
-		// TODO
-		return null;
+		return _objectView;
 	}
 }
