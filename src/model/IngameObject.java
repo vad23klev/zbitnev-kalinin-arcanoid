@@ -37,8 +37,7 @@ public abstract class IngameObject implements PositionChangeListener, SpeedChang
 	 */
 	public Speed2D getSpeed() {
 
-		// TODO Method stub
-		return null;
+		return speed;
 	}
 	
 	/**
@@ -47,7 +46,10 @@ public abstract class IngameObject implements PositionChangeListener, SpeedChang
 	 */
 	public void setSpeed(Speed2D speed) {
 
-		// TODO Method stub
+		this.speed = speed;
+		for (SpeedChangeListener l : speedListeners) {
+			l.speedChanged(this.speed);
+		}
 	}
 	
 	/**
@@ -56,8 +58,7 @@ public abstract class IngameObject implements PositionChangeListener, SpeedChang
 	 */
 	public Point2D.Float getPosition() {
 
-		// TODO Method stub
-		return null;
+		return this.position;
 	}
 	
 	/**
@@ -66,7 +67,16 @@ public abstract class IngameObject implements PositionChangeListener, SpeedChang
 	 */
 	public void setPosition(Point2D.Float pos) {
 
-		// TODO Method stub
+		if (pos.x < 0 || pos.x > field.getSize().width ||
+				pos.y < 0 || pos.y > field.getSize().height) {
+			
+			// TODO Корректное исключение
+			return;
+		}
+		position = pos;
+		for (PositionChangeListener l : positionListeners) {
+			l.positionChanged(this.position);
+		}
 	}
 	
 	/**
