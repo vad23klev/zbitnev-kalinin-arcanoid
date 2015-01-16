@@ -5,6 +5,7 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Point2D.Float;
 import java.util.ArrayList;
 
+import model.IngameObject;
 import model.Speed2D;
 import model.interaction.GenericEventListener;
 import model.interaction.PositionChangeListener;
@@ -18,10 +19,46 @@ import model.interaction.SpeedChangeListener;
 public class IngameObjectView
 		implements PositionChangeListener, SpeedChangeListener {
 
-	private ArrayList<PublishingSprite> sprites = new ArrayList<>();
-	private Point2D.Float position = null;
-	private ArrayList<PositionChangeListener> positionListeners;
-	private ArrayList<SpeedChangeListener> speedListeners;
+	protected PublishingSprite sprite = null;
+	protected Point2D.Float position = null;
+	protected ArrayList<PositionChangeListener> positionListeners;
+	protected ArrayList<SpeedChangeListener> speedListeners;
+	
+	/**
+	 * Создает представление объекта на основе его модели и спрайта.
+	 * Этот метод автоматически согласует слушателей.
+	 * @param obj Модель игрового объекта.
+	 * @param sprite Спрайт, которым он будет отображен.
+	 */
+	public IngameObjectView(IngameObject obj, PublishingSprite sprite) {
+	    
+	    if (sprite == null || obj == null) {
+	        throw new NullPointerException();
+	    }
+	    
+	    this.sprite   = sprite;
+	    this.position = obj.getPosition();
+	    addPositionChangeListener(obj);
+	    addSpeedChangeListener(obj);
+	    obj.addPositionChangeListener(this);
+	    obj.addSpeedChangeListener(this);
+	}
+	
+	/**
+	 * Создает представление с заданным спрайтом и позицией.
+	 * Этот метод не согласует слушателей, вам необходимо позаботиться об этом самостоятельно.
+	 * @param pos Позиция.
+	 * @param sprite Спрайт, которым будет отображен объект.
+	 */
+	public IngameObjectView(Point2D.Float pos, PublishingSprite sprite) {
+	    
+	    if (pos == null || sprite == null) {
+	        throw new NullPointerException();
+	    }
+	    
+	    this.sprite   = sprite;
+	    this.position = pos;
+	}
 	
     /**
      * Необходимо использовать вместо прямого обращения к спрайту.
@@ -29,59 +66,40 @@ public class IngameObjectView
      */
     public void update(int timeElapsed) {
         
-    	for (PublishingSprite s : sprites) {
-    		s.update(timeElapsed);
-    	}
+    	sprite.update(timeElapsed);
     	
     	// TODO Сообщаем об изменениях слушателям (модели, то бишь)
     }
     
     public void render(Graphics2D g) {
     	
-    	for (PublishingSprite s : sprites) {
-    		s.render(g);
-    	}
+    	sprite.render(g);
     }
     
 	@Override
 	public void positionChanged(Point2D.Float newpos) {
 		
-		for (PublishingSprite s : sprites) {
-			
-			// TODO Здесь всё будет далеко не так тривиально
-			s.setLocation(newpos.x, newpos.y);
-    	}
+		// TODO Здесь всё будет далеко не так тривиально
+		sprite.setLocation(newpos.x, newpos.y);
 	}
 
 	@Override
 	public void speedChanged(Speed2D newspeed) {
 		
-		for (PublishingSprite s : sprites) {
-    		s.setSpeed(newspeed.x(), newspeed.y());
-    	}
+		sprite.setSpeed(newspeed.x(), newspeed.y());
 	}
 	
 	/**
 	 * Добавить спрайт, принадлежащий данному представлению объекта
 	 * @param sprite Добавляемый спрайт
 	 */
-	public void addPublishingSprite(PublishingSprite sprite) {
+	public void setSprite(PublishingSprite sprite) {
 		
 		if (sprite == null) {
-			// TODO Выброс исключения
-			return;
+			throw new NullPointerException();
 		}
 		
-		sprites.add(sprite);
-	}
-	
-	/**
-	 * Удалить спрайт из данного представления объекта
-	 * @param sprite Удаляемый спрайт
-	 */
-	public void removePublishingSprite(PublishingSprite sprite) {
-		
-		sprites.remove(sprite);
+		this.sprite = sprite;
 	}
 	
 	/**
