@@ -22,9 +22,13 @@ public abstract class IngameObject implements PositionChangeListener, SpeedChang
 	private ArrayList<CollisionBehaviour> defaultColBehaviour = null;
 	private HashMap<Class<?>, ArrayList<CollisionBehaviour>> specialColBehaviours = null;
 	private GameField field = null;
+	private ArrayList<PositionChangeListener> positionListeners;
+	private ArrayList<SpeedChangeListener> speedListeners;
 	
 	public IngameObject(GameField field) {
-		
+		 
+		if (field != null)
+			this.field = field;
 	}
 	
 	/**
@@ -187,5 +191,37 @@ public abstract class IngameObject implements PositionChangeListener, SpeedChang
 	public void speedChanged(Speed2D newspeed) {
 		// TODO Auto-generated method stub
 		
+	}
+	
+	/**
+	 * Добавить слушателя изменения позиции объекта.
+	 * @param l Новый слушатель.
+	 */
+	public void addPositionChangeListener(PositionChangeListener l) {
+		positionListeners.add(l);
+	}
+	
+	/**
+	 * Удалить слушателя изменения позиции объекта.
+	 * @param l Удаляемый слушатель.
+	 */
+	public void removePositionChangeListener(PositionChangeListener l) {
+		positionListeners.remove(l);
+	}
+	
+	/**
+	 * Добавить слушателя изменения скорости объекта.
+	 * @param l Новый слушатель.
+	 */
+	public void addSpeedChangeListener(SpeedChangeListener l) {
+		speedListeners.add(l);
+	}
+	
+	/**
+	 * Удалить слушателя изменения скорости объекта.
+	 * @param l Удаляемый слушатель.
+	 */
+	public void removeSpeedChangeListener(SpeedChangeListener l) {
+		speedListeners.remove(l);
 	}
 }
