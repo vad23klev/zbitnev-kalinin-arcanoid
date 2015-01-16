@@ -29,6 +29,8 @@ public abstract class IngameObject implements PositionChangeListener, SpeedChang
 		 
 		if (field != null)
 			this.field = field;
+		positionListeners = new ArrayList<>();
+		speedListeners = new ArrayList<>();
 	}
 	
 	/**
