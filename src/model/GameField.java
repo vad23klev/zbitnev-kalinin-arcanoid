@@ -1,6 +1,8 @@
 package model;
 
 import java.awt.Dimension;
+import java.lang.reflect.GenericSignatureFormatError;
+import java.util.ArrayList;
 
 import model.interaction.GenericEventListener;
 
@@ -11,12 +13,19 @@ import model.interaction.GenericEventListener;
  */
 public class GameField {
 
+	private ArrayList<GenericEventListener> genericEventListeners;
+	private ArrayList<IngameObject> objects;
+	private Dimension dimensions;
+	
     /**
      * Инициализирует поле заданного размера.
      * @param size Размер поля.
      */
     public GameField(Dimension size) {
-        
+    	
+    	genericEventListeners = new ArrayList<>();
+    	objects = new ArrayList<>();
+    	dimensions = size;
     }
     
 	/**
@@ -25,6 +34,10 @@ public class GameField {
 	 */
 	public void addObject(IngameObject object) {
 		
+		objects.add(object);
+		for (GenericEventListener l : genericEventListeners) {
+			l.created(object);
+		}
 	}
 	
 	/**
@@ -33,6 +46,19 @@ public class GameField {
 	 */
 	public void removeObject(IngameObject object) {
 		
+		objects.remove(object);
+		for (GenericEventListener l : genericEventListeners) {
+			l.destroyed(object);
+		}
+	}
+	
+	/** 
+	 * Получить размеры игрового поля (в пикселях).
+	 * @return Размеры поля.
+	 */
+	public Dimension getSize() {
+		
+		return dimensions;
 	}
 	
 	/**
@@ -41,6 +67,7 @@ public class GameField {
 	 */
 	public void addGenericEventListener(GenericEventListener l) {
 		
+		genericEventListeners.add(l);
 	}
 	
 	/**
@@ -49,5 +76,6 @@ public class GameField {
 	 */
 	public void removeGenericEventListener(GenericEventListener l) {
 		
+		genericEventListeners.remove(l);
 	}
 }
