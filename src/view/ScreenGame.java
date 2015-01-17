@@ -13,7 +13,11 @@ import model.Player;
 import model.Speed2D;
 import model.ball.BasicBall;
 import model.brick.BreakableBrick;
+import model.collision.BehaviourDestroy;
+import model.collision.BehaviourPaddleRebound;
+import model.collision.BehaviourRebound;
 import model.paddle.BasicPaddle;
+import model.paddle.Paddle;
 
 import com.golden.gamedev.GameEngine;
 import com.golden.gamedev.GameObject;
@@ -72,6 +76,13 @@ public class ScreenGame extends GameObject {
 		BreakableBrick newbrick = new BreakableBrick(field, new Point2D.Float(180, 120), new Dimension(48, 24));
         BreakableBrick newbrick2 = new BreakableBrick(field, new Point2D.Float(228, 120), new Dimension(48, 24));
         BasicPaddle paddle = new BasicPaddle(field, new Point2D.Float(0, 584), new Dimension(100, 16));
+        
+        // Назначаем поведения при столкновении для шарика
+        newball.addDefaultCollisionBehaviour(BehaviourRebound.getInstance());
+        newball.addSpecificCollisionBehaviour(BasicPaddle.class, BehaviourPaddleRebound.getInstance());
+        // для кирпича
+        newbrick.addDefaultCollisionBehaviour(BehaviourDestroy.getInstance());
+        newbrick2.addDefaultCollisionBehaviour(BehaviourDestroy.getInstance());
         
         IngameObjectView ballview = viewfact.newBasicBallView(newball);
         IngameObjectView brick1view = viewfact.newBreakableBrickView(newbrick);
