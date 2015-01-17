@@ -1,6 +1,8 @@
 package view;
 
+import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.geom.Point2D;
@@ -52,7 +54,10 @@ public class ScreenGame extends GameObject {
 		
 		// Задать фон уровня.
 		BufferedImage fieldBg = new BufferedImage(this.getWidth(), this.getHeight(), BufferedImage.TYPE_INT_ARGB);
-		fieldBg.getGraphics().drawImage(bgImage, 0, 0, this.getWidth(), this.getHeight(), null);
+		//fieldBg.getGraphics().drawImage(bgImage, 0, 0, this.getWidth(), this.getHeight(), null);
+		Graphics g = fieldBg.getGraphics();
+		g.setColor(Color.black);
+		g.fillRect(0, 0, this.getWidth(), this.getHeight());
 		fieldView.setBackground(new ImageBackground(fieldBg));
 		
 		// Инициализация уровня
@@ -68,7 +73,7 @@ public class ScreenGame extends GameObject {
 		
 		// Построение уровня
 		// TODO: Загрузка уровня из файла (пока уровень захардкоден)
-		BasicBall newball = new BasicBall(field, new Point2D.Float(55, 500), 8, new Speed2D(-0.2, -0.1));
+		BasicBall newball = new BasicBall(field, new Point2D.Float(39, 500), 8, new Speed2D(-0.2, -0.1));
 		BreakableBrick newbrick = new BreakableBrick(field, new Point2D.Float(180, 120), new Dimension(48, 24));
         BreakableBrick newbrick2 = new BreakableBrick(field, new Point2D.Float(228, 120), new Dimension(48, 24));
         BasicPaddle paddle = new BasicPaddle(field, new Point2D.Float(0, 584), new Dimension(96, 16));
@@ -89,6 +94,9 @@ public class ScreenGame extends GameObject {
 		
 		// ЭКСПЕРИМЕНТ
         paddle.addBall(newball);
+        
+        // Инициализация закончена. Спрятать курсор мыши перед началом игры.
+        this.hideCursor();
 	}
 
 	@Override

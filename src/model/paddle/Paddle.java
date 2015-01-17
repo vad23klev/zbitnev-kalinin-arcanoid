@@ -91,8 +91,13 @@ public abstract class Paddle extends IngameObject {
         
         // Относительные координаты центра мяча в декартовой системе координат (точка B).
         // Считаем, что paddleCenter - это точка A(0, 0).
-        Point2D.Float relBallCenter = new Point2D.Float(ball.getPosition().x - paddleCenter.x,
+        Point2D.Float relBallCenter = new Point2D.Float(ball.getPosition().x + ball.getSize().width / 2 - paddleCenter.x,
                 paddleCenter.y - ball.getPosition().y - ball.getSize().height / 2);
+        
+        // Если мяч точно по центру, направляем вектор вверх.
+        if (Math.abs(relBallCenter.x) < 0.000001) {
+            return new Speed2D(0, -ball.getDefaultSpeedScalar());
+        }
         
         // Коэффициенты уравнения точки пересечения прямой и окружности.
         double a = (Math.pow(relBallCenter.x, 2) + Math.pow(relBallCenter.y, 2)) / Math.pow(relBallCenter.x, 2);
@@ -115,7 +120,7 @@ public abstract class Paddle extends IngameObject {
         
         // Находим горизонтальную и вертикальную сооставляющие вектора скорости.
         // y отрицательный, чтобы перейти в экранную систему координат.
-        return new Speed2D(Math.abs(p.x), -p.y);
+        return new Speed2D(p.x, -Math.abs(p.y));
     }
     
     /**
