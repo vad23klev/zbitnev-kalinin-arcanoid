@@ -17,8 +17,8 @@ public class GameModel implements CollisionListener {
 	@Override
 	public void collisionOccured(
 			HashMap<IngameObject, ArrayList<IngameObject>> storage) {
-		// TODO Auto-generated method stub
 		
+		field.collisionOccured(storage);
 	}
 
 	/**

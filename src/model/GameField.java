@@ -2,6 +2,7 @@ package model;
 
 import java.awt.Dimension;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import model.ball.Ball;
 import model.ball.BallPositionChangedListener;
@@ -67,4 +68,15 @@ public class GameField implements BallPositionChangedListener {
             ball.setSpeed(ball.getSpeed().flipHorizontal());
         }
     }
+    
+    /**
+     * Обработать столкновения
+     * @param storage Словарь столкновений, где ключ - столкнувшийся объект, значение - 
+     * список объектов, с которыми он столкнулся
+     */
+    public void collisionOccured(
+			HashMap<IngameObject, ArrayList<IngameObject>> storage) {
+		// TODO Auto-generated method stub
+		
+	}
 }
