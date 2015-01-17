@@ -83,7 +83,6 @@ public class IngameObjectView
 	@Override
 	public void positionChanged(Point2D.Float newpos) {
 		
-		// TODO Здесь всё будет далеко не так тривиально
 		sprite.setLocation(newpos.x, newpos.y);
 	}
 
