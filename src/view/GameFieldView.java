@@ -152,4 +152,31 @@ public class GameFieldView extends PlayField {
     	
     	return returnStorage;
     }
+    
+    /**
+     * Копирует сообщения о столкновениях из одного словаря в другой
+     * @param to Словарь, который будет дополнен новыми сообщениями
+     * @param from Словарь, из которого будут скопированы сообщения
+     */
+    private void attachStorage(HashMap<IngameObject, ArrayList<IngameObject>> to,
+    		HashMap<IngameObject, ArrayList<IngameObject>> from) {
+    	
+    	for (IngameObject obj : from.keySet()) {
+    		
+    		// Если такого ключа не содержится -- просто добавляем новую запись в словарь
+        	// Если такой ключ есть -- копируем значения из списка
+    		if (!to.containsKey(obj)) {
+    			to.put(obj, from.get(obj));
+    		}
+    		else {
+    			
+    			for (IngameObject listobj : from.get(obj)) {
+    				
+    				if (!to.get(obj).contains(listobj)) {
+    					to.get(obj).add(listobj);
+    				}
+    			}
+    		}
+    	}
+    }
 }
