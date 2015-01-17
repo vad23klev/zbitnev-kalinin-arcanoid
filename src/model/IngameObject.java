@@ -22,12 +22,13 @@ public abstract class IngameObject implements Cloneable, PositionChangeListener,
 	protected Point2D.Float position = null;
 	protected Dimension size = null;
 	protected Speed2D speed = null;
-	protected ArrayList<CollisionBehaviour> defaultColBehaviour = null;
-	protected HashMap<Class<?>, ArrayList<CollisionBehaviour>> specialColBehaviours = null;
+	protected ArrayList<CollisionBehaviour> defaultColBehaviour = new ArrayList<>();
+	protected HashMap<Class<?>, ArrayList<CollisionBehaviour>> specialColBehaviours 
+		= new HashMap<>();
 	protected GameField field = null;
 	protected ArrayList<PositionChangeListener> positionListeners = new ArrayList<>();
 	protected ArrayList<SpeedChangeListener> speedListeners = new ArrayList<>();
-	
+
 	/**
 	 * Создает игровой объект, координаты (0, 0), нулевая скорость, нулевой размер.
 	 * @param field Игровое поле.
@@ -156,8 +157,25 @@ public abstract class IngameObject implements Cloneable, PositionChangeListener,
 	 * @param other Объект, столкнувшийся с данным.
 	 */
 	public void processCollision(IngameObject other) {
-	
-		// TODO Auto-generated method stub
+
+		// Вызываем специализированные коллизии, если таковые имеются
+		if (specialColBehaviours.containsKey(other.getClass())) {
+			
+			ArrayList<CollisionBehaviour> behaviours;
+			behaviours = specialColBehaviours.get(other.getClass());
+			
+			for (CollisionBehaviour cb : behaviours) {
+				cb.invoke(other, this);
+			}
+		}
+		// Если их нет, тогда вызываем коллизию по умолчанию
+		// Если и она не определена, то ничего не происходит
+		else {
+
+			for (CollisionBehaviour cb : defaultColBehaviour) {
+				cb.invoke(other, this);
+			}
+		}
 	}
 	
 	/**
@@ -166,8 +184,7 @@ public abstract class IngameObject implements Cloneable, PositionChangeListener,
 	 */
 	public ArrayList<CollisionBehaviour> getDefaultCollisionBehaviours() {
 		
-		// TODO Перед возвращением КЛОНИРОВАТЬ коллекцию ВРУЧНУЮ
-		return null;
+		return defaultColBehaviour;
 	}
 	
 	/**
@@ -176,7 +193,7 @@ public abstract class IngameObject implements Cloneable, PositionChangeListener,
 	 */
 	public void addDefaultCollisionBehaviour(CollisionBehaviour behaviour) {
 	
-		// TODO Method stub
+		defaultColBehaviour.add(behaviour);
 	}
 	
 	/**
@@ -195,8 +212,7 @@ public abstract class IngameObject implements Cloneable, PositionChangeListener,
 	 */
 	public HashMap<Class<?>, ArrayList<CollisionBehaviour>> getSpecificCollisionBehaviours() {
 		
-		// TODO Клонировать коллекцию
-		return null;
+		return specialColBehaviours;
 	}
 	
 	/**
@@ -206,7 +222,19 @@ public abstract class IngameObject implements Cloneable, PositionChangeListener,
 	 */
 	public void addSpecificCollisionBehaviour(Class<?> c, CollisionBehaviour cb) {
 		
-		// TODO Method stub
+		if (!c.isInstance(IngameObject.class)) {
+			// TODO: Выброс исключения, ибо нечего
+		}
+		
+		if (!specialColBehaviours.containsKey(c)) {
+			
+			ArrayList<CollisionBehaviour> newlist = new ArrayList<>();
+			newlist.add(cb);
+			specialColBehaviours.put(c, newlist);
+		}
+		else {
+			specialColBehaviours.get(c).add(cb);
+		}
 	}
 	
 	/**
@@ -216,7 +244,13 @@ public abstract class IngameObject implements Cloneable, PositionChangeListener,
 	 */
 	public void removeSpecificCollisionBehaviour(Class<?> c, CollisionBehaviour cb) {
 		
-		// TODO Method stub
+		if (!c.isInstance(IngameObject.class)) {
+			// TODO: Выброс исключения, ибо нечего
+		}
+		
+		if (specialColBehaviours.containsKey(c)) {
+			specialColBehaviours.get(c).remove(cb);
+		}
 	}
 	
 	/**
@@ -224,7 +258,7 @@ public abstract class IngameObject implements Cloneable, PositionChangeListener,
 	 */
 	public void cleanDefaultCollisionBehaviours() {
 		
-		// TODO Method stub
+		defaultColBehaviour.clear();
 	}
 	
 	/**
@@ -232,7 +266,7 @@ public abstract class IngameObject implements Cloneable, PositionChangeListener,
 	 */
 	public void cleanAllSpecificCollisionBehaviours() {
 		
-		// TODO Method stub
+		specialColBehaviours.clear();
 	}
 	
 	/**
@@ -241,7 +275,13 @@ public abstract class IngameObject implements Cloneable, PositionChangeListener,
 	 */
 	public void cleanSpecificCollisionBehaviours(Class<?> cl) {
 		
-		// TODO Method stub
+		if (!cl.isInstance(IngameObject.class)) {
+			// TODO: Выброс исключения, ибо нечего
+		}
+		
+		if (specialColBehaviours.containsKey(cl)) {
+			specialColBehaviours.get(cl).clear();
+		}
 	}
 	
 	/**
