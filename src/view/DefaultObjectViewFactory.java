@@ -70,7 +70,92 @@ public class DefaultObjectViewFactory {
         }
     }
     
-    // TODO set get 
+    /**
+     * Задает изображение простого мяча.
+     * @param i Изображение.
+     */
+    public void setBasicBallImage(BufferedImage i) {
+        
+        if (i == null) {
+            throw new NullPointerException();
+        }
+        _basicBallImage = i;
+    }
+    
+    /**
+     * Задает изображение разрушаемого кирпича.
+     * @param i Изображение.
+     */
+    public void setBreakableBrickImage(BufferedImage i) {
+        
+        if (i == null) {
+            throw new NullPointerException();
+        }
+        _breakableBrickImage = i;
+        ensure_valid();
+    }
+    
+    
+    /**
+     * Задает изображение неразрушаемого кирпича.
+     * @param i Изображение.
+     */
+    public void setUnbreakableBrickImage(BufferedImage i) {
+        
+        if (i == null) {
+            throw new NullPointerException();
+        }
+        _unbreakableBrickImage = i;
+        ensure_valid();
+    }
+
+    /**
+     * Задает изображение простой ракетки.
+     * @param i Изображение.
+     */
+    public void setBasicPaddleImage(BufferedImage i) {
+        
+        if (i == null) {
+            throw new NullPointerException();
+        }
+        _basicPaddleImage = i;
+    }
+    
+    /**
+     * Возвращает изображение простого мяча.
+     * @return Изображение.
+     */
+    public BufferedImage getBasicBallImage() {
+        
+        return _basicBallImage;
+    }
+    
+    /**
+     * Возвращает изображение разрушаемого кирпича.
+     * @return Изображение.
+     */
+    public BufferedImage getBreakableBrickImage() {
+        
+        return _breakableBrickImage;
+    }
+
+    /**
+     * Возвращает изображение неразрушаемого кирпича.
+     * @return Изображение.
+     */
+    public BufferedImage getUnbreakableBrickImage() {
+        
+        return _unbreakableBrickImage;
+    }
+    
+    /**
+     * Возвращает изображение простой ракетки.
+     * @return Изображение.
+     */
+    public BufferedImage getBasicPaddleImage() {
+        
+        return _basicPaddleImage;
+    }
     
     /**
      * Создает представление для простого мяча.
