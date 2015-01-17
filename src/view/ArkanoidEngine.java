@@ -20,7 +20,6 @@ public class ArkanoidEngine extends GameEngine {
 				return new ScreenMenu(this);
 		}
 		
-		// TODO: Выброс исключения
 		return null;
 	}
 
