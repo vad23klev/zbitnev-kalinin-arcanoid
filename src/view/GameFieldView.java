@@ -34,6 +34,11 @@ public class GameFieldView extends PlayField {
 		this.addGroup(balls);
 		this.addGroup(bricks);
 		this.addGroup(paddles);
+		
+		// Добавить на поле менеджеры коллизий для обработки столкновений
+		this.addCollisionGroup(balls, paddles, new PublishingCollisionManager());
+		this.addCollisionGroup(balls, bricks, new PublishingCollisionManager());
+		this.addCollisionGroup(balls, balls, new PublishingCollisionManager());
 	}
 
 	@Override
@@ -42,6 +47,29 @@ public class GameFieldView extends PlayField {
 	    super.update(timeElapsed);
 	    for (IngameObjectView ov : _objectViews) {
 	        ov.update(timeElapsed);
+	    }
+	    
+	    // Проверяем произошедшие коллизии и формируем словарь столкновений
+	    CollisionManager[] mgrs = this.getCollisionGroups();
+	    HashMap<IngameObject, ArrayList<IngameObject>> collisions = new HashMap<>();
+	    for (int i = 0; i < mgrs.length; i++) {
+	    	
+	    	Map<Sprite, Sprite[]> map = ((PublishingCollisionManager)mgrs[i]).getStorage();
+	    	
+	    	// Если словарь столкновений не пуст -- преобразуем спрайты в игровые объекты,
+	    	// формируем один большой словарь столкновений
+	    	if (!map.isEmpty()) {
+	    		HashMap<IngameObject, ArrayList<IngameObject>> strg = processStorage(map);
+	    		attachStorage(collisions, strg);
+	    	}
+	    }
+	    
+	    // Если столкновения произошли -- посылаем сигнал модели
+	    if (!collisions.isEmpty()) {
+	    	
+	    	for (CollisionListener l : collisionListners) {
+	    		l.collisionOccured(collisions);
+	    	}
 	    }
 	}
 	

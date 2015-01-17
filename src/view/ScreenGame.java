@@ -61,6 +61,11 @@ public class ScreenGame extends GameObject {
 		// Фабрика представлений
 		DefaultObjectViewFactory viewfact = new DefaultObjectViewFactory(basicBallImage, breakableBrickImage, null, basicPaddleImage);
 		
+		// Модель слушает сообщения о коллизиях
+		model = new GameModel();
+		model.setField(field);
+		fieldView.addCollisionListener(model);
+		
 		// Построение уровня
 		// TODO: Загрузка уровня из файла (пока уровень захардкоден)
 		BasicBall newball = new BasicBall(field, new Point2D.Float(55, 500), 16, new Speed2D(-0.2, -0.1));
