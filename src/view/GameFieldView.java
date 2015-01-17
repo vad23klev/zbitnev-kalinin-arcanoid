@@ -1,18 +1,17 @@
 ﻿package view;
 
-import java.awt.image.BufferedImage;
 import java.util.ArrayList;
-
+import java.util.HashMap;
+import java.util.Map;
+import view.collision.PublishingCollisionManager;
 import model.IngameObject;
 import model.ball.Ball;
-import model.ball.BasicBall;
-import model.brick.BreakableBrick;
 import model.brick.Brick;
 import model.interaction.CollisionListener;
-import model.interaction.GenericEventListener;
 import model.paddle.Paddle;
-
+import com.golden.gamedev.object.CollisionManager;
 import com.golden.gamedev.object.PlayField;
+import com.golden.gamedev.object.Sprite;
 import com.golden.gamedev.object.SpriteGroup;
 
 /**
@@ -128,5 +127,29 @@ public class GameFieldView extends PlayField {
      */
     public void removeCollisionListener(CollisionListener l) {
     	collisionListners.remove(l);
+    }
+    
+    /** 
+     * Преобразовать словарь столкновений между спрайтами в словарь столкновений
+     * между игровыми объектами
+     * @param storage Изначальный словарь
+    */
+    private HashMap<IngameObject, ArrayList<IngameObject>> processStorage(
+    		Map<Sprite, Sprite[]> storage) {
+    	
+    	HashMap<IngameObject, ArrayList<IngameObject>> returnStorage = new HashMap<>();
+    	for (Sprite s : storage.keySet()) {
+    		
+    		Sprite[] spriteValues = storage.get(s); 
+    		ArrayList<IngameObject> objectValues = new ArrayList<>();
+    		for (int i = 0; i < spriteValues.length; i++) {
+    			objectValues.add(((PublishingSprite)(spriteValues[i])).getObjectView()
+    					         .getIngameObject());
+    		}
+    		returnStorage.put(((PublishingSprite)s).getObjectView().getIngameObject(),
+    				objectValues);
+    	}
+    	
+    	return returnStorage;
     }
 }
