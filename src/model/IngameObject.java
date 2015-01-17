@@ -115,12 +115,6 @@ public abstract class IngameObject implements PositionChangeListener, SpeedChang
 	    if (pos == null) {
 	        throw new NullPointerException();
 	    }
-		if (pos.x < 0 || pos.x > field.getSize().width ||
-				pos.y < 0 || pos.y > field.getSize().height) {
-			
-			// TODO Корректное исключение. Не стоит, думаю можно вывести предупреждение.
-			//return;
-		}
 		position = pos;
 		for (PositionChangeListener l : positionListeners) {
 			l.positionChanged(this.position);
@@ -154,7 +148,7 @@ public abstract class IngameObject implements PositionChangeListener, SpeedChang
 	 */
 	public void move(Point2D.Float delta) {
 		
-		// TODO Method stub
+		this.setPosition(new Point2D.Float(this.getPosition().x + delta.x, this.getPosition().y + delta.y));
 	}
 	
 	/**
@@ -262,13 +256,14 @@ public abstract class IngameObject implements PositionChangeListener, SpeedChang
 	
 	@Override
 	public void positionChanged(Point2D.Float newpos) {
-		this.position = newpos;
+		
+	    this.position = newpos;
 	}
 
 	@Override
 	public void speedChanged(Speed2D newspeed) {
-		// TODO Auto-generated method stub
 		
+		this.speed = newspeed;
 	}
 	
 	/**

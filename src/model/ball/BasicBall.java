@@ -31,6 +31,6 @@ public class BasicBall extends Ball implements CanBeInSwarm {
     @Override
     public float getDefaultSpeedScalar() {
         
-        return (float) 0.1;
+        return (float) 0.2;
     }
 }
