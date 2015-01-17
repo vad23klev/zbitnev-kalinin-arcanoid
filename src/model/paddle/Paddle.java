@@ -39,6 +39,7 @@ public abstract class Paddle extends IngameObject {
 	        throw new NullPointerException();
 	    }
 	    
+	    b.setSpeed(new Speed2D(0, 0));
 	    _balls.add(b);
 	    this.fixBallsPosition();
     }

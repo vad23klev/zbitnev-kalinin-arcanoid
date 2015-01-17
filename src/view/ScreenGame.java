@@ -68,10 +68,10 @@ public class ScreenGame extends GameObject {
 		
 		// Построение уровня
 		// TODO: Загрузка уровня из файла (пока уровень захардкоден)
-		BasicBall newball = new BasicBall(field, new Point2D.Float(55, 500), 16, new Speed2D(-0.2, -0.1));
+		BasicBall newball = new BasicBall(field, new Point2D.Float(55, 500), 8, new Speed2D(-0.2, -0.1));
 		BreakableBrick newbrick = new BreakableBrick(field, new Point2D.Float(180, 120), new Dimension(48, 24));
         BreakableBrick newbrick2 = new BreakableBrick(field, new Point2D.Float(228, 120), new Dimension(48, 24));
-        BasicPaddle paddle = new BasicPaddle(field, new Point2D.Float(0, 584), new Dimension(100, 16));
+        BasicPaddle paddle = new BasicPaddle(field, new Point2D.Float(0, 584), new Dimension(96, 16));
         
         IngameObjectView ballview = viewfact.newBasicBallView(newball);
         IngameObjectView brick1view = viewfact.newBreakableBrickView(newbrick);
@@ -88,7 +88,6 @@ public class ScreenGame extends GameObject {
         controller = new GameController(player, bsInput);
 		
 		// ЭКСПЕРИМЕНТ
-		//newball.setSpeed(new Speed2D(-0.12, -0.1));
         paddle.addBall(newball);
 	}
 

@@ -44,6 +44,7 @@ public class IngameObjectView
 	    this.position     = obj.getPosition();
 	    this.speed        = obj.getSpeed();
 	    this.sprite.setLocation(position.x, position.y);
+	    this.sprite.setSpeed(this.speed.x(), this.speed.y());
 	    this.sprite.setObjectView(this);
 	    addPositionChangeListener(obj);
 	    addSpeedChangeListener(obj);
