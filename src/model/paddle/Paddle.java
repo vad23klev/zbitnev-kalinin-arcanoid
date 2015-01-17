@@ -146,4 +146,11 @@ public abstract class Paddle extends IngameObject {
             }
         }
     }
+    
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+    	
+    	Paddle clone = (Paddle) super.clone();
+    	return clone;
+    }
 }

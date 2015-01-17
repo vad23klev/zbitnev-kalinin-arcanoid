@@ -15,7 +15,7 @@ import model.interaction.SpeedChangeListener;
  * @author Nikita Kalinin <nixorv@gmail.com>
  *
  */
-public abstract class IngameObject implements PositionChangeListener, SpeedChangeListener {
+public abstract class IngameObject implements Cloneable, PositionChangeListener, SpeedChangeListener {
 
     protected Boolean _isDestroyed = false;
     
@@ -296,5 +296,18 @@ public abstract class IngameObject implements PositionChangeListener, SpeedChang
 	 */
 	public void removeSpeedChangeListener(SpeedChangeListener l) {
 		speedListeners.remove(l);
+	}
+	
+	@Override
+	public Object clone() throws CloneNotSupportedException {
+		
+		IngameObject clone = (IngameObject)super.clone();
+		clone._isDestroyed = this._isDestroyed;
+		clone.field = this.field;    // ссылка на поле просто копируется, да
+		clone.position = (Point2D.Float) this.position.clone();
+		clone.size = (Dimension) this.size.clone();
+		clone.speed = (Speed2D) this.speed.clone();
+		
+		return clone;
 	}
 }

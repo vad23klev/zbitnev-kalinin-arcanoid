@@ -22,5 +22,12 @@ public class BasicPaddle extends Paddle {
 		
         super(field);
 	}
+    
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+    	
+    	BasicPaddle clone = (BasicPaddle) super.clone();
+    	return clone;
+    }
 
 }

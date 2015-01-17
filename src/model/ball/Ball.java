@@ -82,4 +82,11 @@ public abstract class Ball extends IngameObject {
 	    super.positionChanged(newpos);
 	    field.ballPositionChanged(this);
     }
+	
+	@Override
+	public Object clone() throws CloneNotSupportedException {
+		
+		Ball clone = (Ball) super.clone();
+		return clone;
+	}
 }

@@ -28,4 +28,11 @@ public abstract class Brick extends IngameObject {
         
         super(field, pos, dim);
     }
+    
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+    	
+    	Brick clone = (Brick) super.clone();
+    	return clone;
+    }
 }

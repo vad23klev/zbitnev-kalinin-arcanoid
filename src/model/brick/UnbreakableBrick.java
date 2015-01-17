@@ -27,5 +27,12 @@ public class UnbreakableBrick extends Brick {
 		
         super(field);
 	}
+    
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+    	
+    	UnbreakableBrick clone = (UnbreakableBrick) super.clone();
+    	return clone;
+    }
 
 }

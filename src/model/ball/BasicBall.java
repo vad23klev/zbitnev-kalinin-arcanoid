@@ -33,4 +33,11 @@ public class BasicBall extends Ball implements CanBeInSwarm {
         
         return (float) 0.2;
     }
+    
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+    	
+    	BasicBall clone = (BasicBall) super.clone();
+    	return clone;
+    }
 }

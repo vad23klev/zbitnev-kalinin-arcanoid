@@ -38,4 +38,11 @@ public class BreakableBrick extends Brick {
 	public void destroy() {
 	    super.destroy();
 	}
+	
+	@Override
+	public Object clone() throws CloneNotSupportedException {
+	
+		BreakableBrick clone = (BreakableBrick) super.clone();
+		return clone;
+	}
 }
