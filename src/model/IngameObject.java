@@ -148,7 +148,7 @@ public abstract class IngameObject implements PositionChangeListener, SpeedChang
 	 */
 	public void move(Point2D.Float delta) {
 		
-		// TODO Method stub
+		this.setPosition(new Point2D.Float(this.getPosition().x + delta.x, this.getPosition().y + delta.y));
 	}
 	
 	/**
