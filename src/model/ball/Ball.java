@@ -28,6 +28,47 @@ public abstract class Ball extends IngameObject {
         super(field, pos, new Dimension(2*radius, 2*radius), speed);
     }
 
+	/**
+	 * Возвращает радиус мяча.
+	 * @return Радиус.
+	 */
+	public int getRadius() {
+	    
+	    if (this.size.width != this.size.height) {
+	        throw new IllegalStateException("Dimensions of Ball are not the same.");
+	    }
+	    
+	    return this.size.width;
+	}
+	
+	/**
+	 * Задает радиус мяча.
+	 * @param radius
+	 * @return 
+	 */
+	public void setRadius(int radius) {
+	    
+	    radius = Math.abs(radius);
+	    this.setSize(new Dimension(2*radius, 2*radius));
+	}
+	
+	/**
+	 * Внимание! Этот метод способен задать неодинаковые ширину и высоту, если это потребуется,
+	 * однако в этом случае вы не сможете использовать метод getRadius().
+	 * @param dim Размеры.
+	 */
+	@Override
+	public void setSize(Dimension dim) {
+	    
+	    super.setSize(dim);
+	}
+	
+	/**
+	 * Здесь должен быть жестко задан скаляр скорости мяча.
+	 * @return Скорость, с которой должен двигаться мяч.
+	 */
+	public abstract float getDefaultSpeedScalar();
+	
 	@Override
 	public void setPosition(Point2D.Float pos) {
 	    

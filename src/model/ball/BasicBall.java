@@ -27,4 +27,10 @@ public class BasicBall extends Ball implements CanBeInSwarm {
 	    
 	    super(field, pos, radius, speed);
 	}
+
+    @Override
+    public float getDefaultSpeedScalar() {
+        
+        return (float) 0.1;
+    }
 }
