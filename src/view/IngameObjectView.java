@@ -23,6 +23,7 @@ public class IngameObjectView
     
 	protected PublishingSprite sprite = null;
 	protected Point2D.Float position = null;
+	protected Speed2D speed = null;
 	protected ArrayList<PositionChangeListener> positionListeners = new ArrayList<>();
 	protected ArrayList<SpeedChangeListener> speedListeners = new ArrayList<>();
 	
@@ -41,6 +42,7 @@ public class IngameObjectView
 	    this.ingameObject = obj;
 	    this.sprite       = sprite;
 	    this.position     = obj.getPosition();
+	    this.speed        = obj.getSpeed();
 	    this.sprite.setLocation(position.x, position.y);
 	    this.sprite.setObjectView(this);
 	    addPositionChangeListener(obj);
@@ -64,7 +66,12 @@ public class IngameObjectView
     	    }
     	}
     	
-    	// TODO Сообщаем об изменениях слушателям (модели, то бишь)
+    	if (sprite.getHorizontalSpeed() != this.speed.x() || sprite.getVerticalSpeed() != this.speed.y()) {
+    	    this.speed = new Speed2D(sprite.getHorizontalSpeed(), sprite.getVerticalSpeed());
+    	    for (SpeedChangeListener l : speedListeners) {
+    	        l.speedChanged(this.speed);
+    	    }
+    	}
     }
     
     public void render(Graphics2D g) {
