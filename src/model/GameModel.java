@@ -12,6 +12,9 @@ import model.interaction.CollisionListener;
  */
 public class GameModel implements CollisionListener {
 
+    protected GameField _field = null;
+    protected ArrayList<Player> _players = new ArrayList<>();
+    
 	@Override
 	public void collisionOccured(
 			HashMap<IngameObject, ArrayList<IngameObject>> storage) {
@@ -25,7 +28,10 @@ public class GameModel implements CollisionListener {
 	 */
 	public void setField(GameField field) {
 		
-		// TODO
+		if (field == null) {
+		    throw new NullPointerException();
+		}
+		_field = field;
 	}
 	
 	/**
@@ -34,8 +40,7 @@ public class GameModel implements CollisionListener {
 	 */
 	public GameField getField() {
 		
-		// TODO
-		return null;
+		return _field;
 	}
 	
 	/**
@@ -44,7 +49,10 @@ public class GameModel implements CollisionListener {
 	 */
 	public void addPlayer(Player player) {
 		
-		// TODO
+		if (player == null) {
+		    throw new NullPointerException();
+		}
+		_players.add(player);
 	}
 	
 	/**
@@ -53,7 +61,7 @@ public class GameModel implements CollisionListener {
 	 */
 	public void removePlayer(Player player) {
 		
-		// TODO
+		_players.remove(player);
 	}
 	
 	/**
@@ -62,7 +70,14 @@ public class GameModel implements CollisionListener {
 	 */
 	public ArrayList<Player> getPlayers() {
 		
-		// TODO
-		return null;
+		return (ArrayList<Player>) _players.clone();
+	}
+	
+	/**
+	 * Обновляет модель. В реализации данного класса ничего не делает.
+	 * @param arg Аргумент.
+	 */
+	public void update(Object arg) {
+	    
 	}
 }
