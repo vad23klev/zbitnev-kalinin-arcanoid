@@ -1,5 +1,8 @@
 package controller;
 
+import java.awt.event.MouseEvent;
+import java.awt.geom.Point2D.Float;
+
 import com.golden.gamedev.engine.BaseInput;
 import com.golden.gamedev.engine.input.AWTInput;
 import model.Player;
@@ -11,24 +14,36 @@ import model.Player;
  */
 public class GameController {
 
-	private Player player;
-	private AWTInput input;
+	private Player _player;
+	private BaseInput _input;
 	
 	/**
 	 * Создаёт контроллер ввода
 	 * @param player Модель игрока, которой будет управлять контроллер.
 	 * @param input Менеджер ввода.
 	 */
-	GameController(Player player, BaseInput input) {
+	public GameController(Player player, BaseInput input) {
 		
-		// TODO Method stub
+		if (player == null || input == null) {
+		    throw new NullPointerException();
+		}
+		
+		_player = player;
+		_input = input;
 	}
 	
 	/**
 	 * Проверяет состояние ввода и управляет моделью игрока.
 	 */
-	void update() {
+	public void update() {
 		
-		// TODO Method stub
+	    if (_input.getMouseDX() != 0) {
+	        _player.setPaddlesPositionX(_input.getMouseX());
+	    }
+	    
+	    if (_input.isMouseDown(MouseEvent.BUTTON1)) {
+	        _player.firePaddles();
+	    }
+		// TODO Управление с клавиатуры.
 	}
 }
