@@ -8,6 +8,7 @@ import model.ball.Ball;
 import model.ball.BasicBall;
 import model.brick.BreakableBrick;
 import model.brick.Brick;
+import model.interaction.CollisionListener;
 import model.interaction.GenericEventListener;
 import model.paddle.Paddle;
 
@@ -22,11 +23,12 @@ import com.golden.gamedev.object.SpriteGroup;
  */
 public class GameFieldView extends PlayField {
 	
-	// Игровые объекты
-	ArrayList<IngameObjectView> _objectViews = new ArrayList<>();
+	private ArrayList<IngameObjectView> _objectViews = new ArrayList<>();
+	private ArrayList<CollisionListener> collisionListners;
 	
 	public GameFieldView() {
 		
+    	collisionListners = new ArrayList<>();
 		SpriteGroup balls = new SpriteGroup("balls");
 		SpriteGroup bricks = new SpriteGroup("bricks");
 		SpriteGroup paddles = new SpriteGroup("paddles");
@@ -111,4 +113,20 @@ public class GameFieldView extends PlayField {
 	    
 	    return (ArrayList<IngameObjectView>) _objectViews.clone();
 	}
+	
+    /**
+     * Добавить слушателя событий о произошедших на поле столкновениях
+     * @param l Добавляемый слушатель
+     */
+    public void addCollisionListener(CollisionListener l) {
+    	collisionListners.add(l);
+    }
+    
+    /**
+     * Удалить слушателя событий о произошедших на поле столкновениях
+     * @param l Удаляемый слушатель
+     */
+    public void removeCollisionListener(CollisionListener l) {
+    	collisionListners.remove(l);
+    }
 }
