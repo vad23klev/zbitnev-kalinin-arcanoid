@@ -1,10 +1,13 @@
 package controller;
 
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Point2D.Float;
 
 import com.golden.gamedev.engine.BaseInput;
 import com.golden.gamedev.engine.input.AWTInput;
+
+import model.Direction;
 import model.Player;
 
 /**
@@ -37,13 +40,26 @@ public class GameController {
 	 */
 	public void update() {
 		
+	    // Управление мышью.
 	    if (_input.getMouseDX() != 0) {
 	        _player.setPaddlesPositionX(_input.getMouseX());
 	    }
 	    
-	    if (_input.isMouseDown(MouseEvent.BUTTON1)) {
+	    if (_input.isMousePressed(MouseEvent.BUTTON1)) {
 	        _player.firePaddles();
 	    }
-		// TODO Управление с клавиатуры.
+
+	    // Управление с клавиатуры.
+	    if (_input.isKeyPressed(KeyEvent.VK_LEFT)) {
+	        _player.movePaddles(Direction.west());
+	    }
+	    
+	    if (_input.isKeyPressed(KeyEvent.VK_RIGHT)) {
+	        _player.movePaddles(Direction.east());
+	    }
+	    
+	    if (_input.isKeyPressed(KeyEvent.VK_SPACE)) {
+	        _player.firePaddles();
+	    }
 	}
 }
