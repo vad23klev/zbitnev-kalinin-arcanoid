@@ -262,13 +262,14 @@ public abstract class IngameObject implements PositionChangeListener, SpeedChang
 	
 	@Override
 	public void positionChanged(Point2D.Float newpos) {
-		this.position = newpos;
+		
+	    this.position = newpos;
 	}
 
 	@Override
 	public void speedChanged(Speed2D newspeed) {
-		// TODO Auto-generated method stub
 		
+		this.speed = newspeed;
 	}
 	
 	/**
