@@ -12,6 +12,8 @@ import model.interaction.CollisionListener;
  */
 public class GameModel implements CollisionListener {
 
+	private GameField field;
+	
 	@Override
 	public void collisionOccured(
 			HashMap<IngameObject, ArrayList<IngameObject>> storage) {
@@ -25,7 +27,7 @@ public class GameModel implements CollisionListener {
 	 */
 	public void setField(GameField field) {
 		
-		// TODO
+		this.field = field;
 	}
 	
 	/**
@@ -34,8 +36,7 @@ public class GameModel implements CollisionListener {
 	 */
 	public GameField getField() {
 		
-		// TODO
-		return null;
+		return this.field;
 	}
 	
 	/**
