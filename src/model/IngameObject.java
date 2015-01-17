@@ -115,12 +115,6 @@ public abstract class IngameObject implements PositionChangeListener, SpeedChang
 	    if (pos == null) {
 	        throw new NullPointerException();
 	    }
-		if (pos.x < 0 || pos.x > field.getSize().width ||
-				pos.y < 0 || pos.y > field.getSize().height) {
-			
-			// TODO Корректное исключение. Не стоит, думаю можно вывести предупреждение.
-			//return;
-		}
 		position = pos;
 		for (PositionChangeListener l : positionListeners) {
 			l.positionChanged(this.position);
