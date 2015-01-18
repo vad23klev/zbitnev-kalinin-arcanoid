@@ -173,7 +173,7 @@ public class DefaultObjectViewFactory {
         ballSprite.setImage(_basicBallImage);
         
         // Напоминание: этот конструктор сам установит объекты слушателями друг друга.
-        IngameObjectView ballView = new IngameObjectView(ball, ballSprite);
+        IngameObjectView ballView = new IngameObjectView(ball, ballSprite, _view);
         
         return ballView;
     }
@@ -191,7 +191,7 @@ public class DefaultObjectViewFactory {
         brickSprite.setImage(_breakableBrickImage);
         
         // Напоминание: этот конструктор сам установит объекты слушателями друг друга.
-        IngameObjectView brickView = new IngameObjectView(brick, brickSprite);
+        IngameObjectView brickView = new IngameObjectView(brick, brickSprite, _view);
         
         return brickView;
     }
@@ -209,7 +209,7 @@ public class DefaultObjectViewFactory {
         brickSprite.setImage(_unbreakableBrickImage);
         
         // Напоминание: этот конструктор сам установит объекты слушателями друг друга.
-        IngameObjectView brickView = new IngameObjectView(brick, brickSprite);
+        IngameObjectView brickView = new IngameObjectView(brick, brickSprite, _view);
         
         return brickView;
     }
@@ -227,7 +227,7 @@ public class DefaultObjectViewFactory {
         paddleSprite.setImage(_basicPaddleImage);
         
         // Напоминание: этот конструктор сам установит объекты слушателями друг друга.
-        IngameObjectView paddleView = new IngameObjectView(paddle, paddleSprite);
+        IngameObjectView paddleView = new IngameObjectView(paddle, paddleSprite, _view);
         
         return paddleView;
     }

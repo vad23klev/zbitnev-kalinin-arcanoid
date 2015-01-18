@@ -21,6 +21,7 @@ public class IngameObjectView
 
     protected final IngameObject ingameObject;
     
+    protected GameFieldView fieldView = null;
 	protected PublishingSprite sprite = null;
 	protected Point2D.Float position = null;
 	protected Speed2D speed = null;
@@ -33,7 +34,7 @@ public class IngameObjectView
 	 * @param obj Модель игрового объекта.
 	 * @param sprite Спрайт, которым он будет отображен.
 	 */
-	public IngameObjectView(IngameObject obj, PublishingSprite sprite) {
+	public IngameObjectView(IngameObject obj, PublishingSprite sprite, GameFieldView view) {
 	    
 	    if (sprite == null || obj == null) {
 	        throw new NullPointerException();
@@ -41,6 +42,7 @@ public class IngameObjectView
 	    
 	    this.ingameObject = obj;
 	    this.sprite       = sprite;
+	    this.fieldView    = view;
 	    this.position     = obj.getPosition();
 	    this.speed        = obj.getSpeed();
 	    this.sprite.setLocation(position.x, position.y);
