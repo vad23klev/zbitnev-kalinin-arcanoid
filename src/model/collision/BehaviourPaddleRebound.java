@@ -1,6 +1,10 @@
 package model.collision;
 
+import java.awt.geom.Point2D;
+
 import model.IngameObject;
+import model.ball.Ball;
+import model.paddle.Paddle;
 
 /**
  * Поведение отскока от ракетки при столкновении.
@@ -31,6 +35,12 @@ public class BehaviourPaddleRebound extends CollisionBehaviour {
 	
 	@Override
 	public void invoke(IngameObject from, IngameObject to) {
-		// TODO
+		
+		if (from instanceof Paddle && to instanceof Ball) {
+		
+			to.setPosition(new Point2D.Float(to.getPosition().x, 
+									 		 from.getPosition().y - to.getSize().height));
+			to.setSpeed(((Paddle)from).getFireSpeed((Ball)to));
+		}
 	}
 }
