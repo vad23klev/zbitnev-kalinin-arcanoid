@@ -19,7 +19,7 @@ public class GameModel implements CollisionListener {
 	public void collisionOccured(
 			HashMap<IngameObject, ArrayList<IngameObject>> storage) {
 		
-		field.collisionOccured(storage);
+		_field.collisionOccured(storage);
 	}
 
 	/**
