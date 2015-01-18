@@ -291,7 +291,12 @@ public abstract class IngameObject implements Cloneable, PositionChangeListener,
 	 * По умолчанию ничего не освобождает.
 	 */
 	public void destroy() {
+		
 	    this._isDestroyed = true;
+	    this.field.removeObject(this);
+	    for (GenericEventListener l : geneventListeners) {
+	    	l.destroyed();
+	    }
 	}
 	
 	//-------------------------------------------------------------------------------------------//
