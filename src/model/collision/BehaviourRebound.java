@@ -98,10 +98,6 @@ public class BehaviourRebound extends CollisionBehaviour {
 				      + pass.getCenter().y * act.getRadius()) 
 				   / (act.getRadius() + pass.getRadius());
 			
-			System.out.println("COLLISION! At point " + colx + "; " + coly);
-			System.out.println("\tactive ball is " + act.getCenter());
-			System.out.println("\tpassive ball is " + pass.getCenter());
-			
 			// Пассивный объект "отодвигается" по линии столкновения (линия, соединяющая центры 
 			// шаров) во избежание повторной коллизии
 			Point2D.Float movevect = new Point2D.Float(pass.getCenter().x - colx,
@@ -115,13 +111,10 @@ public class BehaviourRebound extends CollisionBehaviour {
 			Vector2D pspeed = new Vector2D(pass.getSpeed().x(), pass.getSpeed().y());
 			Vector2D acenter = new Vector2D(act.getCenter().x, act.getCenter().y);
 			Vector2D pcenter = new Vector2D(pass.getCenter().x, pass.getCenter().y);
-			System.out.println("\tactive speed is " + aspeed.toString());
-			System.out.println("\tpassive speed before is " + pspeed.toString());
 			Vector2D newPSpeed = pspeed;
 			Vector2D pminusa = pcenter.minus(acenter);
 			newPSpeed = newPSpeed.minus(pminusa.times(
 					pspeed.minus(aspeed).dot(pminusa) / Math.pow(pminusa.norm(), 2.0)));
-			System.out.println("\tpassive speed after is " + newPSpeed.toString());
 			
 			// Новая скорость назначается пассивному объекту
 			pass.setSpeed(new Speed2D(newPSpeed.x(), newPSpeed.y()));
