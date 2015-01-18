@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import model.collision.CollisionBehaviour;
+import model.interaction.GenericEventListener;
 import model.interaction.PositionChangeListener;
 import model.interaction.SpeedChangeListener;
 
@@ -28,6 +29,7 @@ public abstract class IngameObject implements Cloneable, PositionChangeListener,
 	protected GameField field = null;
 	protected ArrayList<PositionChangeListener> positionListeners = new ArrayList<>();
 	protected ArrayList<SpeedChangeListener> speedListeners = new ArrayList<>();
+	protected ArrayList<GenericEventListener> geneventListeners = new ArrayList<>();
 
 	/**
 	 * Создает игровой объект, координаты (0, 0), нулевая скорость, нулевой размер.
@@ -336,6 +338,27 @@ public abstract class IngameObject implements Cloneable, PositionChangeListener,
 	 */
 	public void removeSpeedChangeListener(SpeedChangeListener l) {
 		speedListeners.remove(l);
+	}
+	
+	/**
+	 * Добавить слушателя событий жизни объекта.
+	 * @param l Добавляемый слушатель.
+	 */
+	public void addGenericEventListener(GenericEventListener l) {
+		
+		if (l == null) {
+			return;
+		}
+
+		geneventListeners.add(l);
+	}
+	
+	/**
+	 * Удалить слушателя событий жизни объекта.
+	 * @param l Удаляемый слушатель.
+	 */
+	public void removeGenericEventListener(GenericEventListener l) {
+		geneventListeners.remove(l);
 	}
 	
 	@Override
