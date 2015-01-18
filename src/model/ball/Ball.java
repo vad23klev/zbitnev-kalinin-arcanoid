@@ -88,6 +88,25 @@ public abstract class Ball extends IngameObject {
 	    field.ballPositionChanged(this);
     }
 	
+	/**
+	 * Задать позицию шарика, указав координаты его середины
+	 * @param center Позиция центра шарика
+	 */
+	public void setCenter(Point2D.Float center) {
+		
+		setPosition(new Point2D.Float(center.x - size.width/2, center.y - size.height/2));
+	}
+	
+	/**
+	 * Получить позицию центра шарика
+	 * @return Позиция центра шарика
+	 */
+	public Point2D.Float getCenter() {
+		
+		return new Point2D.Float(this.position.x + size.width/2, 
+								 this.position.y + size.height/2);
+	}
+	
 	@Override
 	public Object clone() throws CloneNotSupportedException {
 		
