@@ -5,8 +5,11 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Point2D.Float;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 import model.collision.CollisionBehaviour;
+import model.collision.SpecialBehaviours;
 import model.interaction.GenericEventListener;
 import model.interaction.PositionChangeListener;
 import model.interaction.SpeedChangeListener;
@@ -17,14 +20,14 @@ import model.interaction.SpeedChangeListener;
  *
  */
 public abstract class IngameObject implements Cloneable, PositionChangeListener, SpeedChangeListener {
-
+    
     protected Boolean _isDestroyed = false;
     
 	protected Point2D.Float position = null;
 	protected Dimension size = null;
 	protected Speed2D speed = null;
 	protected ArrayList<CollisionBehaviour> defaultColBehaviour = new ArrayList<>();
-	protected HashMap<Class<?>, ArrayList<CollisionBehaviour>> specialColBehaviours 
+	protected HashMap<Class<?>, SpecialBehaviours> specialColBehaviours 
 		= new HashMap<>();
 	protected GameField field = null;
 	protected ArrayList<PositionChangeListener> positionListeners = new ArrayList<>();
@@ -161,23 +164,33 @@ public abstract class IngameObject implements Cloneable, PositionChangeListener,
 	public void processCollision(IngameObject other) {
 
 		// Вызываем специализированные коллизии, если таковые имеются
-		if (specialColBehaviours.containsKey(other.getClass())) {
-			
-			ArrayList<CollisionBehaviour> behaviours;
-			behaviours = specialColBehaviours.get(other.getClass());
-			
-			for (CollisionBehaviour cb : behaviours) {
-				cb.invoke(other, this);
-			}
-		}
+	    boolean foundSpecial = false;
+	    
+	    Iterator i = specialColBehaviours.entrySet().iterator();
+	    while (i.hasNext()) {
+	        Map.Entry<Class<?>, SpecialBehaviours> entry = (Map.Entry)i.next();
+	        if (entry.getValue().flagCheckDerived) {
+	            if (entry.getKey().isInstance(other)) {
+	                foundSpecial = true;
+	                for (CollisionBehaviour cb : entry.getValue().behaviours) {
+	                    cb.invoke(other, this);
+	                }
+	            }
+	        } else if (entry.getKey().equals(other.getClass())) {
+                foundSpecial = true;
+                for (CollisionBehaviour cb : entry.getValue().behaviours) {
+                    cb.invoke(other, this);
+                }
+            }
+	    }
+		
 		// Если их нет, тогда вызываем коллизию по умолчанию
 		// Если и она не определена, то ничего не происходит
-		else {
-
-			for (CollisionBehaviour cb : defaultColBehaviour) {
-				cb.invoke(other, this);
-			}
-		}
+	    if (!foundSpecial) {
+    		for (CollisionBehaviour cb : defaultColBehaviour) {
+    			cb.invoke(other, this);
+    		}
+	    }
 	}
 	
 	/**
@@ -209,10 +222,10 @@ public abstract class IngameObject implements Cloneable, PositionChangeListener,
 	
 	/**
 	 * Получить словарь специальных поведений при столкновении
-	 * @return Ключ -- класс объектов, значение -- список поведений, определённых при столкновении 
+	 * @return Ключ -- класс объектов, значение -- флаги и список поведений, определённых при столкновении 
 	 *         с этим объектом
 	 */
-	public HashMap<Class<?>, ArrayList<CollisionBehaviour>> getSpecificCollisionBehaviours() {
+	public HashMap<Class<?>, SpecialBehaviours> getSpecificCollisionBehaviours() {
 		
 		return specialColBehaviours;
 	}
@@ -221,8 +234,10 @@ public abstract class IngameObject implements Cloneable, PositionChangeListener,
 	 * Добавить специальное поведение при столкновении
 	 * @param c Класс объектов
 	 * @param cb Поведение, определяемое при столкновении с этим классом объектов
+	 * @param checkDerived Если true, то будут также проверяться наследники класса объектов.
+	 *                     Игнорируется, если для класса уже задано какое-либо поведение.
 	 */
-	public void addSpecificCollisionBehaviour(Class<?> c, CollisionBehaviour cb) {
+	public void addSpecificCollisionBehaviour(Class<?> c, CollisionBehaviour cb, boolean checkDerived) {
 		
 		if (!c.isInstance(IngameObject.class)) {
 			// TODO: Выброс исключения, ибо нечего
@@ -230,13 +245,23 @@ public abstract class IngameObject implements Cloneable, PositionChangeListener,
 		
 		if (!specialColBehaviours.containsKey(c)) {
 			
-			ArrayList<CollisionBehaviour> newlist = new ArrayList<>();
-			newlist.add(cb);
-			specialColBehaviours.put(c, newlist);
+			SpecialBehaviours newsb = new SpecialBehaviours(cb);
+			newsb.flagCheckDerived = checkDerived;
+			specialColBehaviours.put(c, newsb);
 		}
 		else {
-			specialColBehaviours.get(c).add(cb);
+			specialColBehaviours.get(c).behaviours.add(cb);
 		}
+	}
+	
+	/**
+     * Добавить специальное поведение при столкновении
+     * @param c Класс объектов
+     * @param cb Поведение, определяемое при столкновении с этим классом объектов
+     */
+	public void addSpecificCollisionBehaviour(Class<?> c, CollisionBehaviour cb) {
+	    
+	    this.addSpecificCollisionBehaviour(c, cb, false);
 	}
 	
 	/**
@@ -251,7 +276,10 @@ public abstract class IngameObject implements Cloneable, PositionChangeListener,
 		}
 		
 		if (specialColBehaviours.containsKey(c)) {
-			specialColBehaviours.get(c).remove(cb);
+			specialColBehaviours.get(c).behaviours.remove(cb);
+			if (specialColBehaviours.get(c).behaviours.isEmpty()) {
+			    specialColBehaviours.remove(c);
+			}
 		}
 	}
 	
@@ -282,7 +310,7 @@ public abstract class IngameObject implements Cloneable, PositionChangeListener,
 		}
 		
 		if (specialColBehaviours.containsKey(cl)) {
-			specialColBehaviours.get(cl).clear();
+			specialColBehaviours.remove(cl);
 		}
 	}
 	

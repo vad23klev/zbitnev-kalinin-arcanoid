@@ -88,7 +88,7 @@ public class ScreenGame extends GameObject {
         
         // Назначаем поведения при столкновении для шарика
         newball.addDefaultCollisionBehaviour(BehaviourRebound.getInstance());
-        newball.addSpecificCollisionBehaviour(BasicPaddle.class, BehaviourPaddleRebound.getInstance());
+        newball.addSpecificCollisionBehaviour(Paddle.class, BehaviourPaddleRebound.getInstance(), true);
         // для кирпича
         newbrick.addDefaultCollisionBehaviour(BehaviourDestroy.getInstance());
         newbrick2.addDefaultCollisionBehaviour(BehaviourDestroy.getInstance());
