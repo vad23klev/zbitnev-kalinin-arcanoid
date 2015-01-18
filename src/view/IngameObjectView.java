@@ -66,14 +66,14 @@ public class IngameObjectView
     	if (sprite.getX() != this.position.x || sprite.getY() != this.position.y) {
     	    this.position = new Point2D.Float((float)sprite.getX(), (float)sprite.getY());
     	    for (PositionChangeListener l : positionListeners) {
-    	        l.positionChanged(this.position);
+    	        l.positionChanged((Float) this.position.clone());
     	    }
     	}
     	
     	if (sprite.getHorizontalSpeed() != this.speed.x() || sprite.getVerticalSpeed() != this.speed.y()) {
     	    this.speed = new Speed2D(sprite.getHorizontalSpeed(), sprite.getVerticalSpeed());
     	    for (SpeedChangeListener l : speedListeners) {
-    	        l.speedChanged(this.speed);
+    	        l.speedChanged((Speed2D) this.speed.clone());
     	    }
     	}
     }
