@@ -87,17 +87,28 @@ public abstract class Paddle extends IngameObject {
      */
     public Speed2D getFireSpeed(Ball ball) {
         
-        Point2D.Float paddleCenter  = new Point2D.Float(this.position.x + this.size.width / 2, this.position.y);
+        // Найти два центра расчета вектора.
+        Point2D.Float paddleLeftCenter = new Point2D.Float(this.position.x + (this.size.width / 5) * 2, this.position.y);
+        Point2D.Float paddleRightCenter = new Point2D.Float(this.position.x + (this.size.width / 5) * 3, this.position.y);
+        
+        // Центр ракетки
+        Point2D.Float paddleCenter = new Point2D.Float(this.position.x + this.size.width / 2, this.position.y);
         
         // Относительные координаты центра мяча в декартовой системе координат (точка B).
         // Считаем, что paddleCenter - это точка A(0, 0).
         Point2D.Float relBallCenter = new Point2D.Float(ball.getPosition().x + ball.getSize().width / 2 - paddleCenter.x,
                 paddleCenter.y - ball.getPosition().y - ball.getSize().height / 2);
         
-        // Если мяч точно по центру, направляем вектор вверх.
-        if (Math.abs(relBallCenter.x) < 0.000001) {
+        // Если мяч между двумя центрами, направляем вектор вверх.
+        if (relBallCenter.x <= this.size.width / 10 && relBallCenter.x >= -this.size.width / 10) {
             return new Speed2D(0, -ball.getDefaultSpeedScalar());
         }
+        
+        // В зависимости от трети ракетки, в которой располагается мяч, выбираем центр расчета вектора скорости.
+        Point2D.Float paddleNewCenter = relBallCenter.x > this.size.width / 10 ? paddleRightCenter : paddleLeftCenter;
+        
+        // Рассчитываем относительное положение мяча от выбранного центра.
+        relBallCenter = new Point2D.Float(relBallCenter.x + paddleCenter.x - paddleNewCenter.x, relBallCenter.y);
         
         // Коэффициенты уравнения точки пересечения прямой и окружности.
         double a = (Math.pow(relBallCenter.x, 2) + Math.pow(relBallCenter.y, 2)) / Math.pow(relBallCenter.x, 2);
