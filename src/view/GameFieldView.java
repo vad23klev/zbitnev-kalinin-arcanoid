@@ -67,6 +67,7 @@ public class GameFieldView extends PlayField {
 	    // Если столкновения произошли -- посылаем сигнал модели
 	    if (!collisions.isEmpty()) {
 	    	
+	    	collisions = removeCouplingFromStorage(collisions);
 	    	for (CollisionListener l : collisionListners) {
 	    		l.collisionOccured(collisions);
 	    	}
@@ -206,5 +207,31 @@ public class GameFieldView extends PlayField {
     			}
     		}
     	}
+    }
+    
+    /**
+     * Просеять словарь столкновений и удалить дублирующиеся ассоциации
+     * @param st Словарь столкновений
+     */
+    private HashMap<IngameObject, ArrayList<IngameObject>> 
+    	removeCouplingFromStorage(HashMap<IngameObject, ArrayList<IngameObject>> st) {
+    	
+    	HashMap<IngameObject, ArrayList<IngameObject>> newst = new HashMap<>();
+    	
+    	for (IngameObject key : st.keySet()) {	
+    		for (IngameObject val : st.get(key)) {
+    			
+    			// Если в словарь уже не добавлена "обратная" ассоциация
+    			if (!newst.containsKey(val) || !newst.get(val).contains(key)) {
+    				
+    				if (!newst.containsKey(key)) {
+    					newst.put(key, new ArrayList<IngameObject>());
+    				}
+    				newst.get(key).add(val);
+    			}
+    		}
+    	}
+    	
+    	return newst;
     }
 }
