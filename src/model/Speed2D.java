@@ -26,6 +26,13 @@ public class Speed2D implements Cloneable {
         return new Speed2D(x, y);
 	}
 	
+	@Override
+	public boolean equals(Object other) {
+	    
+	    Speed2D oth = (Speed2D) other;
+	    return oth.x == this.x && oth.y == this.y;
+	}
+	
 	public double x() {
 		return x;
 	}
