@@ -1,6 +1,8 @@
 package model;
 
 import java.awt.Dimension;
+import java.awt.geom.Point2D;
+import java.awt.geom.Point2D.Float;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -64,10 +66,16 @@ public class GameField implements BallPositionChangedListener {
     public void ballPositionChanged(Ball ball) {
         
         if (ball.getPosition().y < 0) {
+            ball.setPosition(new Point2D.Float(ball.getPosition().x, 0));
             ball.setSpeed(ball.getSpeed().flipVertical());
         }
         
         if (ball.getPosition().x < 0 || ball.getPosition().x + ball.getSize().width > dimensions.width) {
+            if (ball.getPosition().x < 0) {
+                ball.setPosition(new Point2D.Float(0, ball.getPosition().y));
+            } else {
+                ball.setPosition(new Point2D.Float(dimensions.width - ball.getSize().width, ball.getPosition().y));
+            }
             ball.setSpeed(ball.getSpeed().flipHorizontal());
         }
     }
