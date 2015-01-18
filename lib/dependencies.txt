@@ -1,5 +1,8 @@
-﻿GTGE 0.2.3
-http://goldenstudios.or.id/products/GTGE/#download
+﻿В этой директории должны находиться следующие библиотеки:
 
-Java GEOM 0.11.2
-http://sourceforge.net/projects/geom-java/files/javaGeom/javaGeom-0.11.2/javaGeom-0.11.2.jar/download
+golden.jar: GTGE 0.2.3
+    http://goldenstudios.or.id/products/GTGE/#download
+
+javageom.jar: Java GEOM 0.11.2
+    http://sourceforge.net/projects/geom-java/files/javaGeom/javaGeom-0.11.2/javaGeom-0.11.2.jar/download
+
