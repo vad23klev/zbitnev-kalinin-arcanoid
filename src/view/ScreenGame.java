@@ -86,13 +86,6 @@ public class ScreenGame extends GameObject {
         UnbreakableBrick newbrick3 = new UnbreakableBrick(field, new Point2D.Float(276, 120), new Dimension(48, 24));
         BasicPaddle paddle = new BasicPaddle(field, new Point2D.Float(0, 584), new Dimension(96, 16));
         
-        // Назначаем поведения при столкновении для шарика
-        newball.addDefaultCollisionBehaviour(BehaviourRebound.getInstance());
-        newball.addSpecificCollisionBehaviour(Paddle.class, BehaviourPaddleRebound.getInstance(), true);
-        // для кирпича
-        newbrick.addDefaultCollisionBehaviour(BehaviourDestroy.getInstance());
-        newbrick2.addDefaultCollisionBehaviour(BehaviourDestroy.getInstance());
-        
         IngameObjectView ballview = viewfact.newBasicBallView(newball);
         IngameObjectView brick1view = viewfact.newBreakableBrickView(newbrick);
         IngameObjectView brick2view = viewfact.newBreakableBrickView(newbrick2);

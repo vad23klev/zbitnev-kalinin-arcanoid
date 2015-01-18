@@ -6,6 +6,9 @@ import java.awt.geom.Point2D;
 import model.GameField;
 import model.IngameObject;
 import model.Speed2D;
+import model.collision.BehaviourPaddleRebound;
+import model.collision.BehaviourRebound;
+import model.paddle.Paddle;
 
 /**
  * Модель абстрактного шарика
@@ -15,17 +18,19 @@ import model.Speed2D;
 public abstract class Ball extends IngameObject {
 
 	public Ball(GameField field) {
-		super(field);
+		this(field, new Point2D.Float(0, 0), 0);
 	}
 	
 	public Ball(GameField field, Point2D.Float pos, int radius) {
 	    
-	    super(field, pos, new Dimension(2*radius, 2*radius));
+	    this(field, pos, radius, new Speed2D(0, 0));
 	}
 	
 	public Ball(GameField field, Point2D.Float pos, int radius, Speed2D speed) {
         
         super(field, pos, new Dimension(2*radius, 2*radius), speed);
+        this.addDefaultCollisionBehaviour(BehaviourRebound.getInstance());
+        this.addSpecificCollisionBehaviour(Paddle.class, BehaviourPaddleRebound.getInstance(), true);
     }
 
 	/**
