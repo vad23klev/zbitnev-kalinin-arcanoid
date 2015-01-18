@@ -17,7 +17,7 @@ import model.interaction.SpeedChangeListener;
  *
  */
 public class IngameObjectView
-		implements PositionChangeListener, SpeedChangeListener {
+		implements PositionChangeListener, SpeedChangeListener, GenericEventListener {
 
     protected final IngameObject ingameObject;
     
@@ -52,6 +52,7 @@ public class IngameObjectView
 	    addSpeedChangeListener(obj);
 	    obj.addPositionChangeListener(this);
 	    obj.addSpeedChangeListener(this);
+	    obj.addGenericEventListener(this);
 	}
 	
     /**
@@ -154,5 +155,10 @@ public class IngameObjectView
 	 */
 	public void removeSpeedChangeListener(SpeedChangeListener l) {
 		speedListeners.remove(l);
+	}
+
+	@Override
+	public void destroyed() {
+		this.fieldView.removeObjectView(this);
 	}
 }
