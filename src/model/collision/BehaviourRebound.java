@@ -43,37 +43,42 @@ public class BehaviourRebound extends CollisionBehaviour {
 		// активного объекта и пассивного объекта
 		if ((from instanceof Brick || from instanceof Paddle) && to instanceof Ball) {
 			
-			float upperb = from.getPosition().y;
-			float lowerb = from.getPosition().y + from.getSize().height;
-			float leftb = from.getPosition().x;
-			float rightb = from.getPosition().x + from.getSize().width;
-			Point2D.Float topos = to.getPosition();
+			// Наименьная разница скажет нам о том, с какой гранью кирпича столкнулся шар
+			float uppers = Math.abs(from.getPosition().y 
+					                - (to.getPosition().y + to.getSize().height));
+			float lowers = Math.abs(from.getPosition().y + from.getSize().height
+									- to.getPosition().y);
+			float lefts = Math.abs(from.getPosition().x 
+	                				- (to.getPosition().x + to.getSize().width));
+			float rights = Math.abs(from.getPosition().x + from.getSize().width
+									- to.getPosition().x);
 			
+			Point2D.Float topos = to.getPosition();
 			// Столкновение с нижней гранью
-			if (topos.y <= lowerb && lowerb <= topos.y + to.getSize().height) {
+			if (lowers <= uppers && lowers <= lefts && lowers <= rights) {
 				
-				topos.y = lowerb;
+				topos.y = from.getPosition().y + from.getSize().height;
 				to.setPosition(topos);
 				to.setSpeed(to.getSpeed().flipVertical());
 			}
 			// Столкновение с верхней гранью
-			else if (topos.y <= upperb && upperb <= topos.y + to.getSize().height) {
+			else if (uppers <= lowers && uppers <= lefts && uppers <= rights) {
 				
-				topos.y = upperb - to.getSize().height;
+				topos.y = from.getPosition().y - to.getSize().height;
 				to.setPosition(topos);
 				to.setSpeed(to.getSpeed().flipVertical());
 			}
 			// Столкновение с правой гранью
-			else if (topos.x <= rightb && rightb <= topos.x + to.getSize().width) {
+			else if (rights <= lowers && rights <= uppers && rights <= lefts) {
 				
-				topos.x = rightb;
+				topos.x = from.getPosition().x + from.getSize().width;
 				to.setPosition(topos);
 				to.setSpeed(to.getSpeed().flipHorizontal());
 			}
 			// Столкновение с левой гранью
-			else if (topos.x <= leftb && leftb <= topos.x + to.getSize().width) {
+			else if (lefts <= lowers && lefts <= uppers && lefts <= rights) {
 				
-				topos.x = leftb - to.getSize().width;
+				topos.x = from.getPosition().x - to.getSize().width;
 				to.setPosition(topos);
 				to.setSpeed(to.getSpeed().flipHorizontal());
 			}
