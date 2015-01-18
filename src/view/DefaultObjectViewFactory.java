@@ -54,7 +54,7 @@ public class DefaultObjectViewFactory {
         
         valid &= _basicBallImage != null;
         valid &= _breakableBrickImage != null;
-        //valid &= _unbreakableBrickImage != null;
+        valid &= _unbreakableBrickImage != null;
         valid &= _basicPaddleImage != null;
         
         return valid;

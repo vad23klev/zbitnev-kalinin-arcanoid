@@ -15,6 +15,7 @@ import model.Player;
 import model.Speed2D;
 import model.ball.BasicBall;
 import model.brick.BreakableBrick;
+import model.brick.UnbreakableBrick;
 import model.collision.BehaviourDestroy;
 import model.collision.BehaviourPaddleRebound;
 import model.collision.BehaviourRebound;
@@ -48,10 +49,11 @@ public class ScreenGame extends GameObject {
 	public void initResources() {
 	    
 	    // Загрузка ресурсов
-	    BufferedImage bgImage             = bsLoader.getImage("default/gfx/misc/bg-blue.png");
-	    BufferedImage basicBallImage      = bsLoader.getImage("default/gfx/balls/basic.png");
-	    BufferedImage breakableBrickImage = bsLoader.getImage("default/gfx/bricks/breakable.png");
-	    BufferedImage basicPaddleImage    = bsLoader.getImage("default/gfx/paddles/basic.png");
+	    BufferedImage bgImage               = bsLoader.getImage("default/gfx/misc/bg-blue.png");
+	    BufferedImage basicBallImage        = bsLoader.getImage("default/gfx/balls/basic.png");
+	    BufferedImage breakableBrickImage   = bsLoader.getImage("default/gfx/bricks/breakable.png");
+	    BufferedImage unbreakableBrickImage = bsLoader.getImage("default/gfx/bricks/unbreakable.png");
+	    BufferedImage basicPaddleImage      = bsLoader.getImage("default/gfx/paddles/basic.png");
 	    
 		// Инициализация представления уровня
 		fieldView = new GameFieldView();
@@ -68,7 +70,8 @@ public class ScreenGame extends GameObject {
         GameField field = new GameField(this.bsGraphics.getSize());
 		
 		// Фабрика представлений
-		DefaultObjectViewFactory viewfact = new DefaultObjectViewFactory(basicBallImage, breakableBrickImage, null, basicPaddleImage);
+		DefaultObjectViewFactory viewfact = new DefaultObjectViewFactory(basicBallImage, breakableBrickImage,
+		        unbreakableBrickImage, basicPaddleImage);
 		
 		// Модель слушает сообщения о коллизиях
 		model = new GameModel();
@@ -77,9 +80,10 @@ public class ScreenGame extends GameObject {
 		
 		// Построение уровня
 		// TODO: Загрузка уровня из файла (пока уровень захардкоден)
-		BasicBall newball = new BasicBall(field, new Point2D.Float(39, 500), 8, new Speed2D(-0.2, -0.1));
+		BasicBall newball = new BasicBall(field, new Point2D.Float(40, 160), 8, new Speed2D(0.03, -0.01));
 		BreakableBrick newbrick = new BreakableBrick(field, new Point2D.Float(180, 120), new Dimension(48, 24));
         BreakableBrick newbrick2 = new BreakableBrick(field, new Point2D.Float(228, 120), new Dimension(48, 24));
+        UnbreakableBrick newbrick3 = new UnbreakableBrick(field, new Point2D.Float(276, 120), new Dimension(48, 24));
         BasicPaddle paddle = new BasicPaddle(field, new Point2D.Float(0, 584), new Dimension(96, 16));
         
         // Назначаем поведения при столкновении для шарика
@@ -92,11 +96,13 @@ public class ScreenGame extends GameObject {
         IngameObjectView ballview = viewfact.newBasicBallView(newball);
         IngameObjectView brick1view = viewfact.newBreakableBrickView(newbrick);
         IngameObjectView brick2view = viewfact.newBreakableBrickView(newbrick2);
+        IngameObjectView brick3view = viewfact.newUnbreakableBrickView(newbrick3);
         IngameObjectView paddleView = viewfact.newBasicPaddleView(paddle);
         
         fieldView.addObjectView(ballview);
         fieldView.addObjectView(brick1view);
         fieldView.addObjectView(brick2view);
+        fieldView.addObjectView(brick3view);
         fieldView.addObjectView(paddleView);
         
         // Контроллер и игрок.
