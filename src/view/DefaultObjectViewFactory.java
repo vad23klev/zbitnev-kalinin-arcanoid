@@ -23,6 +23,7 @@ public class DefaultObjectViewFactory {
     protected BufferedImage _breakableBrickImage = null;
     protected BufferedImage _unbreakableBrickImage = null;
     protected BufferedImage _basicPaddleImage = null;
+    protected GameFieldView _view = null;
     
     public DefaultObjectViewFactory() {
         
@@ -36,8 +37,10 @@ public class DefaultObjectViewFactory {
      * @param basicPaddleImage
      */
     public DefaultObjectViewFactory(BufferedImage basicBallImage, BufferedImage breakableBrickImage,
-                                    BufferedImage unbreakableBrickImage, BufferedImage basicPaddleImage) {
+                                    BufferedImage unbreakableBrickImage, BufferedImage basicPaddleImage,
+                                    GameFieldView view) {
         
+    	_view = view;
         _basicBallImage = basicBallImage;
         _breakableBrickImage = breakableBrickImage;
         _unbreakableBrickImage = unbreakableBrickImage;

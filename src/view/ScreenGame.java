@@ -71,7 +71,7 @@ public class ScreenGame extends GameObject {
 		
 		// Фабрика представлений
 		DefaultObjectViewFactory viewfact = new DefaultObjectViewFactory(basicBallImage, breakableBrickImage,
-		        unbreakableBrickImage, basicPaddleImage);
+		        unbreakableBrickImage, basicPaddleImage, fieldView);
 		
 		// Модель слушает сообщения о коллизиях
 		model = new GameModel();
