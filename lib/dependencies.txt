@@ -1,0 +1,5 @@
+﻿GTGE 0.2.3
+http://goldenstudios.or.id/products/GTGE/#download
+
+Java GEOM 0.11.2
+http://sourceforge.net/projects/geom-java/files/javaGeom/javaGeom-0.11.2/javaGeom-0.11.2.jar/download
