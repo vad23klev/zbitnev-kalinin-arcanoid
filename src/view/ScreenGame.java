@@ -105,6 +105,17 @@ public class ScreenGame extends GameObject {
 		// ЭКСПЕРИМЕНТ
         paddle.addBall(newball);
         
+        // Тестирование столкновения множества шаров
+        BasicBall ball01 = new BasicBall(field, new Point2D.Float((float) 213.3975, 250), 16, new Speed2D(0.043, -0.025));
+        BasicBall ball02 = new BasicBall(field, new Point2D.Float(400, 200), 16, new Speed2D(-0.05, 0));
+        ball01.addDefaultCollisionBehaviour(BehaviourRebound.getInstance());
+        ball02.addDefaultCollisionBehaviour(BehaviourRebound.getInstance());
+        
+        IngameObjectView ball01_view = viewfact.newBasicBallView(ball01);
+        IngameObjectView ball02_view = viewfact.newBasicBallView(ball02);
+        fieldView.addObjectView(ball01_view);
+        fieldView.addObjectView(ball02_view);
+        
         // Инициализация закончена. Спрятать курсор мыши перед началом игры.
         this.hideCursor();
 	}
