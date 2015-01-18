@@ -68,6 +68,8 @@ public class Player {
 	        int actualx;
 	        if (x > p.getField().getSize().width - p.getSize().width) {
 	            actualx = p.getField().getSize().width - p.getSize().width;
+	        } else if (x < 0) {
+	            actualx = 0;
 	        } else {
 	            actualx = x;
 	        }
