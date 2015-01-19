@@ -3,12 +3,13 @@ package model.collision;
 import java.awt.Dimension;
 import java.awt.geom.Point2D;
 
+import com.golden.gamedev.object.collision.CollisionGroup;
+
 import model.IngameObject;
 import model.Speed2D;
 import model.ball.Ball;
 import model.brick.Brick;
 import model.paddle.Paddle;
-
 import math.geom2d.Vector2D;
 
 /**
@@ -47,43 +48,29 @@ public class BehaviourRebound extends CollisionBehaviour {
 		IngameObject fromobj = from.object();
 		if ((fromobj instanceof Brick || fromobj instanceof Paddle) && toobj instanceof Ball) {
 			
-			// Наименьная разница скажет нам о том, с какой гранью кирпича столкнулся шар
-			float uppers = Math.abs(fromobj.getPosition().y 
-					                - (toobj.getPosition().y + toobj.getSize().height));
-			float lowers = Math.abs(fromobj.getPosition().y + fromobj.getSize().height
-									- toobj.getPosition().y);
-			float lefts = Math.abs(fromobj.getPosition().x 
-	                				- (toobj.getPosition().x + toobj.getSize().width));
-			float rights = Math.abs(fromobj.getPosition().x + fromobj.getSize().width
-									- toobj.getPosition().x);
-			
-			Point2D.Float topos = toobj.getPosition();
-			// Столкновение с нижней гранью
-			if (lowers <= uppers && lowers <= lefts && lowers <= rights) {
+			Point2D.Float newpos = to.oldPosition();
+			if (to.collisionSide() == CollidedObject.SIDE_TOP) {
 				
-				topos.y = fromobj.getPosition().y + fromobj.getSize().height;
-				toobj.setPosition(topos);
+				newpos.y = fromobj.getPosition().y - toobj.getSize().height - 1;
+				toobj.setPosition(newpos);
 				toobj.setSpeed(toobj.getSpeed().flipVertical());
 			}
-			// Столкновение с верхней гранью
-			else if (uppers <= lowers && uppers <= lefts && uppers <= rights) {
+			else if (to.collisionSide()  == CollidedObject.SIDE_BOTTOM) {
 				
-				topos.y = fromobj.getPosition().y - toobj.getSize().height;
-				toobj.setPosition(topos);
+				newpos.y = fromobj.getPosition().y + fromobj.getSize().height + 1;
+				toobj.setPosition(newpos);
 				toobj.setSpeed(toobj.getSpeed().flipVertical());
 			}
-			// Столкновение с правой гранью
-			else if (rights <= lowers && rights <= uppers && rights <= lefts) {
+			else if (to.collisionSide() == CollidedObject.SIDE_RIGHT) {
 				
-				topos.x = fromobj.getPosition().x + fromobj.getSize().width;
-				toobj.setPosition(topos);
+				newpos.x = fromobj.getPosition().x + fromobj.getSize().width + 1;
+				toobj.setPosition(newpos);
 				toobj.setSpeed(toobj.getSpeed().flipHorizontal());
 			}
-			// Столкновение с левой гранью
-			else if (lefts <= lowers && lefts <= uppers && lefts <= rights) {
+			else if (to.collisionSide() == CollidedObject.SIDE_LEFT) {
 				
-				topos.x = fromobj.getPosition().x - toobj.getSize().width;
-				toobj.setPosition(topos);
+				newpos.x = fromobj.getPosition().x - toobj.getSize().width;
+				toobj.setPosition(newpos);
 				toobj.setSpeed(toobj.getSpeed().flipHorizontal());
 			}
 		}
