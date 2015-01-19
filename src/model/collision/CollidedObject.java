@@ -1,5 +1,6 @@
 package model.collision;
 
+import java.awt.Shape;
 import java.awt.geom.Point2D;
 import java.awt.geom.Point2D.Float;
 
@@ -18,7 +19,7 @@ public class CollidedObject implements Cloneable {
 	private IngameObject object			= null;
 	private Point2D.Float oldPosition	= null;
 	private int colSide					= -1;
-	private CollisionShape colShape		= null;
+	private Shape colShape				= null;
 	
 	/** 
 	 * С объектом столкнулись сверху
@@ -47,8 +48,7 @@ public class CollidedObject implements Cloneable {
 	 * @param side Сторона объекта, которой он столкнулся
 	 * @param shape Форма объекта
 	 */
-	public CollidedObject(IngameObject object, Point2D.Float oldpos, 
-						  int side, CollisionShape shape) {
+	public CollidedObject(IngameObject object, Point2D.Float oldpos, int side, Shape shape) {
 		
 		if (object == null || oldpos == null || shape == null) {
 			throw new NullPointerException();
@@ -72,7 +72,7 @@ public class CollidedObject implements Cloneable {
 		return colSide;
 	}
 	
-	public CollisionShape collisionShape() {
+	public Shape collisionShape() {
 		return colShape;
 	}
 	

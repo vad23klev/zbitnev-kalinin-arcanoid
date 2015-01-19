@@ -1,6 +1,7 @@
 ﻿package view.collision;
 
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -61,11 +62,18 @@ public class PublishingCollisionManager extends AdvanceCollisionGroup {
 			CollidedObject obj1 = new CollidedObject(
 					((PublishingSprite)s1).getObjectView().getIngameObject(), 
 					new Point2D.Float((float)s1.getOldX(), (float)s1.getOldY()),
-					obj1colside, shape1);
+					obj1colside, new Rectangle2D.Double(shape1.getX(), 
+													    shape1.getY(), 
+													    shape1.getWidth(), 
+													    shape1.getHeight()));
+			
 			CollidedObject obj2 = new CollidedObject(
 					((PublishingSprite)s2).getObjectView().getIngameObject(), 
 					new Point2D.Float((float)s2.getOldX(), (float)s2.getOldY()),
-					obj2colside, shape2);
+					obj2colside, new Rectangle2D.Double(shape2.getX(), 
+						    							shape2.getY(), 
+						    							shape2.getWidth(), 
+						    							shape2.getHeight()));
 			
 			if (!_storage.keySet().contains(obj1)) {
 				_storage.put(obj1, new ArrayList<CollidedObject>());
