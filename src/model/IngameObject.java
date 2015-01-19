@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+import model.collision.CollidedObject;
 import model.collision.CollisionBehaviour;
 import model.collision.SpecialBehaviours;
 import model.interaction.GenericEventListener;
@@ -161,7 +162,7 @@ public abstract class IngameObject implements Cloneable, PositionChangeListener,
 	 * Обрабатывает столкновение с другим объектом.
 	 * @param other Объект, столкнувшийся с данным.
 	 */
-	public void processCollision(IngameObject other) {
+	public void processCollision(CollidedObject other) {
 
 		// Вызываем специализированные коллизии, если таковые имеются
 	    boolean foundSpecial = false;
@@ -170,13 +171,13 @@ public abstract class IngameObject implements Cloneable, PositionChangeListener,
 	    while (i.hasNext()) {
 	        Map.Entry<Class<?>, SpecialBehaviours> entry = (Map.Entry)i.next();
 	        if (entry.getValue().flagCheckDerived) {
-	            if (entry.getKey().isInstance(other)) {
+	            if (entry.getKey().isInstance(other.object())) {
 	                foundSpecial = true;
 	                for (CollisionBehaviour cb : entry.getValue().behaviours) {
 	                    cb.invoke(other, this);
 	                }
 	            }
-	        } else if (entry.getKey().equals(other.getClass())) {
+	        } else if (entry.getKey().equals(other.object().getClass())) {
                 foundSpecial = true;
                 for (CollisionBehaviour cb : entry.getValue().behaviours) {
                     cb.invoke(other, this);

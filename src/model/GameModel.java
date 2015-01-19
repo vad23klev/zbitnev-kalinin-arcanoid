@@ -3,6 +3,7 @@ package model;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import model.collision.CollidedObject;
 import model.interaction.CollisionListener;
 
 /**
@@ -17,7 +18,7 @@ public class GameModel implements CollisionListener {
     
 	@Override
 	public void collisionOccured(
-			HashMap<IngameObject, ArrayList<IngameObject>> storage) {
+			HashMap<CollidedObject, ArrayList<CollidedObject>> storage) {
 		
 		_field.collisionOccured(storage);
 	}

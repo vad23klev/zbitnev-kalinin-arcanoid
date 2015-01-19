@@ -66,4 +66,16 @@ public class CollidedObject implements Cloneable {
 		
 		return clone;
 	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		
+		return this.object.equals(((CollidedObject)(obj)).object);
+	}
+	
+	@Override
+	public int hashCode() {
+		
+		return this.object.hashCode();
+	}
 }

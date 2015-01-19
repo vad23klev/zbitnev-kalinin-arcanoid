@@ -11,6 +11,7 @@ import java.util.Set;
 import view.IngameObjectView;
 import model.ball.Ball;
 import model.ball.BallPositionChangedListener;
+import model.collision.CollidedObject;
 
 /**
  * Модель игрового поля.
@@ -86,27 +87,27 @@ public class GameField implements BallPositionChangedListener {
      * список объектов, с которыми он столкнулся
      */
     public void collisionOccured(
-			HashMap<IngameObject, ArrayList<IngameObject>> storage) {
+			HashMap<CollidedObject, ArrayList<CollidedObject>> storage) {
 		
     	// Вместо объектов, от которых принимается эффект (активные)
     	// передаётся их копия до начала обработки вообще всех столкновений
-    	HashMap<IngameObject, ArrayList<IngameObject>> storage_copy = deepCopyStorage(storage);
+    	HashMap<CollidedObject, ArrayList<CollidedObject>> storage_copy = deepCopyStorage(storage);
     	
-    	Iterator<IngameObject> i, copyi, j, copyj;
+    	Iterator<CollidedObject> i, copyi, j, copyj;
     	i = storage.keySet().iterator();
     	copyi = storage_copy.keySet().iterator();
     	
     	while (i.hasNext() && copyi.hasNext()) {
     		
-    		IngameObject obj1 = i.next();
-    		IngameObject obj1copy = copyi.next();
+    		CollidedObject obj1 = i.next();
+    		CollidedObject obj1copy = copyi.next();
     		j = storage.get(obj1).iterator();
     		copyj = storage_copy.get(obj1copy).iterator();
     		
     		while (j.hasNext() && copyj.hasNext()) {
     			
-    			obj1.processCollision(copyj.next());
-    			j.next().processCollision(obj1copy);
+    			obj1.object().processCollision(copyj.next());
+    			j.next().object().processCollision(obj1copy);
     		}
     	}
 	}
@@ -116,19 +117,19 @@ public class GameField implements BallPositionChangedListener {
      * @param storage Словарь коллизии
      * @return Копия словаря коллизии
      */
-    private HashMap<IngameObject, ArrayList<IngameObject>> deepCopyStorage(
-    		HashMap<IngameObject, ArrayList<IngameObject>> storage) {
+    private HashMap<CollidedObject, ArrayList<CollidedObject>> deepCopyStorage(
+    		HashMap<CollidedObject, ArrayList<CollidedObject>> storage) {
     	
-    	HashMap<IngameObject, ArrayList<IngameObject>> deepcopy = new HashMap<>();
+    	HashMap<CollidedObject, ArrayList<CollidedObject>> deepcopy = new HashMap<>();
     	
     	try {
     		
-    		for (IngameObject key : storage.keySet()) {
+    		for (CollidedObject key : storage.keySet()) {
         		
-        		IngameObject key_copy = (IngameObject) key.clone();
-        		ArrayList<IngameObject> values_copy = new ArrayList<>();
-        		for (IngameObject obj : storage.get(key)) {
-        			values_copy.add((IngameObject)obj.clone());
+        		CollidedObject key_copy = (CollidedObject) key.clone();
+        		ArrayList<CollidedObject> values_copy = new ArrayList<>();
+        		for (CollidedObject obj : storage.get(key)) {
+        			values_copy.add((CollidedObject)obj.clone());
         		}
         		
         		deepcopy.put(key_copy, values_copy);

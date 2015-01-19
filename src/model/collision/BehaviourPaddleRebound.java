@@ -34,13 +34,13 @@ public class BehaviourPaddleRebound extends CollisionBehaviour {
 	}
 	
 	@Override
-	public void invoke(IngameObject from, IngameObject to) {
+	public void invoke(CollidedObject from, IngameObject to) {
 		
-		if (from instanceof Paddle && to instanceof Ball) {
+		if (from.object() instanceof Paddle && to instanceof Ball) {
 		
 			to.setPosition(new Point2D.Float(to.getPosition().x, 
-									 		 from.getPosition().y - to.getSize().height));
-			to.setSpeed(((Paddle)from).getFireSpeed((Ball)to));
+									 		 from.object().getPosition().y - to.getSize().height));
+			to.setSpeed(((Paddle)(from.object())).getFireSpeed((Ball)to));
 		}
 	}
 }

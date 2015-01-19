@@ -3,12 +3,15 @@
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+
 import view.collision.PublishingCollisionManager;
 import model.IngameObject;
 import model.ball.Ball;
 import model.brick.Brick;
+import model.collision.CollidedObject;
 import model.interaction.CollisionListener;
 import model.paddle.Paddle;
+
 import com.golden.gamedev.object.CollisionManager;
 import com.golden.gamedev.object.PlayField;
 import com.golden.gamedev.object.Sprite;
@@ -49,18 +52,18 @@ public class GameFieldView extends PlayField {
 	        ov.update(timeElapsed);
 	    }
 	    
-	    // Проверяем произошедшие коллизии и формируем словарь столкновений
+	    // Формируем словарь столкновений
 	    CollisionManager[] mgrs = this.getCollisionGroups();
-	    HashMap<IngameObject, ArrayList<IngameObject>> collisions = new HashMap<>();
+	    HashMap<CollidedObject, ArrayList<CollidedObject>> collisions = new HashMap<>();
 	    for (int i = 0; i < mgrs.length; i++) {
 	    	
-	    	Map<Sprite, Sprite[]> map = ((PublishingCollisionManager)mgrs[i]).getStorage();
+	    	HashMap<CollidedObject, ArrayList<CollidedObject>> map = 
+	    			((PublishingCollisionManager)mgrs[i]).getCollidedStorage();
 	    	
-	    	// Если словарь столкновений не пуст -- преобразуем спрайты в игровые объекты,
-	    	// формируем один большой словарь столкновений
+	    	// Если словарь столкновений не пуст, формируем один большой словарь столкновений
 	    	if (!map.isEmpty()) {
-	    		HashMap<IngameObject, ArrayList<IngameObject>> strg = processStorage(map);
-	    		attachStorage(collisions, strg);
+	    		attachStorage(collisions, map);
+	    		((PublishingCollisionManager)mgrs[i]).clearCollidedStorage();
 	    	}
 	    }
 	    
@@ -73,7 +76,7 @@ public class GameFieldView extends PlayField {
 	    	}
 	    }
 	}
-	
+
 	/**
 	 * Возвращает группу спрайтов мячей.
 	 * @return Группа спрайтов.
@@ -158,39 +161,15 @@ public class GameFieldView extends PlayField {
     	collisionListners.remove(l);
     }
     
-    /** 
-     * Преобразовать словарь столкновений между спрайтами в словарь столкновений
-     * между игровыми объектами
-     * @param storage Изначальный словарь
-    */
-    private HashMap<IngameObject, ArrayList<IngameObject>> processStorage(
-    		Map<Sprite, Sprite[]> storage) {
-    	
-    	HashMap<IngameObject, ArrayList<IngameObject>> returnStorage = new HashMap<>();
-    	for (Sprite s : storage.keySet()) {
-    		
-    		Sprite[] spriteValues = storage.get(s); 
-    		ArrayList<IngameObject> objectValues = new ArrayList<>();
-    		for (int i = 0; i < spriteValues.length; i++) {
-    			objectValues.add(((PublishingSprite)(spriteValues[i])).getObjectView()
-    					         .getIngameObject());
-    		}
-    		returnStorage.put(((PublishingSprite)s).getObjectView().getIngameObject(),
-    				objectValues);
-    	}
-    	
-    	return returnStorage;
-    }
-    
     /**
      * Копирует сообщения о столкновениях из одного словаря в другой
      * @param to Словарь, который будет дополнен новыми сообщениями
      * @param from Словарь, из которого будут скопированы сообщения
      */
-    private void attachStorage(HashMap<IngameObject, ArrayList<IngameObject>> to,
-    		HashMap<IngameObject, ArrayList<IngameObject>> from) {
+    private void attachStorage(HashMap<CollidedObject, ArrayList<CollidedObject>> to,
+    		HashMap<CollidedObject, ArrayList<CollidedObject>> from) {
     	
-    	for (IngameObject obj : from.keySet()) {
+    	for (CollidedObject obj : from.keySet()) {
     		
     		// Если такого ключа не содержится -- просто добавляем новую запись в словарь
         	// Если такой ключ есть -- копируем значения из списка
@@ -199,7 +178,7 @@ public class GameFieldView extends PlayField {
     		}
     		else {
     			
-    			for (IngameObject listobj : from.get(obj)) {
+    			for (CollidedObject listobj : from.get(obj)) {
     				
     				if (!to.get(obj).contains(listobj)) {
     					to.get(obj).add(listobj);
@@ -213,19 +192,19 @@ public class GameFieldView extends PlayField {
      * Просеять словарь столкновений и удалить дублирующиеся ассоциации
      * @param st Словарь столкновений
      */
-    private HashMap<IngameObject, ArrayList<IngameObject>> 
-    	removeCouplingFromStorage(HashMap<IngameObject, ArrayList<IngameObject>> st) {
+    private HashMap<CollidedObject, ArrayList<CollidedObject>> 
+    	removeCouplingFromStorage(HashMap<CollidedObject, ArrayList<CollidedObject>> st) {
     	
-    	HashMap<IngameObject, ArrayList<IngameObject>> newst = new HashMap<>();
+    	HashMap<CollidedObject, ArrayList<CollidedObject>> newst = new HashMap<>();
     	
-    	for (IngameObject key : st.keySet()) {	
-    		for (IngameObject val : st.get(key)) {
+    	for (CollidedObject key : st.keySet()) {	
+    		for (CollidedObject val : st.get(key)) {
     			
     			// Если в словарь уже не добавлена "обратная" ассоциация
     			if (!newst.containsKey(val) || !newst.get(val).contains(key)) {
     				
     				if (!newst.containsKey(key)) {
-    					newst.put(key, new ArrayList<IngameObject>());
+    					newst.put(key, new ArrayList<CollidedObject>());
     				}
     				newst.get(key).add(val);
     			}
