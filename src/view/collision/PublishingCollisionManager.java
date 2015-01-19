@@ -9,6 +9,7 @@ import view.PublishingSprite;
 
 import com.golden.gamedev.object.Sprite;
 import com.golden.gamedev.object.collision.AdvanceCollisionGroup;
+import com.golden.gamedev.object.collision.CollisionGroup;
 import com.golden.gamedev.object.collision.CollisionShape;
 
 /**
@@ -35,16 +36,36 @@ public class PublishingCollisionManager extends AdvanceCollisionGroup {
 		// Словарь столкновений будет формироваться в процессе детекции коллизий
 		if (retval) {
 		
+			int obj1colside = -1, obj2colside = -1;
+			switch (this.collisionSide) {
+			case CollisionGroup.BOTTOM_TOP_COLLISION:
+				obj1colside = CollidedObject.SIDE_TOP;
+				obj2colside = CollidedObject.SIDE_BOTTOM;
+				break;
+			case CollisionGroup.TOP_BOTTOM_COLLISION:
+				obj1colside = CollidedObject.SIDE_BOTTOM;
+				obj2colside = CollidedObject.SIDE_TOP;
+				break;
+			case CollisionGroup.RIGHT_LEFT_COLLISION:
+				obj1colside = CollidedObject.SIDE_LEFT;
+				obj2colside = CollidedObject.SIDE_RIGHT;
+				break;
+			case CollisionGroup.LEFT_RIGHT_COLLISION:
+				obj1colside = CollidedObject.SIDE_RIGHT;
+				obj2colside = CollidedObject.SIDE_LEFT;
+				break;
+			default:
+				break;
+			}
+			
 			CollidedObject obj1 = new CollidedObject(
 					((PublishingSprite)s1).getObjectView().getIngameObject(), 
 					new Point2D.Float((float)s1.getOldX(), (float)s1.getOldY()),
-					this.collisionSide,
-					shape1);
+					obj1colside, shape1);
 			CollidedObject obj2 = new CollidedObject(
 					((PublishingSprite)s2).getObjectView().getIngameObject(), 
 					new Point2D.Float((float)s2.getOldX(), (float)s2.getOldY()),
-					this.collisionSide,
-					shape2);
+					obj2colside, shape2);
 			
 			if (!_storage.keySet().contains(obj1)) {
 				_storage.put(obj1, new ArrayList<CollidedObject>());

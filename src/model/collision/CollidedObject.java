@@ -15,10 +15,31 @@ import model.IngameObject;
  */
 public class CollidedObject implements Cloneable {
 
-	protected IngameObject object		= null;
-	protected Point2D.Float oldPosition	= null;
-	protected int colSide				= -1;
-	protected CollisionShape colShape	= null;
+	private IngameObject object			= null;
+	private Point2D.Float oldPosition	= null;
+	private int colSide					= -1;
+	private CollisionShape colShape		= null;
+	
+	/** 
+	 * С объектом столкнулись сверху
+	 */
+	public static final int SIDE_TOP		= 0;
+	
+	/** 
+	 * С объектом столкнулись снизу
+	 */
+	public static final int SIDE_BOTTOM	= 1;
+	
+	/** 
+	 * С объектом столкнулись слева
+	 */
+	public static final int SIDE_LEFT		= 2;
+	
+	/** 
+	 * С объектом столкнулись справа
+	 */
+	public static final int SIDE_RIGHT		= 3;
+	
 	/**
 	 * Создать информацию о столкнувшемся игровом объекте
 	 * @param object Игровой объект
