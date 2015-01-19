@@ -106,8 +106,10 @@ public class GameField implements BallPositionChangedListener {
     		
     		while (j.hasNext() && copyj.hasNext()) {
     			
-    			obj1.object().processCollision(copyj.next());
-    			j.next().object().processCollision(obj1copy);
+    			CollidedObject obj2 = j.next();
+    			CollidedObject obj2copy = copyj.next();
+    			obj1.object().processCollision(obj1, obj2copy);
+    			obj2.object().processCollision(obj2, obj1copy);
     		}
     	}
 	}

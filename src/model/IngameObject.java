@@ -160,9 +160,10 @@ public abstract class IngameObject implements Cloneable, PositionChangeListener,
 	
 	/**
 	 * Обрабатывает столкновение с другим объектом.
+	 * @param curr Текущий объект
 	 * @param other Объект, столкнувшийся с данным.
 	 */
-	public void processCollision(CollidedObject other) {
+	public void processCollision(CollidedObject curr, CollidedObject other) {
 
 		// Вызываем специализированные коллизии, если таковые имеются
 	    boolean foundSpecial = false;
@@ -174,13 +175,13 @@ public abstract class IngameObject implements Cloneable, PositionChangeListener,
 	            if (entry.getKey().isInstance(other.object())) {
 	                foundSpecial = true;
 	                for (CollisionBehaviour cb : entry.getValue().behaviours) {
-	                    cb.invoke(other, this);
+	                    cb.invoke(other, curr);
 	                }
 	            }
 	        } else if (entry.getKey().equals(other.object().getClass())) {
                 foundSpecial = true;
                 for (CollisionBehaviour cb : entry.getValue().behaviours) {
-                    cb.invoke(other, this);
+                    cb.invoke(other, curr);
                 }
             }
 	    }
@@ -189,7 +190,7 @@ public abstract class IngameObject implements Cloneable, PositionChangeListener,
 		// Если и она не определена, то ничего не происходит
 	    if (!foundSpecial) {
     		for (CollisionBehaviour cb : defaultColBehaviour) {
-    			cb.invoke(other, this);
+    			cb.invoke(other, curr);
     		}
 	    }
 	}

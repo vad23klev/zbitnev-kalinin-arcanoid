@@ -31,8 +31,8 @@ public class BehaviourDestroy extends CollisionBehaviour {
 	}
 	
 	@Override
-	public void invoke(CollidedObject from, IngameObject to) {
+	public void invoke(CollidedObject from, CollidedObject to) {
 		
-		to.destroy();
+		to.object().destroy();
 	}
 }
