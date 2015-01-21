@@ -25,9 +25,11 @@ public class BasicBallTest {
     @Test(expected = IllegalStateException.class)
     public void testSetRectangleSize() {
         
+        // Задаем различные ширину и высоту.
         ball.setSize(new Dimension(20, 14));
         assertTrue(ball.getSize().width == 20 && ball.getSize().height == 14);
         
+        // Получить радиус не должно быть возможным.
         ball.getRadius(); // Exception expected.
     }
     
@@ -36,9 +38,11 @@ public class BasicBallTest {
         
         ball.setRadius(8);
         
+        // Перемещаем мяч, задавая в качестве ориентира его центр.
         ball.setCenter(new Point2D.Float(20, 30));
         assertTrue(ball.getPosition().x == 12 && ball.getPosition().y == 22);
         
+        // То же самое с различной шириной и высотой.
         ball.setSize(new Dimension(20, 14));
         ball.setCenter(new Point2D.Float(40, 50));
         assertTrue(ball.getPosition().x == 30 && ball.getPosition().y == 43);

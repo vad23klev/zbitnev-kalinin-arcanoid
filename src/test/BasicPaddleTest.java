@@ -20,6 +20,8 @@ public class BasicPaddleTest {
     @Test
     public void testAddBall() {
         
+        // Размещаем мячи вокруг ракетки.
+        
         BasicBall ball1 = new BasicBall(field, new Point2D.Float(10, 0), 8);
         BasicBall ball2 = new BasicBall(field, new Point2D.Float(110, 0), 8);
         BasicBall ball3 = new BasicBall(field, new Point2D.Float(180, 0), 8);
@@ -32,6 +34,9 @@ public class BasicPaddleTest {
         BasicBall ball8  = new BasicBall(field, new Point2D.Float(110, 150), 8);
         BasicBall ball9  = new BasicBall(field, new Point2D.Float(180, 150), 8);
         BasicBall ball10 = new BasicBall(field, new Point2D.Float(220, 150), 8);
+        
+        // Добавляем их на ракетку. Мячи не должны вылазить за ракетку по горизонтали
+        // и должны лежать на ней.
         
         paddle.addBall(ball1);
         assertTrue(ball1.getPosition().x == 100 && ball1.getPosition().y == 84);
@@ -77,6 +82,7 @@ public class BasicPaddleTest {
     @Test
     public void testGetFireSpeed() {
         
+        // Размещаем мячи на ракетке в трех разных зонах.
         BasicBall ball1 = new BasicBall(field, new Point2D.Float(110, 0), 8);
         BasicBall ball2 = new BasicBall(field, new Point2D.Float(140, 0), 8);
         BasicBall ball3 = new BasicBall(field, new Point2D.Float(180, 0), 8);
@@ -86,6 +92,7 @@ public class BasicPaddleTest {
         paddle.addBall(ball2);
         paddle.addBall(ball3);
         
+        // Рассчитываем вектора скорости при запуске мачей с ракетки и проверяем их направления.
         speed = paddle.getFireSpeed(ball1);
         assertTrue(speed.x() < 0 && speed.y() < 0);
         
@@ -103,6 +110,7 @@ public class BasicPaddleTest {
     @Test
     public void fireBalls() {
         
+        // Размещаем мячи на ракетке в трех разных зонах и запускаем их.
         BasicBall ball1 = new BasicBall(field, new Point2D.Float(110, 0), 8);
         BasicBall ball2 = new BasicBall(field, new Point2D.Float(140, 0), 8);
         BasicBall ball3 = new BasicBall(field, new Point2D.Float(180, 0), 8);
@@ -113,6 +121,7 @@ public class BasicPaddleTest {
         
         paddle.fireBalls();
         
+        // Проверяем направления векторов скорости.
         assertTrue(ball1.getSpeed().x() < 0 && ball1.getSpeed().y() < 0);
         assertTrue(Math.abs(ball2.getSpeed().x()) < 0.00001 && ball2.getSpeed().y() < 0);
         assertTrue(ball3.getSpeed().x() > 0 && ball3.getSpeed().y() < 0);
@@ -128,6 +137,7 @@ public class BasicPaddleTest {
         BasicBall ball = new BasicBall(field, new Point2D.Float(140, 0), 8);
         paddle.addBall(ball);
         
+        // Смещаем ракетку и убеждаемся, что мяч переместился вместе с ней.
         paddle.setPosition(new Point2D.Float(10, 150));
         assertTrue(ball.getPosition().x == 50 && ball.getPosition().y == 134);
     }
