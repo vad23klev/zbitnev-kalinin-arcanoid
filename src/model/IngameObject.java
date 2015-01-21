@@ -329,6 +329,15 @@ public abstract class IngameObject implements Cloneable, PositionChangeListener,
 	    }
 	}
 	
+	/**
+	 * Возвращает true, если объект считается уничтоженным.
+	 * @return Уничтожен ли объект.
+	 */
+	public boolean isDestroyed() {
+	    
+	    return _isDestroyed;
+	}
+	
 	//-------------------------------------------------------------------------------------------//
 	
 	@Override
