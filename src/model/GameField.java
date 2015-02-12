@@ -20,8 +20,8 @@ import model.collision.CollidedObject;
  */
 public class GameField implements BallPositionChangedListener {
 
-	private ArrayList<IngameObject> objects;
-	private Dimension dimensions;
+	private ArrayList<IngameObject> _objects;
+	private Dimension _dimensions;
 	
     /**
      * Инициализирует поле заданного размера.
@@ -29,8 +29,8 @@ public class GameField implements BallPositionChangedListener {
      */
     public GameField(Dimension size) {
     	
-    	objects = new ArrayList<>();
-    	dimensions = size;
+    	_objects = new ArrayList<>();
+    	_dimensions = size;
     }
     
 	/**
@@ -39,7 +39,7 @@ public class GameField implements BallPositionChangedListener {
 	 */
 	public void addObject(IngameObject object) {
 		
-		objects.add(object);
+		_objects.add(object);
 	}
 	
 	/**
@@ -48,7 +48,7 @@ public class GameField implements BallPositionChangedListener {
 	 */
 	public void removeObject(IngameObject object) {
 		
-		objects.remove(object);
+		_objects.remove(object);
 	}
 	
 	/** 
@@ -57,7 +57,7 @@ public class GameField implements BallPositionChangedListener {
 	 */
 	public Dimension getSize() {
 		
-		return dimensions;
+		return _dimensions;
 	}
 
 	/**
@@ -71,11 +71,11 @@ public class GameField implements BallPositionChangedListener {
             ball.setSpeed(ball.getSpeed().flipVertical());
         }
         
-        if (ball.getPosition().x < 0 || ball.getPosition().x + ball.getSize().width > dimensions.width) {
+        if (ball.getPosition().x < 0 || ball.getPosition().x + ball.getSize().width > _dimensions.width) {
             if (ball.getPosition().x < 0) {
                 ball.setPosition(new Point2D.Float(0, ball.getPosition().y));
             } else {
-                ball.setPosition(new Point2D.Float(dimensions.width - ball.getSize().width, ball.getPosition().y));
+                ball.setPosition(new Point2D.Float(_dimensions.width - ball.getSize().width, ball.getPosition().y));
             }
             ball.setSpeed(ball.getSpeed().flipHorizontal());
         }

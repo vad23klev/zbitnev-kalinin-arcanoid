@@ -52,13 +52,13 @@ public abstract class Paddle extends IngameObject {
 	protected void fixBallsPosition() {
 	    
 	    for (Ball b : _balls) {
-            b.setPosition(new Point2D.Float(b.getPosition().x, this.position.y - b.getSize().height));
+            b.setPosition(new Point2D.Float(b.getPosition().x, this._position.y - b.getSize().height));
             
-            if (b.getPosition().x < this.position.x) {
-                b.setPosition(new Point2D.Float(this.position.x, b.getPosition().y));
+            if (b.getPosition().x < this._position.x) {
+                b.setPosition(new Point2D.Float(this._position.x, b.getPosition().y));
             }
-            if (b.getPosition().x > this.position.x + this.size.width) {
-                b.setPosition(new Point2D.Float(this.position.x + this.size.width - b.getSize().width, b.getPosition().y));
+            if (b.getPosition().x > this._position.x + this._size.width) {
+                b.setPosition(new Point2D.Float(this._position.x + this._size.width - b.getSize().width, b.getPosition().y));
             }
 	    }
 	}
@@ -88,11 +88,11 @@ public abstract class Paddle extends IngameObject {
     public Speed2D getFireSpeed(Ball ball) {
         
         // Найти два центра расчета вектора.
-        Point2D.Float paddleLeftCenter = new Point2D.Float(this.position.x + (this.size.width / 5) * 2, this.position.y);
-        Point2D.Float paddleRightCenter = new Point2D.Float(this.position.x + (this.size.width / 5) * 3, this.position.y);
+        Point2D.Float paddleLeftCenter = new Point2D.Float(this._position.x + (this._size.width / 5) * 2, this._position.y);
+        Point2D.Float paddleRightCenter = new Point2D.Float(this._position.x + (this._size.width / 5) * 3, this._position.y);
         
         // Центр ракетки
-        Point2D.Float paddleCenter = new Point2D.Float(this.position.x + this.size.width / 2, this.position.y);
+        Point2D.Float paddleCenter = new Point2D.Float(this._position.x + this._size.width / 2, this._position.y);
         
         // Относительные координаты центра мяча в декартовой системе координат (точка B).
         // Считаем, что paddleCenter - это точка A(0, 0).
@@ -100,12 +100,12 @@ public abstract class Paddle extends IngameObject {
                 paddleCenter.y - ball.getPosition().y - ball.getSize().height / 2);
         
         // Если мяч между двумя центрами, направляем вектор вверх.
-        if (relBallCenter.x <= this.size.width / 10 && relBallCenter.x >= -this.size.width / 10) {
+        if (relBallCenter.x <= this._size.width / 10 && relBallCenter.x >= -this._size.width / 10) {
             return new Speed2D(0, -ball.getDefaultSpeedScalar());
         }
         
         // В зависимости от трети ракетки, в которой располагается мяч, выбираем центр расчета вектора скорости.
-        Point2D.Float paddleNewCenter = relBallCenter.x > this.size.width / 10 ? paddleRightCenter : paddleLeftCenter;
+        Point2D.Float paddleNewCenter = relBallCenter.x > this._size.width / 10 ? paddleRightCenter : paddleLeftCenter;
         
         // Рассчитываем относительное положение мяча от выбранного центра.
         relBallCenter = new Point2D.Float(relBallCenter.x + paddleCenter.x - paddleNewCenter.x, relBallCenter.y);
@@ -149,12 +149,12 @@ public abstract class Paddle extends IngameObject {
     @Override
     public void setPosition(Point2D.Float pos) {
         
-        if (this.position == null) {
+        if (this._position == null) {
             super.setPosition(pos);
             
         } else {
-            float dx = pos.x - this.position.x;
-            float dy = pos.y - this.position.y;
+            float dx = pos.x - this._position.x;
+            float dy = pos.y - this._position.y;
             
             super.setPosition(pos);
             

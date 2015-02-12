@@ -19,7 +19,6 @@ import com.golden.gamedev.object.collision.CollisionShape;
  */
 public class PublishingCollisionManager extends AdvanceCollisionGroup {
 
-	private static final Sprite PublishingSprite = null;
 	protected HashMap<CollidedObject, ArrayList<CollidedObject>> _storage = new HashMap<>();
 	
 	@Override

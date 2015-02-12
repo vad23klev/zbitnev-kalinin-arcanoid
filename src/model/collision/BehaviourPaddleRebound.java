@@ -15,7 +15,7 @@ public class BehaviourPaddleRebound extends CollisionBehaviour {
 	/**
 	 * Экзмепляр синглтона.
 	 */
-	private static BehaviourPaddleRebound instance = null;
+	private static BehaviourPaddleRebound _instance = null;
 	
 	protected BehaviourPaddleRebound() {
 	}
@@ -26,11 +26,11 @@ public class BehaviourPaddleRebound extends CollisionBehaviour {
 	 */
 	public static BehaviourPaddleRebound getInstance() {
 		
-		if (instance == null) {
-			instance = new BehaviourPaddleRebound();
+		if (_instance == null) {
+			_instance = new BehaviourPaddleRebound();
 		}
 		
-		return instance;
+		return _instance;
 	}
 	
 	@Override

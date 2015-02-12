@@ -26,11 +26,11 @@ import com.golden.gamedev.object.SpriteGroup;
 public class GameFieldView extends PlayField {
 	
 	private ArrayList<IngameObjectView> _objectViews = new ArrayList<>();
-	private ArrayList<CollisionListener> collisionListners;
+	private ArrayList<CollisionListener> _collisionListners;
 	
 	public GameFieldView() {
 		
-    	collisionListners = new ArrayList<>();
+    	_collisionListners = new ArrayList<>();
 		SpriteGroup balls = new SpriteGroup("balls");
 		SpriteGroup bricks = new SpriteGroup("bricks");
 		SpriteGroup paddles = new SpriteGroup("paddles");
@@ -71,7 +71,7 @@ public class GameFieldView extends PlayField {
 	    if (!collisions.isEmpty()) {
 	    	
 	    	collisions = removeCouplingFromStorage(collisions);
-	    	for (CollisionListener l : collisionListners) {
+	    	for (CollisionListener l : _collisionListners) {
 	    		l.collisionOccured(collisions);
 	    	}
 	    }
@@ -150,7 +150,7 @@ public class GameFieldView extends PlayField {
      * @param l Добавляемый слушатель
      */
     public void addCollisionListener(CollisionListener l) {
-    	collisionListners.add(l);
+    	_collisionListners.add(l);
     }
     
     /**
@@ -158,7 +158,7 @@ public class GameFieldView extends PlayField {
      * @param l Удаляемый слушатель
      */
     public void removeCollisionListener(CollisionListener l) {
-    	collisionListners.remove(l);
+    	_collisionListners.remove(l);
     }
     
     /**

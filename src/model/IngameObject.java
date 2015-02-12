@@ -24,16 +24,16 @@ public abstract class IngameObject implements Cloneable, PositionChangeListener,
     
     protected Boolean _isDestroyed = false;
     
-	protected Point2D.Float position = null;
-	protected Dimension size = null;
-	protected Speed2D speed = null;
-	protected ArrayList<CollisionBehaviour> defaultColBehaviour = new ArrayList<>();
-	protected HashMap<Class<?>, SpecialBehaviours> specialColBehaviours 
+	protected Point2D.Float _position = null;
+	protected Dimension _size = null;
+	protected Speed2D _speed = null;
+	protected ArrayList<CollisionBehaviour> _defaultColBehaviour = new ArrayList<>();
+	protected HashMap<Class<?>, SpecialBehaviours> _specialColBehaviours 
 		= new HashMap<>();
-	protected GameField field = null;
-	protected ArrayList<PositionChangeListener> positionListeners = new ArrayList<>();
-	protected ArrayList<SpeedChangeListener> speedListeners = new ArrayList<>();
-	protected ArrayList<GenericEventListener> geneventListeners = new ArrayList<>();
+	protected GameField _field = null;
+	protected ArrayList<PositionChangeListener> _positionListeners = new ArrayList<>();
+	protected ArrayList<SpeedChangeListener> _speedListeners = new ArrayList<>();
+	protected ArrayList<GenericEventListener> _geneventListeners = new ArrayList<>();
 
 	/**
 	 * Создает игровой объект, координаты (0, 0), нулевая скорость, нулевой размер.
@@ -68,7 +68,7 @@ public abstract class IngameObject implements Cloneable, PositionChangeListener,
 	        throw new NullPointerException();
 	    }
 	    
-	    this.field = field;
+	    this._field = field;
 	    this.setSize(dim);
         this.setPosition(pos);
 	    this.setSpeed(speed);
@@ -80,7 +80,7 @@ public abstract class IngameObject implements Cloneable, PositionChangeListener,
 	 */
 	public GameField getField() {
 	    
-	    return this.field;
+	    return this._field;
 	}
 	
 	/**
@@ -89,7 +89,7 @@ public abstract class IngameObject implements Cloneable, PositionChangeListener,
 	 */
 	public Speed2D getSpeed() {
 
-		return (Speed2D) speed.clone();
+		return (Speed2D) _speed.clone();
 	}
 	
 	/**
@@ -98,9 +98,9 @@ public abstract class IngameObject implements Cloneable, PositionChangeListener,
 	 */
 	public void setSpeed(Speed2D speed) {
 
-		this.speed = speed;
-		for (SpeedChangeListener l : speedListeners) {
-			l.speedChanged(this.speed);
+		this._speed = speed;
+		for (SpeedChangeListener l : _speedListeners) {
+			l.speedChanged(this._speed);
 		}
 	}
 	
@@ -110,7 +110,7 @@ public abstract class IngameObject implements Cloneable, PositionChangeListener,
 	 */
 	public Point2D.Float getPosition() {
 
-		return (Point2D.Float) position.clone();
+		return (Point2D.Float) _position.clone();
 	}
 	
 	/**
@@ -122,9 +122,9 @@ public abstract class IngameObject implements Cloneable, PositionChangeListener,
 	    if (pos == null) {
 	        throw new NullPointerException();
 	    }
-		position = pos;
-		for (PositionChangeListener l : positionListeners) {
-			l.positionChanged(this.position);
+		_position = pos;
+		for (PositionChangeListener l : _positionListeners) {
+			l.positionChanged(this._position);
 		}
 	}
 	
@@ -137,7 +137,7 @@ public abstract class IngameObject implements Cloneable, PositionChangeListener,
 	    if (dim == null) {
 	        throw new NullPointerException();
 	    }
-	    size = dim;
+	    _size = dim;
 	}
 	
 	/**
@@ -146,7 +146,7 @@ public abstract class IngameObject implements Cloneable, PositionChangeListener,
 	 */
 	public Dimension getSize() {
 	    
-	    return (Dimension) size.clone();
+	    return (Dimension) _size.clone();
 	}
 	
 	/**
@@ -168,19 +168,19 @@ public abstract class IngameObject implements Cloneable, PositionChangeListener,
 		// Вызываем специализированные коллизии, если таковые имеются
 	    boolean foundSpecial = false;
 	    
-	    Iterator i = specialColBehaviours.entrySet().iterator();
+	    Iterator i = _specialColBehaviours.entrySet().iterator();
 	    while (i.hasNext()) {
 	        Map.Entry<Class<?>, SpecialBehaviours> entry = (Map.Entry)i.next();
-	        if (entry.getValue().flagCheckDerived) {
+	        if (entry.getValue()._flagCheckDerived) {
 	            if (entry.getKey().isInstance(other.object())) {
 	                foundSpecial = true;
-	                for (CollisionBehaviour cb : entry.getValue().behaviours) {
+	                for (CollisionBehaviour cb : entry.getValue()._behaviours) {
 	                    cb.invoke(other, curr);
 	                }
 	            }
 	        } else if (entry.getKey().equals(other.object().getClass())) {
                 foundSpecial = true;
-                for (CollisionBehaviour cb : entry.getValue().behaviours) {
+                for (CollisionBehaviour cb : entry.getValue()._behaviours) {
                     cb.invoke(other, curr);
                 }
             }
@@ -189,7 +189,7 @@ public abstract class IngameObject implements Cloneable, PositionChangeListener,
 		// Если их нет, тогда вызываем коллизию по умолчанию
 		// Если и она не определена, то ничего не происходит
 	    if (!foundSpecial) {
-    		for (CollisionBehaviour cb : defaultColBehaviour) {
+    		for (CollisionBehaviour cb : _defaultColBehaviour) {
     			cb.invoke(other, curr);
     		}
 	    }
@@ -201,7 +201,7 @@ public abstract class IngameObject implements Cloneable, PositionChangeListener,
 	 */
 	public ArrayList<CollisionBehaviour> getDefaultCollisionBehaviours() {
 		
-		return defaultColBehaviour;
+		return _defaultColBehaviour;
 	}
 	
 	/**
@@ -210,7 +210,7 @@ public abstract class IngameObject implements Cloneable, PositionChangeListener,
 	 */
 	public void addDefaultCollisionBehaviour(CollisionBehaviour behaviour) {
 	
-		defaultColBehaviour.add(behaviour);
+		_defaultColBehaviour.add(behaviour);
 	}
 	
 	/**
@@ -229,7 +229,7 @@ public abstract class IngameObject implements Cloneable, PositionChangeListener,
 	 */
 	public HashMap<Class<?>, SpecialBehaviours> getSpecificCollisionBehaviours() {
 		
-		return specialColBehaviours;
+		return _specialColBehaviours;
 	}
 	
 	/**
@@ -245,14 +245,14 @@ public abstract class IngameObject implements Cloneable, PositionChangeListener,
 			// TODO: Выброс исключения, ибо нечего
 		}
 		
-		if (!specialColBehaviours.containsKey(c)) {
+		if (!_specialColBehaviours.containsKey(c)) {
 			
 			SpecialBehaviours newsb = new SpecialBehaviours(cb);
-			newsb.flagCheckDerived = checkDerived;
-			specialColBehaviours.put(c, newsb);
+			newsb._flagCheckDerived = checkDerived;
+			_specialColBehaviours.put(c, newsb);
 		}
 		else {
-			specialColBehaviours.get(c).behaviours.add(cb);
+			_specialColBehaviours.get(c)._behaviours.add(cb);
 		}
 	}
 	
@@ -277,10 +277,10 @@ public abstract class IngameObject implements Cloneable, PositionChangeListener,
 			// TODO: Выброс исключения, ибо нечего
 		}
 		
-		if (specialColBehaviours.containsKey(c)) {
-			specialColBehaviours.get(c).behaviours.remove(cb);
-			if (specialColBehaviours.get(c).behaviours.isEmpty()) {
-			    specialColBehaviours.remove(c);
+		if (_specialColBehaviours.containsKey(c)) {
+			_specialColBehaviours.get(c)._behaviours.remove(cb);
+			if (_specialColBehaviours.get(c)._behaviours.isEmpty()) {
+			    _specialColBehaviours.remove(c);
 			}
 		}
 	}
@@ -290,7 +290,7 @@ public abstract class IngameObject implements Cloneable, PositionChangeListener,
 	 */
 	public void cleanDefaultCollisionBehaviours() {
 		
-		defaultColBehaviour.clear();
+		_defaultColBehaviour.clear();
 	}
 	
 	/**
@@ -298,7 +298,7 @@ public abstract class IngameObject implements Cloneable, PositionChangeListener,
 	 */
 	public void cleanAllSpecificCollisionBehaviours() {
 		
-		specialColBehaviours.clear();
+		_specialColBehaviours.clear();
 	}
 	
 	/**
@@ -311,8 +311,8 @@ public abstract class IngameObject implements Cloneable, PositionChangeListener,
 			// TODO: Выброс исключения, ибо нечего
 		}
 		
-		if (specialColBehaviours.containsKey(cl)) {
-			specialColBehaviours.remove(cl);
+		if (_specialColBehaviours.containsKey(cl)) {
+			_specialColBehaviours.remove(cl);
 		}
 	}
 	
@@ -323,8 +323,8 @@ public abstract class IngameObject implements Cloneable, PositionChangeListener,
 	public void destroy() {
 		
 	    this._isDestroyed = true;
-	    this.field.removeObject(this);
-	    for (GenericEventListener l : geneventListeners) {
+	    this._field.removeObject(this);
+	    for (GenericEventListener l : _geneventListeners) {
 	    	l.destroyed();
 	    }
 	}
@@ -343,13 +343,13 @@ public abstract class IngameObject implements Cloneable, PositionChangeListener,
 	@Override
 	public void positionChanged(Point2D.Float newpos) {
 		
-	    this.position = newpos;
+	    this._position = newpos;
 	}
 
 	@Override
 	public void speedChanged(Speed2D newspeed) {
 		
-		this.speed = newspeed;
+		this._speed = newspeed;
 	}
 	
 	/**
@@ -357,7 +357,7 @@ public abstract class IngameObject implements Cloneable, PositionChangeListener,
 	 * @param l Новый слушатель.
 	 */
 	public void addPositionChangeListener(PositionChangeListener l) {
-		positionListeners.add(l);
+		_positionListeners.add(l);
 	}
 	
 	/**
@@ -365,7 +365,7 @@ public abstract class IngameObject implements Cloneable, PositionChangeListener,
 	 * @param l Удаляемый слушатель.
 	 */
 	public void removePositionChangeListener(PositionChangeListener l) {
-		positionListeners.remove(l);
+		_positionListeners.remove(l);
 	}
 	
 	/**
@@ -373,7 +373,7 @@ public abstract class IngameObject implements Cloneable, PositionChangeListener,
 	 * @param l Новый слушатель.
 	 */
 	public void addSpeedChangeListener(SpeedChangeListener l) {
-		speedListeners.add(l);
+		_speedListeners.add(l);
 	}
 	
 	/**
@@ -381,7 +381,7 @@ public abstract class IngameObject implements Cloneable, PositionChangeListener,
 	 * @param l Удаляемый слушатель.
 	 */
 	public void removeSpeedChangeListener(SpeedChangeListener l) {
-		speedListeners.remove(l);
+		_speedListeners.remove(l);
 	}
 	
 	/**
@@ -394,7 +394,7 @@ public abstract class IngameObject implements Cloneable, PositionChangeListener,
 			return;
 		}
 
-		geneventListeners.add(l);
+		_geneventListeners.add(l);
 	}
 	
 	/**
@@ -402,7 +402,7 @@ public abstract class IngameObject implements Cloneable, PositionChangeListener,
 	 * @param l Удаляемый слушатель.
 	 */
 	public void removeGenericEventListener(GenericEventListener l) {
-		geneventListeners.remove(l);
+		_geneventListeners.remove(l);
 	}
 	
 	@Override
@@ -410,10 +410,10 @@ public abstract class IngameObject implements Cloneable, PositionChangeListener,
 		
 		IngameObject clone = (IngameObject)super.clone();
 		clone._isDestroyed = this._isDestroyed;
-		clone.field = this.field;    // ссылка на поле просто копируется, да
-		clone.position = (Point2D.Float) this.position.clone();
-		clone.size = (Dimension) this.size.clone();
-		clone.speed = (Speed2D) this.speed.clone();
+		clone._field = this._field;    // ссылка на поле просто копируется, да
+		clone._position = (Point2D.Float) this._position.clone();
+		clone._size = (Dimension) this._size.clone();
+		clone._speed = (Speed2D) this._speed.clone();
 		
 		return clone;
 	}

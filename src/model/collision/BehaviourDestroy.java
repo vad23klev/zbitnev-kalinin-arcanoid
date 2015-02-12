@@ -12,7 +12,7 @@ public class BehaviourDestroy extends CollisionBehaviour {
 	/**
 	 * Экзмепляр синглтона.
 	 */
-	private static BehaviourDestroy instance = null;
+	private static BehaviourDestroy _instance = null;
 	
 	protected BehaviourDestroy() {
 	}
@@ -23,11 +23,11 @@ public class BehaviourDestroy extends CollisionBehaviour {
 	 */
 	public static BehaviourDestroy getInstance() {
 		
-		if (instance == null) {
-			instance = new BehaviourDestroy();
+		if (_instance == null) {
+			_instance = new BehaviourDestroy();
 		}
 		
-		return instance;
+		return _instance;
 	}
 	
 	@Override

@@ -7,8 +7,8 @@ package model;
  */
 public class Speed2D implements Cloneable {
 
-	private double x;
-	private double y;
+	private double _x;
+	private double _y;
 	
 	/**
 	 * Создаёт экземпляр вектора скорости на декартовой плоскости
@@ -16,36 +16,36 @@ public class Speed2D implements Cloneable {
 	 * @param yspeed Компонента вектора по y
 	 */
 	public Speed2D(double xspeed, double yspeed) {
-		x = xspeed;
-		y = yspeed;
+		_x = xspeed;
+		_y = yspeed;
 	}
 	
 	@Override
 	public Object clone() {
 	    
-        return new Speed2D(x, y);
+        return new Speed2D(_x, _y);
 	}
 	
 	@Override
 	public boolean equals(Object other) {
 	    
 	    Speed2D oth = (Speed2D) other;
-	    return oth.x == this.x && oth.y == this.y;
+	    return oth._x == this._x && oth._y == this._y;
 	}
 	
 	public double x() {
-		return x;
+		return _x;
 	}
 	
 	public double y() {
-		return y;
+		return _y;
 	}
 	
 	public Speed2D flipHorizontal() {
-	    return new Speed2D(-x, y);
+	    return new Speed2D(-_x, _y);
 	}
 	
 	public Speed2D flipVertical() {
-	    return new Speed2D(x, -y);
+	    return new Speed2D(_x, -_y);
 	}
 }
