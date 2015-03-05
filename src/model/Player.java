@@ -13,14 +13,14 @@ import model.paddle.Paddle;
  */
 public class Player {
 
-    protected ArrayList<Paddle> paddles = new ArrayList<>();
+    protected ArrayList<Paddle> _paddles = new ArrayList<>();
     
 	/**
 	 * Инициализировать игрока
 	 * @param paddle Подконтрольная игроку ракетка
 	 */
 	public Player(Paddle paddle) {
-		paddles.add(paddle);
+		_paddles.add(paddle);
 	}
 	
 	public Player() {
@@ -33,7 +33,7 @@ public class Player {
 	 */
 	public ArrayList<Paddle> getPaddles() {
 		
-		return (ArrayList<Paddle>) paddles.clone();
+		return (ArrayList<Paddle>) _paddles.clone();
 	}
 	
 	/**
@@ -46,7 +46,7 @@ public class Player {
 	        throw new NullPointerException();
 	    }
 	    
-	    paddles.add(paddle);
+	    _paddles.add(paddle);
 	}
 	
 	/**
@@ -55,7 +55,7 @@ public class Player {
 	 */
 	public void removePaddle(Paddle paddle) {
 		
-	    paddles.remove(paddle);
+	    _paddles.remove(paddle);
 	}
 	
 	/**
@@ -64,7 +64,7 @@ public class Player {
 	 */
 	public void setPaddlesPositionX(int x) {
 		
-	    for (Paddle p : paddles) {
+	    for (Paddle p : _paddles) {
 	        int actualx;
 	        if (x > p.getField().getSize().width - p.getSize().width) {
 	            actualx = p.getField().getSize().width - p.getSize().width;
@@ -84,7 +84,7 @@ public class Player {
 	 */
 	public void movePaddles(Direction dir) {
 		
-	    for (Paddle p : paddles) {
+	    for (Paddle p : _paddles) {
 	        long delta = Math.round(p.getSize().width / 3.0 * 2.0);
 	        delta = dir.equals(Direction.west()) ? -delta : delta;
             if (p.getPosition().x + p.getSize().width + delta > p.getField().getSize().width) {
@@ -102,7 +102,7 @@ public class Player {
 	 */
 	public void firePaddles() {
 	    
-	    for (Paddle p : paddles) {
+	    for (Paddle p : _paddles) {
 	        p.fireBalls();
 	    }
 	}

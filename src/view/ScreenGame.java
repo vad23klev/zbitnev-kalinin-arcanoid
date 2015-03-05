@@ -37,9 +37,9 @@ import controller.GameController;
  */
 public class ScreenGame extends GameObject {
     
-	GameModel model;
-	GameFieldView fieldView;
-	GameController controller;
+	GameModel _model;
+	GameFieldView _fieldView;
+	GameController _controller;
 	
 	public ScreenGame(GameEngine arg0) {
 		super(arg0);
@@ -56,7 +56,7 @@ public class ScreenGame extends GameObject {
 	    BufferedImage basicPaddleImage      = bsLoader.getImage("default/gfx/paddles/basic.png");
 	    
 		// Инициализация представления уровня
-		fieldView = new GameFieldView();
+		_fieldView = new GameFieldView();
 		
 		// Задать фон уровня.
 		BufferedImage fieldBg = new BufferedImage(this.getWidth(), this.getHeight(), BufferedImage.TYPE_INT_ARGB);
@@ -64,19 +64,19 @@ public class ScreenGame extends GameObject {
 		Graphics g = fieldBg.getGraphics();
 		g.setColor(Color.black);
 		g.fillRect(0, 0, this.getWidth(), this.getHeight());
-		fieldView.setBackground(new ImageBackground(fieldBg));
+		_fieldView.setBackground(new ImageBackground(fieldBg));
 		
 		// Инициализация уровня
         GameField field = new GameField(this.bsGraphics.getSize());
 		
 		// Фабрика представлений
 		DefaultObjectViewFactory viewfact = new DefaultObjectViewFactory(basicBallImage, breakableBrickImage,
-		        unbreakableBrickImage, basicPaddleImage, fieldView);
+		        unbreakableBrickImage, basicPaddleImage, _fieldView);
 		
 		// Модель слушает сообщения о коллизиях
-		model = new GameModel();
-		model.setField(field);
-		fieldView.addCollisionListener(model);
+		_model = new GameModel();
+		_model.setField(field);
+		_fieldView.addCollisionListener(_model);
 		
 		// Построение уровня
 		// TODO: Загрузка уровня из файла (пока уровень захардкоден)
@@ -92,15 +92,15 @@ public class ScreenGame extends GameObject {
         IngameObjectView brick3view = viewfact.newUnbreakableBrickView(newbrick3);
         IngameObjectView paddleView = viewfact.newBasicPaddleView(paddle);
         
-        fieldView.addObjectView(ballview);
-        fieldView.addObjectView(brick1view);
-        fieldView.addObjectView(brick2view);
-        fieldView.addObjectView(brick3view);
-        fieldView.addObjectView(paddleView);
+        _fieldView.addObjectView(ballview);
+        _fieldView.addObjectView(brick1view);
+        _fieldView.addObjectView(brick2view);
+        _fieldView.addObjectView(brick3view);
+        _fieldView.addObjectView(paddleView);
         
         // Контроллер и игрок.
         Player player = new Player(paddle);
-        controller = new GameController(player, bsInput);
+        _controller = new GameController(player, bsInput);
 		
 		// ЭКСПЕРИМЕНТ
         paddle.addBall(newball);
@@ -113,8 +113,8 @@ public class ScreenGame extends GameObject {
         
         IngameObjectView ball01_view = viewfact.newBasicBallView(ball01);
         IngameObjectView ball02_view = viewfact.newBasicBallView(ball02);
-        fieldView.addObjectView(ball01_view);
-        fieldView.addObjectView(ball02_view);
+        _fieldView.addObjectView(ball01_view);
+        _fieldView.addObjectView(ball02_view);
         
         // Инициализация закончена. Спрятать курсор мыши перед началом игры.
         this.hideCursor();
@@ -123,7 +123,7 @@ public class ScreenGame extends GameObject {
 	@Override
 	public void render(Graphics2D arg0) {
 
-		fieldView.render(arg0);
+		_fieldView.render(arg0);
 		
 		// TODO: Рендер кол-ва очков, другой инофрмации (сейчас игра на весь экран)
 	}
@@ -132,8 +132,8 @@ public class ScreenGame extends GameObject {
 	public void update(long arg0) {
 		
 		// Апдейтим всё
-		fieldView.update(arg0);
-		controller.update();
+		_fieldView.update(arg0);
+		_controller.update();
 	}
 
 }

@@ -16,10 +16,10 @@ import model.IngameObject;
  */
 public class CollidedObject implements Cloneable {
 
-	private IngameObject object			= null;
-	private Point2D.Float oldPosition	= null;
-	private int colSide					= -1;
-	private Shape colShape				= null;
+	private IngameObject _object = null;
+	private Point2D.Float _oldPosition = null;
+	private int _colSide = -1;
+	private Shape _colShape = null; // TODO Беспредел! Заменить на независимый от представления класс! ~~~ Nikita Kalinin <nixorv@gmail.com>
 	
 	/** 
 	 * С объектом столкнулись сверху
@@ -54,36 +54,36 @@ public class CollidedObject implements Cloneable {
 			throw new NullPointerException();
 		}
 		
-		this.object = object;
-		this.oldPosition = oldpos;
-		this.colSide = side;
-		this.colShape = shape;
+		this._object = object;
+		this._oldPosition = oldpos;
+		this._colSide = side;
+		this._colShape = shape;
 	}
 	
 	public IngameObject object() {
-		return object;
+		return _object;
 	}
 	
 	public Point2D.Float oldPosition() {
-		return oldPosition;
+		return _oldPosition;
 	}
 	
 	public int collisionSide() {
-		return colSide;
+		return _colSide;
 	}
 	
 	public Shape collisionShape() {
-		return colShape;
+		return _colShape;
 	}
 	
 	@Override
 	public Object clone() throws CloneNotSupportedException {
 		
 		CollidedObject clone = (CollidedObject) super.clone();
-		clone.object = (IngameObject) this.object.clone();
-		clone.colSide = this.colSide;
-		clone.colShape = this.colShape;
-		clone.oldPosition = (Float) this.oldPosition.clone();
+		clone._object = (IngameObject) this._object.clone();
+		clone._colSide = this._colSide;
+		clone._colShape = this._colShape;
+		clone._oldPosition = (Float) this._oldPosition.clone();
 		
 		return clone;
 	}
@@ -91,12 +91,12 @@ public class CollidedObject implements Cloneable {
 	@Override
 	public boolean equals(Object obj) {
 		
-		return this.object.equals(((CollidedObject)(obj)).object);
+		return this._object.equals(((CollidedObject)(obj))._object);
 	}
 	
 	@Override
 	public int hashCode() {
 		
-		return this.object.hashCode();
+		return this._object.hashCode();
 	}
 }

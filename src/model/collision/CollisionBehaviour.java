@@ -12,7 +12,7 @@ public class CollisionBehaviour {
 	/**
 	 * Экзмепляр синглтона.
 	 */
-	private static CollisionBehaviour instance = null;
+	private static CollisionBehaviour _instance = null;
 	
 	protected CollisionBehaviour() {
 	}
@@ -23,11 +23,11 @@ public class CollisionBehaviour {
 	 */
 	public static CollisionBehaviour getInstance() {
 		
-		if (instance == null) {
-			instance = new CollisionBehaviour();
+		if (_instance == null) {
+			_instance = new CollisionBehaviour();
 		}
 		
-		return instance;
+		return _instance;
 	}
 	
 	/**

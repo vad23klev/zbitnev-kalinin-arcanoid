@@ -22,16 +22,20 @@ public class PlayerTest {
     @Test
     public void testFire() {
         
+        // Размещаем мяч на ракетке, принадлежащей игроку, просим игрока запустить мячи со всех ракеток.
         BasicBall ball = new BasicBall(fieldModel, new Point2D.Float(20, 20), 8);
         paddle.addBall(ball);
         player.firePaddles();
         
+        // Убеждаемся, что на ракетке нет мяча, а вектор его скорости имеет верное направление.
         assertTrue(paddle.getBalls().isEmpty());
         assertTrue(ball.getSpeed().x() < 0 || ball.getSpeed().y() < 0);
     }
 
     @Test
     public void testSetPositionX() {
+        
+        // Просим игрока переместить ракетку в указанную точку, смотрим, чтобы она не вылезла за поле.
         
         player.setPaddlesPositionX(1);
         assertTrue(paddle.getPosition().x == 1 && paddle.getPosition().y == 84);
@@ -51,6 +55,8 @@ public class PlayerTest {
     
     @Test
     public void testMovePaddles() {
+        
+        // Просим игрока передвинуть ракетку в сторону, смотрим, чтобы она не вылезла за границы поля.
         
         player.movePaddles(Direction.west());
         assertTrue(paddle.getPosition().x == 0 && paddle.getPosition().y == 84);

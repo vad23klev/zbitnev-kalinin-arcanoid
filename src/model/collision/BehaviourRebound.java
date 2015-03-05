@@ -21,7 +21,7 @@ public class BehaviourRebound extends CollisionBehaviour {
 	/**
 	 * Экзмепляр синглтона.
 	 */
-	private static BehaviourRebound instance = null;
+	private static BehaviourRebound _instance = null;
 	
 	protected BehaviourRebound() {
 	}
@@ -32,11 +32,11 @@ public class BehaviourRebound extends CollisionBehaviour {
 	 */
 	public static BehaviourRebound getInstance() {
 		
-		if (instance == null) {
-			instance = new BehaviourRebound();
+		if (_instance == null) {
+			_instance = new BehaviourRebound();
 		}
 		
-		return instance;
+		return _instance;
 	}
 	
 	@Override

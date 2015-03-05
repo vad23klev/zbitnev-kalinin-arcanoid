@@ -21,12 +21,12 @@ public class IngameObjectView
 
     protected final IngameObject ingameObject;
     
-    protected GameFieldView fieldView = null;
-	protected PublishingSprite sprite = null;
-	protected Point2D.Float position = null;
-	protected Speed2D speed = null;
-	protected ArrayList<PositionChangeListener> positionListeners = new ArrayList<>();
-	protected ArrayList<SpeedChangeListener> speedListeners = new ArrayList<>();
+    protected GameFieldView _fieldView = null;
+	protected PublishingSprite _sprite = null;
+	protected Point2D.Float _position = null;
+	protected Speed2D _speed = null;
+	protected ArrayList<PositionChangeListener> _positionListeners = new ArrayList<>();
+	protected ArrayList<SpeedChangeListener> _speedListeners = new ArrayList<>();
 	
 	/**
 	 * Создает представление объекта на основе его модели и спрайта.
@@ -41,13 +41,13 @@ public class IngameObjectView
 	    }
 	    
 	    this.ingameObject = obj;
-	    this.sprite       = sprite;
-	    this.fieldView    = view;
-	    this.position     = obj.getPosition();
-	    this.speed        = obj.getSpeed();
-	    this.sprite.setLocation(position.x, position.y);
-	    this.sprite.setSpeed(this.speed.x(), this.speed.y());
-	    this.sprite.setObjectView(this);
+	    this._sprite       = sprite;
+	    this._fieldView    = view;
+	    this._position     = obj.getPosition();
+	    this._speed        = obj.getSpeed();
+	    this._sprite.setLocation(_position.x, _position.y);
+	    this._sprite.setSpeed(this._speed.x(), this._speed.y());
+	    this._sprite.setObjectView(this);
 	    addPositionChangeListener(obj);
 	    addSpeedChangeListener(obj);
 	    obj.addPositionChangeListener(this);
@@ -61,38 +61,38 @@ public class IngameObjectView
      */
     public void update(long timeElapsed) {
         
-    	sprite.update(timeElapsed);
+    	_sprite.update(timeElapsed);
     	
-    	if (sprite.getX() != this.position.x || sprite.getY() != this.position.y) {
-    	    this.position = new Point2D.Float((float)sprite.getX(), (float)sprite.getY());
-    	    for (PositionChangeListener l : positionListeners) {
-    	        l.positionChanged((Float) this.position.clone());
+    	if (_sprite.getX() != this._position.x || _sprite.getY() != this._position.y) {
+    	    this._position = new Point2D.Float((float)_sprite.getX(), (float)_sprite.getY());
+    	    for (PositionChangeListener l : _positionListeners) {
+    	        l.positionChanged((Float) this._position.clone());
     	    }
     	}
     	
-    	if (sprite.getHorizontalSpeed() != this.speed.x() || sprite.getVerticalSpeed() != this.speed.y()) {
-    	    this.speed = new Speed2D(sprite.getHorizontalSpeed(), sprite.getVerticalSpeed());
-    	    for (SpeedChangeListener l : speedListeners) {
-    	        l.speedChanged((Speed2D) this.speed.clone());
+    	if (_sprite.getHorizontalSpeed() != this._speed.x() || _sprite.getVerticalSpeed() != this._speed.y()) {
+    	    this._speed = new Speed2D(_sprite.getHorizontalSpeed(), _sprite.getVerticalSpeed());
+    	    for (SpeedChangeListener l : _speedListeners) {
+    	        l.speedChanged((Speed2D) this._speed.clone());
     	    }
     	}
     }
     
     public void render(Graphics2D g) {
     	
-    	sprite.render(g);
+    	_sprite.render(g);
     }
     
 	@Override
 	public void positionChanged(Point2D.Float newpos) {
 		
-		sprite.setLocation(newpos.x, newpos.y);
+		_sprite.setLocation(newpos.x, newpos.y);
 	}
 
 	@Override
 	public void speedChanged(Speed2D newspeed) {
 		
-		sprite.setSpeed(newspeed.x(), newspeed.y());
+		_sprite.setSpeed(newspeed.x(), newspeed.y());
 	}
 	
 	/**
@@ -114,7 +114,7 @@ public class IngameObjectView
 			throw new NullPointerException();
 		}
 		
-		this.sprite = sprite;
+		this._sprite = sprite;
 	}
 	
 	/**
@@ -122,7 +122,7 @@ public class IngameObjectView
 	 * @return Спрайт.
 	 */
 	public PublishingSprite getSprite() {
-	    return sprite;
+	    return _sprite;
 	}
 	
 	/**
@@ -130,7 +130,7 @@ public class IngameObjectView
 	 * @param l Новый слушатель
 	 */
 	public void addPositionChangeListener(PositionChangeListener l) {
-		positionListeners.add(l);
+		_positionListeners.add(l);
 	}
 	
 	/**
@@ -138,7 +138,7 @@ public class IngameObjectView
 	 * @param l Удаляемый слушатель
 	 */
 	public void removePositionChangeListener(PositionChangeListener l) {
-		positionListeners.remove(l);
+		_positionListeners.remove(l);
 	}
 	
 	/**
@@ -146,7 +146,7 @@ public class IngameObjectView
 	 * @param l Новый слушатель
 	 */
 	public void addSpeedChangeListener(SpeedChangeListener l) {
-		speedListeners.add(l);
+		_speedListeners.add(l);
 	}
 	
 	/**
@@ -154,11 +154,11 @@ public class IngameObjectView
 	 * @param l Удаляемый слушатель
 	 */
 	public void removeSpeedChangeListener(SpeedChangeListener l) {
-		speedListeners.remove(l);
+		_speedListeners.remove(l);
 	}
 
 	@Override
 	public void destroyed() {
-		this.fieldView.removeObjectView(this);
+		this._fieldView.removeObjectView(this);
 	}
 }

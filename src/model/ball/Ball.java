@@ -39,11 +39,11 @@ public abstract class Ball extends IngameObject {
 	 */
 	public int getRadius() {
 	    
-	    if (this.size.width != this.size.height) {
+	    if (this._size.width != this._size.height) {
 	        throw new IllegalStateException("Dimensions of Ball are not the same.");
 	    }
 	    
-	    return this.size.width;
+	    return this._size.width;
 	}
 	
 	/**
@@ -78,14 +78,14 @@ public abstract class Ball extends IngameObject {
 	public void setPosition(Point2D.Float pos) {
 	    
 	    super.setPosition(pos);
-	    field.ballPositionChanged(this);
+	    _field.ballPositionChanged(this);
 	}
 	
 	@Override
 	public void positionChanged(Point2D.Float newpos) {
 
 	    super.positionChanged(newpos);
-	    field.ballPositionChanged(this);
+	    _field.ballPositionChanged(this);
     }
 	
 	/**
@@ -94,7 +94,7 @@ public abstract class Ball extends IngameObject {
 	 */
 	public void setCenter(Point2D.Float center) {
 		
-		setPosition(new Point2D.Float(center.x - size.width/2, center.y - size.height/2));
+		setPosition(new Point2D.Float(center.x - _size.width/2, center.y - _size.height/2));
 	}
 	
 	/**
@@ -103,8 +103,8 @@ public abstract class Ball extends IngameObject {
 	 */
 	public Point2D.Float getCenter() {
 		
-		return new Point2D.Float(this.position.x + size.width/2, 
-								 this.position.y + size.height/2);
+		return new Point2D.Float(this._position.x + _size.width/2, 
+								 this._position.y + _size.height/2);
 	}
 	
 	@Override

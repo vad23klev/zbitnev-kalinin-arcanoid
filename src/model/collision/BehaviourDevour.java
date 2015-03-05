@@ -11,7 +11,7 @@ public class BehaviourDevour extends CollisionBehaviour {
 	/**
 	 * Экзмепляр синглтона.
 	 */
-	private static BehaviourDevour instance = null;
+	private static BehaviourDevour _instance = null;
 	
 	protected BehaviourDevour() {
 	}
@@ -22,11 +22,11 @@ public class BehaviourDevour extends CollisionBehaviour {
 	 */
 	public static BehaviourDevour getInstance() {
 		
-		if (instance == null) {
-			instance = new BehaviourDevour();
+		if (_instance == null) {
+			_instance = new BehaviourDevour();
 		}
 		
-		return instance;
+		return _instance;
 	}
 	
 	@Override
