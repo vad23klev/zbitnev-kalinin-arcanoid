@@ -1,10 +1,10 @@
-﻿package view;
+package view;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import view.collision.PublishingCollisionManager;
+import model.collision.CollisionManager.PublishingCollisionManager;
 import model.IngameObject;
 import model.ball.Ball;
 import model.brick.Brick;
