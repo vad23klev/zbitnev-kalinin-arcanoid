@@ -1,4 +1,4 @@
-package model.collision.CollisionManager;
+package model.collision.CollisionManagers;
 
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import model.collision.CollidedObject;
-import view.PublishingSprite;
+import view.SpriteGTGE;
 
 import com.golden.gamedev.object.Sprite;
 import com.golden.gamedev.object.collision.AdvanceCollisionGroup;
@@ -59,7 +59,7 @@ public class PublishingCollisionManager extends AdvanceCollisionGroup {
 			}
 			
 			CollidedObject obj1 = new CollidedObject(
-					((PublishingSprite)s1).getObjectView().getIngameObject(), 
+					((SpriteGTGE)s1).getObjectView().getIngameObject(), 
 					new Point2D.Float((float)s1.getOldX(), (float)s1.getOldY()),
 					obj1colside, new Rectangle2D.Double(shape1.getX(), 
 													    shape1.getY(), 
@@ -67,7 +67,7 @@ public class PublishingCollisionManager extends AdvanceCollisionGroup {
 													    shape1.getHeight()));
 			
 			CollidedObject obj2 = new CollidedObject(
-					((PublishingSprite)s2).getObjectView().getIngameObject(), 
+					((SpriteGTGE)s2).getObjectView().getIngameObject(), 
 					new Point2D.Float((float)s2.getOldX(), (float)s2.getOldY()),
 					obj2colside, new Rectangle2D.Double(shape2.getX(), 
 						    							shape2.getY(), 

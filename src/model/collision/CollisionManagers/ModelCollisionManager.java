@@ -1,4 +1,4 @@
-package model.collision.CollisionManager;
+package model.collision.CollisionManagers;
 
 import java.util.HashMap;
 
