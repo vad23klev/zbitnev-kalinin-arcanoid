@@ -169,7 +169,7 @@ public class DefaultObjectViewFactory {
         
         ensure_valid();
         
-        PublishingSprite ballSprite = new PublishingSprite();
+        SpriteGTGE ballSprite = new SpriteGTGE();
         ballSprite.setImage(_basicBallImage);
         
         // Напоминание: этот конструктор сам установит объекты слушателями друг друга.
@@ -187,7 +187,7 @@ public class DefaultObjectViewFactory {
         
         ensure_valid();
         
-        PublishingSprite brickSprite = new PublishingSprite();
+        SpriteGTGE brickSprite = new SpriteGTGE();
         brickSprite.setImage(_breakableBrickImage);
         
         // Напоминание: этот конструктор сам установит объекты слушателями друг друга.
@@ -205,7 +205,7 @@ public class DefaultObjectViewFactory {
         
         ensure_valid();
         
-        PublishingSprite brickSprite = new PublishingSprite();
+        SpriteGTGE brickSprite = new SpriteGTGE();
         brickSprite.setImage(_unbreakableBrickImage);
         
         // Напоминание: этот конструктор сам установит объекты слушателями друг друга.
@@ -223,7 +223,7 @@ public class DefaultObjectViewFactory {
         
         ensure_valid();
         
-        PublishingSprite paddleSprite = new PublishingSprite();
+        SpriteGTGE paddleSprite = new SpriteGTGE();
         paddleSprite.setImage(_basicPaddleImage);
         
         // Напоминание: этот конструктор сам установит объекты слушателями друг друга.

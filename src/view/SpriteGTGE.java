@@ -7,28 +7,28 @@ import com.golden.gamedev.object.Sprite;
  * @author Gregory Zbitnev <zbitnev@hotmail.com>
  *
  */
-public class PublishingSprite extends Sprite {
+public class SpriteGTGE extends Sprite {
 	
-    private IngameObjectView _objectView = null;
+    private SpriteStorageGTGE _storage = null;
     
 	/**
 	 * Задать представление игрового объекта, которому принаджелит спрайт
-	 * @param object Игровой объект
+	 * @param storage Игровой объект
 	 */
-	public void setObjectView(IngameObjectView object) {
+	public void setObjectView(SpriteStorageGTGE storage) {
 	    
-		if (object == null) {
+		if (storage == null) {
 		    throw new NullPointerException();
 		}
-	    _objectView = object;
+	    _storage = storage;
 	}
 	
 	/**
 	 * Получить игровой объект, которому принадлежит спрайт.
 	 * @return Игровой объект.
 	 */
-	public IngameObjectView getObjectView() {
+	public SpriteStorageGTGE getSpriteStorage() {
 		
-		return _objectView;
+		return _storage;
 	}
 }

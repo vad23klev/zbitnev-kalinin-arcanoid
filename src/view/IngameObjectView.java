@@ -20,9 +20,10 @@ public class IngameObjectView
 		implements PositionChangeListener, SpeedChangeListener, GenericEventListener {
 
     protected final IngameObject ingameObject;
+    protected SpriteStorage spriteStorage = null;
     
     protected GameFieldView _fieldView = null;
-	protected PublishingSprite _sprite = null;
+	protected SpriteGTGE _sprite = null;
 	protected Point2D.Float _position = null;
 	protected Speed2D _speed = null;
 	protected ArrayList<PositionChangeListener> _positionListeners = new ArrayList<>();
@@ -34,7 +35,7 @@ public class IngameObjectView
 	 * @param obj Модель игрового объекта.
 	 * @param sprite Спрайт, которым он будет отображен.
 	 */
-	public IngameObjectView(IngameObject obj, PublishingSprite sprite, GameFieldView view) {
+	public IngameObjectView(IngameObject obj, SpriteGTGE sprite, GameFieldView view) {
 	    
 	    if (sprite == null || obj == null) {
 	        throw new NullPointerException();
@@ -108,7 +109,7 @@ public class IngameObjectView
 	 * Добавить спрайт, принадлежащий данному представлению объекта
 	 * @param sprite Добавляемый спрайт
 	 */
-	public void setSprite(PublishingSprite sprite) {
+	public void setSprite(SpriteGTGE sprite) {
 		
 		if (sprite == null) {
 			throw new NullPointerException();
@@ -121,7 +122,7 @@ public class IngameObjectView
 	 * Возвращает спрайт, принадлежащий данному представлению объекта.
 	 * @return Спрайт.
 	 */
-	public PublishingSprite getSprite() {
+	public SpriteGTGE getSprite() {
 	    return _sprite;
 	}
 	
