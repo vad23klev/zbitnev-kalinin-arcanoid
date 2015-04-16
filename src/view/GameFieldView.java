@@ -49,7 +49,7 @@ public class GameFieldView extends PlayField {
 	    
 	    super.update(timeElapsed);
 	    for (IngameObjectView ov : _objectViews) {
-	        ov.update(timeElapsed);
+	        ((SpriteStorageGTGE)ov.getSpriteStorage()).update(timeElapsed);
 	    }
 	    
 	    // Формируем словарь столкновений
@@ -111,12 +111,13 @@ public class GameFieldView extends PlayField {
 	public void addObjectView(IngameObjectView ov) {
 	    
 	    _objectViews.add(ov);
+            SpriteStorageGTGE storage = (SpriteStorageGTGE)ov.getSpriteStorage();
 	    if (ov.getIngameObject() instanceof Ball) {
-	        getBallsGroup().add(ov.getSprite());
+	        getBallsGroup().add(storage.getSprite());
 	    } else if (ov.getIngameObject() instanceof Brick) {
-	        getBricksGroup().add(ov.getSprite());
+	        getBricksGroup().add(storage.getSprite());
 	    } else if (ov.getIngameObject() instanceof Paddle) {
-	        getPaddlesGroup().add(ov.getSprite());
+	        getPaddlesGroup().add(storage.getSprite());
 	    }
 	}
 	
@@ -126,13 +127,14 @@ public class GameFieldView extends PlayField {
 	 */
 	public void removeObjectView(IngameObjectView ov) {
 	    
-	    _objectViews.remove(ov);
-	    if (ov.getIngameObject() instanceof Ball) {
-            getBallsGroup().remove(ov.getSprite());
+	_objectViews.remove(ov);
+        SpriteStorageGTGE storage = (SpriteStorageGTGE)ov.getSpriteStorage();
+	if (ov.getIngameObject() instanceof Ball) {
+            getBallsGroup().remove(storage.getSprite());
         } else if (ov.getIngameObject() instanceof Brick) {
-            getBricksGroup().remove(ov.getSprite());
+            getBricksGroup().remove(storage.getSprite());
         } else if (ov.getIngameObject() instanceof Paddle) {
-            getPaddlesGroup().remove(ov.getSprite());
+            getPaddlesGroup().remove(storage.getSprite());
         }
 	}
 	
