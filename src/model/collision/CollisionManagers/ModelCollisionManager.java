@@ -1,6 +1,7 @@
 package model.collision.CollisionManagers;
 
 import java.util.HashMap;
+import model.IngameObject;
 
 /**
  * Содержит поведение объектов при столкновении.
@@ -10,6 +11,10 @@ public class ModelCollisionManager {
     
     void collisionOcured(HashMap storage){
         //TODO
+    }
+    
+    void boundsCollisionOcured(IngameObject obj){
+        
     }
     
     private HashMap DeepCopyStorage(HashMap storage){
