@@ -15,7 +15,7 @@ public class SpriteGTGE extends Sprite {
 	 * Задать представление игрового объекта, которому принаджелит спрайт
 	 * @param storage Игровой объект
 	 */
-	public void setObjectView(SpriteStorageGTGE storage) {
+	public void setSpriteStorage(SpriteStorageGTGE storage) {
 	    
 		if (storage == null) {
 		    throw new NullPointerException();
