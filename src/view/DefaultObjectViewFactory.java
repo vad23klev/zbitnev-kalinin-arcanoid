@@ -169,8 +169,7 @@ public class DefaultObjectViewFactory {
         
         ensure_valid();
         
-        SpriteGTGE ballSprite = new SpriteGTGE();
-        ballSprite.setImage(_basicBallImage);
+        SpriteStorage ballSprite = createSpriteStorage(_basicBallImage);
         
         // Напоминание: этот конструктор сам установит объекты слушателями друг друга.
         IngameObjectView ballView = new IngameObjectView(ball, ballSprite, _view);
@@ -187,8 +186,7 @@ public class DefaultObjectViewFactory {
         
         ensure_valid();
         
-        SpriteGTGE brickSprite = new SpriteGTGE();
-        brickSprite.setImage(_breakableBrickImage);
+        SpriteStorage brickSprite = createSpriteStorage(_breakableBrickImage);
         
         // Напоминание: этот конструктор сам установит объекты слушателями друг друга.
         IngameObjectView brickView = new IngameObjectView(brick, brickSprite, _view);
@@ -205,8 +203,7 @@ public class DefaultObjectViewFactory {
         
         ensure_valid();
         
-        SpriteGTGE brickSprite = new SpriteGTGE();
-        brickSprite.setImage(_unbreakableBrickImage);
+        SpriteStorage brickSprite = createSpriteStorage(_unbreakableBrickImage);
         
         // Напоминание: этот конструктор сам установит объекты слушателями друг друга.
         IngameObjectView brickView = new IngameObjectView(brick, brickSprite, _view);
@@ -223,12 +220,19 @@ public class DefaultObjectViewFactory {
         
         ensure_valid();
         
-        SpriteGTGE paddleSprite = new SpriteGTGE();
-        paddleSprite.setImage(_basicPaddleImage);
+        SpriteStorage paddleSprite = createSpriteStorage(_basicPaddleImage);
         
         // Напоминание: этот конструктор сам установит объекты слушателями друг друга.
         IngameObjectView paddleView = new IngameObjectView(paddle, paddleSprite, _view);
         
         return paddleView;
+    }
+    
+    public SpriteStorage createSpriteStorage(BufferedImage image) {
+        return new SpriteStorageGTGE(image);
+    }
+    
+    public SpriteStorage createSpriteStorage() {        
+        return new SpriteStorageGTGE();
     }
 }
