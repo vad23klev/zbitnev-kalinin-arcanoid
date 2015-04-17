@@ -2,7 +2,7 @@ package view;
 
 import java.awt.Graphics2D;
 import java.awt.geom.Point2D;
-import java.awt.geom.Point2D.Float;
+import java.awt.geom.Point2D.Double;
 import java.util.ArrayList;
 
 import model.IngameObject;
@@ -41,7 +41,7 @@ public class IngameObjectView
 	    this._ingameObject = obj;
 	    this._spriteStorage = spriteStorage;
 	    this._fieldView    = view;
-	    this._spriteStorage.setPosition(((Point2D.Double)obj.getPosition()));
+	    this._spriteStorage.setPosition(obj.getPosition());
 	    this._spriteStorage.setSpeed((Speed2D)(obj.getSpeed().clone()));
 	    this._spriteStorage.setObjectView(this);
 	    addPositionChangeListener(obj);
@@ -52,7 +52,7 @@ public class IngameObjectView
 	}
     
 	@Override
-	public void positionChanged(Point2D.Float newpos) {
+	public void positionChanged(Point2D.Double newpos) {
 		
 		_spriteStorage.setPosition(new Point2D.Double(newpos.x, newpos.y));
 	}

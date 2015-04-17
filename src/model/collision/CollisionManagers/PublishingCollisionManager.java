@@ -60,7 +60,7 @@ public class PublishingCollisionManager extends AdvanceCollisionGroup {
 			
 			CollidedObject obj1 = new CollidedObject(
 					((SpriteGTGE)s1).getSpriteStorage().getObjectView().getIngameObject(), 
-					new Point2D.Float((float)s1.getOldX(), (float)s1.getOldY()),
+					new Point2D.Double((float)s1.getOldX(), (float)s1.getOldY()),
 					obj1colside, new Rectangle2D.Double(shape1.getX(), 
 													    shape1.getY(), 
 													    shape1.getWidth(), 
@@ -68,7 +68,7 @@ public class PublishingCollisionManager extends AdvanceCollisionGroup {
 			
 			CollidedObject obj2 = new CollidedObject(
 					((SpriteGTGE)s2).getSpriteStorage().getObjectView().getIngameObject(), 
-					new Point2D.Float((float)s2.getOldX(), (float)s2.getOldY()),
+					new Point2D.Double((float)s2.getOldX(), (float)s2.getOldY()),
 					obj2colside, new Rectangle2D.Double(shape2.getX(), 
 						    							shape2.getY(), 
 						    							shape2.getWidth(), 

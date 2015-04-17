@@ -1,7 +1,7 @@
 package model.brick;
 
 import java.awt.Dimension;
-import java.awt.geom.Point2D.Float;
+import java.awt.geom.Point2D.Double;
 
 import model.GameField;
 import model.Speed2D;
@@ -13,12 +13,12 @@ import model.Speed2D;
  */
 public class UnbreakableBrick extends Brick {
 
-	public UnbreakableBrick(GameField field, Float pos, Dimension dim, Speed2D speed) {
+	public UnbreakableBrick(GameField field, Double pos, Dimension dim, Speed2D speed) {
         
 	    super(field, pos, dim, speed);
     }
 
-    public UnbreakableBrick(GameField field, Float pos, Dimension dim) {
+    public UnbreakableBrick(GameField field, Double pos, Dimension dim) {
         
         super(field, pos, dim);
     }
