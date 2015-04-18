@@ -1,8 +1,6 @@
 package model;
 
-import java.awt.Dimension;
 import java.awt.geom.Point2D;
-import java.awt.geom.Point2D.Double;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -25,8 +23,8 @@ public abstract class IngameObject implements Cloneable, PositionChangeListener,
     protected Boolean _isDestroyed = false;
     
 	protected Point2D.Double _position = null;
-	protected Dimension _size = null;
 	protected Speed2D _speed = null;
+        protected Form _form = null;
 	protected ArrayList<CollisionBehaviour> _defaultColBehaviour = new ArrayList<>();
 	protected HashMap<Class<?>, SpecialBehaviours> _specialColBehaviours 
 		= new HashMap<>();
@@ -34,46 +32,16 @@ public abstract class IngameObject implements Cloneable, PositionChangeListener,
 	protected ArrayList<PositionChangeListener> _positionListeners = new ArrayList<>();
 	protected ArrayList<SpeedChangeListener> _speedListeners = new ArrayList<>();
 	protected ArrayList<GenericEventListener> _geneventListeners = new ArrayList<>();
-
-	/**
-	 * Создает игровой объект, координаты (0, 0), нулевая скорость, нулевой размер.
-	 * @param field Игровое поле.
-	 */
-	public IngameObject(GameField field) {
-		
-	    this(field, new Point2D.Double(0, 0), new Dimension(0, 0));
-	}
 	
-	/**
-	 * Создает игровой объект с нулевой скоростью.
-	 * @param field Игровое поле.
-	 * @param pos Позиция объекта.
-	 * @param dim Размеры объекта.
+        /**
+	 * Возвращает форму объекта.
+	 * @return Форма.
 	 */
-	public IngameObject(GameField field, Point2D.Double pos, Dimension dim) {
+	public Form getForm() {
 	    
-	    this(field, pos, dim, new Speed2D(0, 0));
+	    return this._form;
 	}
-	
-	/**
-	 * Создает игровой объект.
-	 * @param field Игровое поле.
-	 * @param pos Позиция объекта.
-	 * @param dim Размеры объекта.
-	 * @param speed Скорость объекта.
-	 */
-	public IngameObject(GameField field, Point2D.Double pos, Dimension dim, Speed2D speed) {
-	    
-	    if (field == null || pos == null || dim == null || speed == null) {
-	        throw new NullPointerException();
-	    }
-	    
-	    this._field = field;
-	    this.setSize(dim);
-            this.setPosition(pos);
-	    this.setSpeed(speed);
-	}
-	
+        
 	/**
 	 * Возвращает поле, на котором находится объект.
 	 * @return Игровое поле.
@@ -89,7 +57,7 @@ public abstract class IngameObject implements Cloneable, PositionChangeListener,
 	 */
 	public Speed2D getSpeed() {
 
-		return (Speed2D) _speed.clone();
+		return this._speed;
 	}
 	
 	/**
@@ -117,7 +85,7 @@ public abstract class IngameObject implements Cloneable, PositionChangeListener,
 	 * Задать позицию.
 	 * @param pos Новая позиция.
 	 */
-	public void setPosition(Point2D.Double pos) {
+	public void setPositionByPoint(Point2D.Double pos) {
 
 	    if (pos == null) {
 	        throw new NullPointerException();
@@ -127,35 +95,14 @@ public abstract class IngameObject implements Cloneable, PositionChangeListener,
 			l.positionChanged(this._position);
 		}
 	}
-	
-	/**
-	 * Задает размер объекта в пикселях.
-	 * @param dim
-	 */
-	public void setSize(Dimension dim) {
-	    
-	    if (dim == null) {
-	        throw new NullPointerException();
-	    }
-	    _size = dim;
-	}
-	
-	/**
-	 * Возвращает размер объекта в пикселях.
-	 * @return
-	 */
-	public Dimension getSize() {
-	    
-	    return (Dimension) _size.clone();
-	}
-	
+
 	/**
 	 * Сдвинуть объект.
 	 * @param delta Величина изменения позиции
 	 */
 	public void move(Point2D.Double delta) {
 		
-		this.setPosition(new Point2D.Double(this.getPosition().x + delta.x, this.getPosition().y + delta.y));
+		this.setPositionByPoint(new Point2D.Double(this.getPosition().x + delta.x, this.getPosition().y + delta.y));
 	}
 	
 	/**
@@ -412,7 +359,7 @@ public abstract class IngameObject implements Cloneable, PositionChangeListener,
 		clone._isDestroyed = this._isDestroyed;
 		clone._field = this._field;    // ссылка на поле просто копируется, да
 		clone._position = (Point2D.Double) this._position.clone();
-		clone._size = (Dimension) this._size.clone();
+		clone._form = this._form;
 		clone._speed = (Speed2D) this._speed.clone();
 		
 		return clone;

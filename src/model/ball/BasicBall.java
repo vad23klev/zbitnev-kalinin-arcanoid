@@ -18,12 +18,12 @@ public class BasicBall extends Ball implements CanBeInSwarm {
 	    super(field);
 	}
 
-	public BasicBall(GameField field, Point2D.Double pos, int radius) {
+	public BasicBall(GameField field, Point2D.Double pos, Double radius) {
 	    
 	    super(field, pos, radius);
 	}
 	
-	public BasicBall(GameField field, Point2D.Double pos, int radius, Speed2D speed) {
+	public BasicBall(GameField field, Point2D.Double pos, Double radius, Speed2D speed) {
 	    
 	    super(field, pos, radius, speed);
 	}

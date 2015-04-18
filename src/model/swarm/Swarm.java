@@ -11,7 +11,11 @@ import model.IngameObject;
 public class Swarm extends IngameObject {
 
 	public Swarm(GameField field) {
-		super(field);
+            
+            if (field == null) {
+	        throw new NullPointerException();
+	    }
+	    this._field = field;
 	}
 	
 	public void devour(CanBeInSwarm obj) {
