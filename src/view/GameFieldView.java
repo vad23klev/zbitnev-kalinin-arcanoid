@@ -61,30 +61,6 @@ public class GameFieldView extends PlayField {
 	    for (IngameObjectView ov : _objectViews) {
 	        ((SpriteStorageGTGE)ov.getSpriteStorage()).update(timeElapsed);
 	    }
-	    
-	    // Формируем словарь столкновений
-	    CollisionManager[] mgrs = this.getCollisionGroups();
-	    HashMap<CollidedObject, ArrayList<CollidedObject>> collisions = new HashMap<>();
-	    for (int i = 0; i < mgrs.length; i++) {
-	    	
-	    	HashMap<CollidedObject, ArrayList<CollidedObject>> map = 
-	    			((PublishingCollisionManager)mgrs[i]).getCollidedStorage();
-	    	
-	    	// Если словарь столкновений не пуст, формируем один большой словарь столкновений
-	    	if (!map.isEmpty()) {
-	    		attachStorage(collisions, map);
-	    		((PublishingCollisionManager)mgrs[i]).clearCollidedStorage();
-	    	}
-	    }
-	    
-	    // Если столкновения произошли -- посылаем сигнал модели
-	    if (!collisions.isEmpty()) {
-	    	
-	    	collisions = removeCouplingFromStorage(collisions);
-	    	for (CollisionListener l : _collisionListners) {
-	    		l.collisionOccured(collisions);
-	    	}
-	    }
 	}
 
 	/**
@@ -198,31 +174,5 @@ public class GameFieldView extends PlayField {
     			}
     		}
     	}
-    }
-    
-    /**
-     * Просеять словарь столкновений и удалить дублирующиеся ассоциации
-     * @param st Словарь столкновений
-     */
-    private HashMap<CollidedObject, ArrayList<CollidedObject>> 
-    	removeCouplingFromStorage(HashMap<CollidedObject, ArrayList<CollidedObject>> st) {
-    	
-    	HashMap<CollidedObject, ArrayList<CollidedObject>> newst = new HashMap<>();
-    	
-    	for (CollidedObject key : st.keySet()) {	
-    		for (CollidedObject val : st.get(key)) {
-    			
-    			// Если в словарь уже не добавлена "обратная" ассоциация
-    			if (!newst.containsKey(val) || !newst.get(val).contains(key)) {
-    				
-    				if (!newst.containsKey(key)) {
-    					newst.put(key, new ArrayList<CollidedObject>());
-    				}
-    				newst.get(key).add(val);
-    			}
-    		}
-    	}
-    	
-    	return newst;
     }
 }
