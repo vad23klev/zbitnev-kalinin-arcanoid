@@ -26,10 +26,12 @@ public class SpriteStorageGTGE implements SpriteStorage {
 	}
         this._sprite = new SpriteGTGE();
         this._sprite.setImage(image);
+        this._sprite.setSpriteStorage(this);
     }
     
     public SpriteStorageGTGE() {
         this._sprite = new SpriteGTGE();
+        this._sprite.setSpriteStorage(this);
     }
     @Override
     public Speed2D getSpeed() {

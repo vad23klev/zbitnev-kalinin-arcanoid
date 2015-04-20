@@ -37,7 +37,7 @@ public class IngameObjectView
 	    if (spriteStorage == null || obj == null) {
 	        throw new NullPointerException();
 	    }
-	    
+	    spriteStorage.setObjectView(this);
 	    this._ingameObject = obj;
 	    this._spriteStorage = spriteStorage;
 	    this._fieldView    = view;
