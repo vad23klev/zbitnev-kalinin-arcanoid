@@ -1,7 +1,9 @@
 package model.collision.CollisionManagers;
 
+import com.golden.gamedev.object.Background;
 import com.golden.gamedev.object.Sprite;
 import com.golden.gamedev.object.collision.CollisionBounds;
+import model.Direction;
 import view.SpriteGTGE;
 
 /**
@@ -11,19 +13,32 @@ import view.SpriteGTGE;
 public class PublishingCollisionBoundsManager extends CollisionBounds{
     protected ModelCollisionManager _modelmanager;
 
-    public PublishingCollisionBoundsManager(int i, int i1, int i2, int i3) {
-        super(i, i1, i2, i3);
+    public PublishingCollisionBoundsManager(Background back, ModelCollisionManager manager) {
+        super(back);
+        if (manager == null || back == null) {
+                throw new NullPointerException();
+        }
+        _modelmanager = manager;
     }
 
     @Override
     public void collided(Sprite sprite) {   
-        _modelmanager.boundsCollisionOcured(((SpriteGTGE)sprite).getSpriteStorage().getObjectView().getIngameObject());
-    }
-    
-    public void setModelCollisionManager(ModelCollisionManager manager) {
-        if (manager == null) {
-                throw new NullPointerException();
+        Direction direction;
+        if (isCollisionSide(RIGHT_COLLISION)) {
+            direction = Direction.east();
+            _modelmanager.boundsCollisionOcured(((SpriteGTGE)sprite).getSpriteStorage().getObjectView().getIngameObject(), direction);
         }
-        _modelmanager = manager;
+        if (isCollisionSide(TOP_COLLISION)) {
+            direction = Direction.north();
+            _modelmanager.boundsCollisionOcured(((SpriteGTGE)sprite).getSpriteStorage().getObjectView().getIngameObject(), direction);
+        }
+        if (isCollisionSide(LEFT_COLLISION)) {
+            direction = Direction.west();
+            _modelmanager.boundsCollisionOcured(((SpriteGTGE)sprite).getSpriteStorage().getObjectView().getIngameObject(), direction);
+        }
+        if (isCollisionSide(BOTTOM_COLLISION)){
+            direction = Direction.south();
+            _modelmanager.boundsCollisionOcured(((SpriteGTGE)sprite).getSpriteStorage().getObjectView().getIngameObject(), direction);
+        }
     }
 }
