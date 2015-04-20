@@ -16,6 +16,7 @@ import model.collision.SpecialBehaviours;
 public class ModelCollisionManager {
     
     void collisionOcured(HashMap storage){
+        storage = this.removeCouplingFromStorage(storage);
         Iterator i = storage.entrySet().iterator();
 	while (i.hasNext()) {
             Map.Entry<CollidedObject, ArrayList<CollidedObject>> entry = (Map.Entry)i.next();
@@ -44,5 +45,28 @@ public class ModelCollisionManager {
     
     private void fixBallPosition(){
         //TODO
+    }
+        /**
+     * Просеять словарь столкновений и удалить дублирующиеся ассоциации
+     * @param st Словарь столкновений
+     */
+    private HashMap<CollidedObject, ArrayList<CollidedObject>>
+        removeCouplingFromStorage(HashMap<CollidedObject, ArrayList<CollidedObject>> st) {
+
+        HashMap<CollidedObject, ArrayList<CollidedObject>> newst = new HashMap<>();
+
+        for (CollidedObject key : st.keySet()) {
+            for (CollidedObject val : st.get(key)) {
+                // Если в словарь уже не добавлена "обратная" ассоциация
+                if (!newst.containsKey(val) || !newst.get(val).contains(key)) {
+                    if (!newst.containsKey(key)) {
+                        newst.put(key, new ArrayList<CollidedObject>());
+                    }
+                    newst.get(key).add(val);
+                }
+            }
+        }
+
+        return newst;
     }
 }
