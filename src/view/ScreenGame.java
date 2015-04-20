@@ -56,7 +56,7 @@ public class ScreenGame extends GameObject {
 	    BufferedImage basicPaddleImage      = bsLoader.getImage("default/gfx/paddles/basic.png");
 	    
 		// Инициализация представления уровня
-		_fieldView = new GameFieldView();
+		_fieldView = new GameFieldView(this.bsGraphics.getSize());
 		
 		// Задать фон уровня.
 		BufferedImage fieldBg = new BufferedImage(this.getWidth(), this.getHeight(), BufferedImage.TYPE_INT_ARGB);
@@ -67,7 +67,7 @@ public class ScreenGame extends GameObject {
 		_fieldView.setBackground(new ImageBackground(fieldBg));
 		
 		// Инициализация уровня
-        GameField field = new GameField(this.bsGraphics.getSize());
+                GameField field = new GameField(this.bsGraphics.getSize());
 		
 		// Фабрика представлений
 		DefaultObjectViewFactory viewfact = new DefaultObjectViewFactory(basicBallImage, breakableBrickImage,

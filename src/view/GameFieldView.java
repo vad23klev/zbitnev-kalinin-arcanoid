@@ -16,6 +16,11 @@ import com.golden.gamedev.object.CollisionManager;
 import com.golden.gamedev.object.PlayField;
 import com.golden.gamedev.object.Sprite;
 import com.golden.gamedev.object.SpriteGroup;
+import com.golden.gamedev.object.background.ColorBackground;
+import java.awt.Color;
+import java.awt.Dimension;
+import model.collision.CollisionManagers.ModelCollisionManager;
+import model.collision.CollisionManagers.PublishingCollisionBoundsManager;
 
 /**
  * Игровое поле арканоида. Содержит все обекты игры, ответственнен за обновление, рендеринг и
@@ -28,20 +33,25 @@ public class GameFieldView extends PlayField {
 	private ArrayList<IngameObjectView> _objectViews = new ArrayList<>();
 	private ArrayList<CollisionListener> _collisionListners;
 	
-	public GameFieldView() {
+	public GameFieldView(Dimension dim) {
 		
-    	_collisionListners = new ArrayList<>();
-		SpriteGroup balls = new SpriteGroup("balls");
-		SpriteGroup bricks = new SpriteGroup("bricks");
-		SpriteGroup paddles = new SpriteGroup("paddles");
-		this.addGroup(balls);
-		this.addGroup(bricks);
-		this.addGroup(paddles);
-		
-		// Добавить на поле менеджеры коллизий для обработки столкновений
-		this.addCollisionGroup(balls, paddles, new PublishingCollisionManager());
-		this.addCollisionGroup(balls, bricks, new PublishingCollisionManager());
-		this.addCollisionGroup(balls, balls, new PublishingCollisionManager());
+            _collisionListners = new ArrayList<>();
+            SpriteGroup balls = new SpriteGroup("balls");
+            SpriteGroup bricks = new SpriteGroup("bricks");
+            SpriteGroup paddles = new SpriteGroup("paddles");
+            this.addGroup(balls);
+            this.addGroup(bricks);
+            this.addGroup(paddles);
+
+            // Добавить на поле менеджеры коллизий для обработки столкновений
+            ModelCollisionManager manager = new ModelCollisionManager();
+            this.addCollisionGroup(balls, paddles, new PublishingCollisionManager(manager));
+            this.addCollisionGroup(balls, bricks, new PublishingCollisionManager(manager));
+            this.addCollisionGroup(balls, balls, new PublishingCollisionManager(manager));
+            this.addCollisionGroup(balls, null, new PublishingCollisionBoundsManager(
+                    new ColorBackground(Color.white, ((int)dim.getWidth()), ((int)dim.getHeight())), manager));
+            this.addCollisionGroup(paddles, null, new PublishingCollisionBoundsManager(
+                    new ColorBackground(Color.white, ((int)dim.getWidth()), ((int)dim.getHeight())), manager));
 	}
 
 	@Override
