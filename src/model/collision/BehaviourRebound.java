@@ -8,6 +8,7 @@ import model.ball.Ball;
 import model.brick.Brick;
 import model.paddle.Paddle;
 import math.geom2d.Vector2D;
+import model.Rectangle;
 import model.Round;
 
 /**
@@ -55,13 +56,13 @@ public class BehaviourRebound extends CollisionBehaviour {
                     }
                     else if (to.collisionSide()  == CollidedObject.SIDE_BOTTOM) {
 
-                            newpos.y = fromobj.getPosition().y + ((Round)fromobj.getForm()).getRadius() * 2 + 1;
+                            newpos.y = fromobj.getPosition().y + ((Rectangle)fromobj.getForm()).getHeight() + 1;
                             toobj.setPositionByPoint(newpos);
                             toobj.setSpeed(toobj.getSpeed().flipVertical());
                     }
                     else if (to.collisionSide() == CollidedObject.SIDE_RIGHT) {
 
-                            newpos.x = fromobj.getPosition().x + ((Round)fromobj.getForm()).getRadius() * 2 + 1;
+                            newpos.x = fromobj.getPosition().x + ((Rectangle)fromobj.getForm()).getWidth() + 1;
                             toobj.setPositionByPoint(newpos);
                             toobj.setSpeed(toobj.getSpeed().flipHorizontal());
                     }
