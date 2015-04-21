@@ -165,14 +165,14 @@ public class DefaultObjectViewFactory {
      * @param ball Модель мяча.
      * @return Представление мяча.
      */
-    public IngameObjectView newBasicBallView(BasicBall ball) {
+    public IngameObjectView newBasicBallView() {
         
         ensure_valid();
         
         SpriteStorage ballSprite = createSpriteStorage(_basicBallImage);
         
         // Напоминание: этот конструктор сам установит объекты слушателями друг друга.
-        IngameObjectView ballView = new IngameObjectView(ball, ballSprite, _view);
+        IngameObjectView ballView = new IngameObjectView(ballSprite, _view);
         
         return ballView;
     }
@@ -182,14 +182,14 @@ public class DefaultObjectViewFactory {
      * @param brick Разрушаемый кирпич.
      * @return Представление разрушаемого кирпича.
      */
-    public IngameObjectView newBreakableBrickView(BreakableBrick brick) {
+    public IngameObjectView newBreakableBrickView() {
         
         ensure_valid();
         
         SpriteStorage brickSprite = createSpriteStorage(_breakableBrickImage);
         
         // Напоминание: этот конструктор сам установит объекты слушателями друг друга.
-        IngameObjectView brickView = new IngameObjectView(brick, brickSprite, _view);
+        IngameObjectView brickView = new IngameObjectView(brickSprite, _view);
         
         return brickView;
     }
@@ -199,14 +199,14 @@ public class DefaultObjectViewFactory {
      * @param brick Неразрушаемый кирпич.
      * @return Представление неразрушаемого кирпича.
      */
-    public IngameObjectView newUnbreakableBrickView(UnbreakableBrick brick) {
+    public IngameObjectView newUnbreakableBrickView() {
         
         ensure_valid();
         
         SpriteStorage brickSprite = createSpriteStorage(_unbreakableBrickImage);
         
         // Напоминание: этот конструктор сам установит объекты слушателями друг друга.
-        IngameObjectView brickView = new IngameObjectView(brick, brickSprite, _view);
+        IngameObjectView brickView = new IngameObjectView(brickSprite, _view);
         
         return brickView;
     }
@@ -216,14 +216,14 @@ public class DefaultObjectViewFactory {
      * @param brick Ракетка.
      * @return Представление простой ракетки.
      */
-    public IngameObjectView newBasicPaddleView(BasicPaddle paddle) {
+    public IngameObjectView newBasicPaddleView() {
         
         ensure_valid();
         
         SpriteStorage paddleSprite = createSpriteStorage(_basicPaddleImage);
         
         // Напоминание: этот конструктор сам установит объекты слушателями друг друга.
-        IngameObjectView paddleView = new IngameObjectView(paddle, paddleSprite, _view);
+        IngameObjectView paddleView = new IngameObjectView(paddleSprite, _view);
         
         return paddleView;
     }

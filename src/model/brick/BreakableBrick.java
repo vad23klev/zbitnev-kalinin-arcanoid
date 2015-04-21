@@ -7,6 +7,7 @@ import java.awt.geom.Point2D.Double;
 import model.GameField;
 import model.Speed2D;
 import model.collision.BehaviourDestroy;
+import view.IngameObjectView;
 
 /**
  * Модель разрушаемого кирпича.
@@ -15,22 +16,22 @@ import model.collision.BehaviourDestroy;
  */
 public class BreakableBrick extends Brick {
 
-	public BreakableBrick(GameField field) {
+	public BreakableBrick(GameField field, IngameObjectView view) {
 		
-	    this(field, new Point2D.Double(0, 0), new Dimension(0, 0));
+	    this(field, view, new Point2D.Double(0, 0), new Dimension(0, 0));
 	}
 	
 
-	public BreakableBrick(GameField field, Double pos, Dimension dim, Speed2D speed) {
+	public BreakableBrick(GameField field, IngameObjectView view, Double pos, Dimension dim, Speed2D speed) {
         
-	    super(field, pos, dim, speed);
+	    super(field, view, pos, dim, speed);
 	    this.addDefaultCollisionBehaviour(BehaviourDestroy.getInstance());
     }
 
 
-    public BreakableBrick(GameField field, Double pos, Dimension dim) {
+    public BreakableBrick(GameField field, IngameObjectView view, Double pos, Dimension dim) {
         
-        this(field, pos, dim, new Speed2D(0, 0));
+        this(field, view, pos, dim, new Speed2D(0, 0));
     }
 
 

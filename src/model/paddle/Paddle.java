@@ -10,6 +10,7 @@ import model.Rectangle;
 import model.Round;
 import model.Speed2D;
 import model.ball.Ball;
+import view.IngameObjectView;
 
 /**
  * Модель абстрактной ракетки.
@@ -24,9 +25,9 @@ public abstract class Paddle extends IngameObject {
      * Создает игровой объект, координаты (0, 0), нулевая скорость, нулевой размер.
      * @param field Игровое поле.
      */
-    public Paddle(GameField field) {
+    public Paddle(GameField field, IngameObjectView view) {
 
-        this(field, new Point2D.Double(0.0, 0.0));
+        this(field, view, new Point2D.Double(0.0, 0.0));
     }
 
     /**
@@ -35,9 +36,9 @@ public abstract class Paddle extends IngameObject {
      * @param pos Позиция объекта.
      * @param dim Размеры объекта.
      */
-    public Paddle(GameField field, Point2D.Double pos) {
+    public Paddle(GameField field, IngameObjectView view, Point2D.Double pos) {
 
-        this(field, pos, new Dimension(0, 0));
+        this(field, view, pos, new Dimension(0, 0));
     }
 
     /**
@@ -46,14 +47,16 @@ public abstract class Paddle extends IngameObject {
      * @param pos Позиция объекта.
      * @param rad Радиус объекта.
      */
-    public Paddle(GameField field, Point2D.Double pos, Dimension dim) {
+    public Paddle(GameField field, IngameObjectView view, Point2D.Double pos, Dimension dim) {
 
-        if (field == null || pos == null || dim == null) {
+        if (field == null || pos == null || dim == null || view == null) {
             throw new NullPointerException();
         }
 
         this._field = field;
         this._form = new Rectangle(pos, dim);
+        view.setObject(this);
+        this._view = view;
         this.setPositionByPoint(pos);
     }
 

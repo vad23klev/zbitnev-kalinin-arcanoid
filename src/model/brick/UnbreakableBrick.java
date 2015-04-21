@@ -5,6 +5,7 @@ import java.awt.geom.Point2D.Double;
 
 import model.GameField;
 import model.Speed2D;
+import view.IngameObjectView;
 
 /**
  * Модель неразрушаемого кирпича.
@@ -13,19 +14,19 @@ import model.Speed2D;
  */
 public class UnbreakableBrick extends Brick {
 
-	public UnbreakableBrick(GameField field, Double pos, Dimension dim, Speed2D speed) {
+	public UnbreakableBrick(GameField field, IngameObjectView view, Double pos, Dimension dim, Speed2D speed) {
         
-	    super(field, pos, dim, speed);
+	    super(field, view, pos, dim, speed);
     }
 
-    public UnbreakableBrick(GameField field, Double pos, Dimension dim) {
+    public UnbreakableBrick(GameField field, IngameObjectView view, Double pos, Dimension dim) {
         
-        super(field, pos, dim);
+        super(field, view, pos, dim);
     }
 
-    public UnbreakableBrick(GameField field) {
+    public UnbreakableBrick(GameField field, IngameObjectView view) {
 		
-        super(field);
+        super(field, view);
 	}
     
     @Override

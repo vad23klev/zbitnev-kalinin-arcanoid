@@ -12,6 +12,7 @@ import model.collision.SpecialBehaviours;
 import model.interaction.GenericEventListener;
 import model.interaction.PositionChangeListener;
 import model.interaction.SpeedChangeListener;
+import view.IngameObjectView;
 
 /**
  * Класс игрового объекта.
@@ -23,7 +24,7 @@ public abstract class IngameObject implements Cloneable, PositionChangeListener,
     protected Boolean _isDestroyed = false;
     
 	protected Point2D.Double _position = null;
-	protected Speed2D _speed = null;
+	protected IngameObjectView _view = null;
         protected Form _form = null;
 	protected ArrayList<CollisionBehaviour> _defaultColBehaviour = new ArrayList<>();
 	protected HashMap<Class<?>, SpecialBehaviours> _specialColBehaviours 
@@ -57,19 +58,26 @@ public abstract class IngameObject implements Cloneable, PositionChangeListener,
 	 */
 	public Speed2D getSpeed() {
 
-		return this._speed;
+		return this._view.getSpeed();
 	}
 	
+        public void setView(IngameObjectView view) {
+            if (view == null) {
+	        throw new NullPointerException();
+	    }
+            this._view = view;
+        }
 	/**
 	 * Установить скорость.
 	 * @param speed Новая скорость.
 	 */
 	public void setSpeed(Speed2D speed) {
 
-		this._speed = speed;
+		this._view.setSpeed(speed);
+                /*
 		for (SpeedChangeListener l : _speedListeners) {
 			l.speedChanged(this._speed);
-		}
+		}*/
 	}
 	
 	/**
@@ -296,7 +304,7 @@ public abstract class IngameObject implements Cloneable, PositionChangeListener,
 	@Override
 	public void speedChanged(Speed2D newspeed) {
 		
-		this._speed = newspeed;
+		this._view.setSpeed(newspeed);
 	}
 	
 	/**
@@ -360,7 +368,7 @@ public abstract class IngameObject implements Cloneable, PositionChangeListener,
 		clone._field = this._field;    // ссылка на поле просто копируется, да
 		clone._position = (Point2D.Double) this._position.clone();
 		clone._form = this._form;
-		clone._speed = (Speed2D) this._speed.clone();
+		clone._view = (IngameObjectView) this._view.clone();
 		
 		return clone;
 	}

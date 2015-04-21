@@ -5,6 +5,7 @@ import java.awt.geom.Point2D;
 import model.GameField;
 import model.Speed2D;
 import model.swarm.CanBeInSwarm;
+import view.IngameObjectView;
 
 /**
  * Модель обычного шарика
@@ -13,19 +14,19 @@ import model.swarm.CanBeInSwarm;
  */
 public class BasicBall extends Ball implements CanBeInSwarm {
 
-	public BasicBall(GameField field) {
+	public BasicBall(GameField field, IngameObjectView view) {
 		
-	    super(field);
+	    super(field, view);
 	}
 
-	public BasicBall(GameField field, Point2D.Double pos, Double radius) {
+	public BasicBall(GameField field, IngameObjectView view, Point2D.Double pos, Double radius) {
 	    
-	    super(field, pos, radius);
+	    super(field, view, pos, radius);
 	}
 	
-	public BasicBall(GameField field, Point2D.Double pos, Double radius, Speed2D speed) {
+	public BasicBall(GameField field, IngameObjectView view, Point2D.Double pos, Double radius, Speed2D speed) {
 	    
-	    super(field, pos, radius, speed);
+	    super(field, view, pos, radius, speed);
 	}
 
     @Override

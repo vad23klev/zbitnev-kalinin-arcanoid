@@ -7,6 +7,7 @@ import model.GameField;
 import model.IngameObject;
 import model.Rectangle;
 import model.Speed2D;
+import view.IngameObjectView;
 
 /**
  * Модель абстрактного кирпича.
@@ -19,9 +20,9 @@ public abstract class Brick extends IngameObject {
      * Создает игровой объект, координаты (0, 0), нулевая скорость, нулевой размер.
      * @param field Игровое поле.
      */
-    public Brick(GameField field) {
+    public Brick(GameField field, IngameObjectView view) {
 
-        this(field, new Point2D.Double(0.0, 0.0), new Dimension(0, 0));
+        this(field, view, new Point2D.Double(0.0, 0.0), new Dimension(0, 0));
     }
 
     /**
@@ -30,9 +31,9 @@ public abstract class Brick extends IngameObject {
      * @param pos Позиция объекта.
      * @param dim Размеры объекта.
      */
-    public Brick(GameField field, Point2D.Double pos, Dimension dim) {
+    public Brick(GameField field, IngameObjectView view, Point2D.Double pos, Dimension dim) {
 
-        this(field, pos, dim, new Speed2D(0.0, 0.0));
+        this(field, view, pos, dim, new Speed2D(0.0, 0.0));
     }
 
     /**
@@ -42,14 +43,16 @@ public abstract class Brick extends IngameObject {
      * @param rad Радиус объекта.
      * @param speed Скорость объекта.
      */
-    public Brick(GameField field, Point2D.Double pos, Dimension dim, Speed2D speed) {
+    public Brick(GameField field, IngameObjectView view, Point2D.Double pos, Dimension dim, Speed2D speed) {
 
-        if (field == null || pos == null || dim == null || speed == null) {
+        if (field == null || pos == null || dim == null || speed == null  || view == null) {
             throw new NullPointerException();
         }
 
         this._field = field;
         this._form = new Rectangle(pos, dim);
+        view.setObject(this);
+        this._view = view;
         this.setPositionByPoint(pos);
         this.setSpeed(speed);
     }

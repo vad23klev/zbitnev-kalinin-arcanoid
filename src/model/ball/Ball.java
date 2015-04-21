@@ -9,6 +9,7 @@ import model.collision.BehaviourPaddleRebound;
 import model.collision.BehaviourRebound;
 import model.paddle.Paddle;
 import model.Round;
+import view.IngameObjectView;
 
 /**
  * Модель абстрактного шарика
@@ -21,9 +22,9 @@ public abstract class Ball extends IngameObject {
 	 * Создает игровой объект, координаты (0, 0), нулевая скорость, нулевой размер.
 	 * @param field Игровое поле.
 	 */
-	public Ball(GameField field) {
+	public Ball(GameField field, IngameObjectView view) {
 		
-	    this(field, new Point2D.Double(0.0, 0.0), 0.0);
+	    this(field, view, new Point2D.Double(0.0, 0.0), 0.0);
 	}
 	
 	/**
@@ -32,9 +33,9 @@ public abstract class Ball extends IngameObject {
 	 * @param pos Позиция объекта.
 	 * @param dim Размеры объекта.
 	 */
-	public Ball(GameField field, Point2D.Double pos, Double rad) {
+	public Ball(GameField field, IngameObjectView view, Point2D.Double pos, Double rad) {
 	    
-	    this(field, pos, rad, new Speed2D(0.0, 0.0));
+	    this(field, view, pos, rad, new Speed2D(0.0, 0.0));
 	}
 	
 	/**
@@ -44,12 +45,13 @@ public abstract class Ball extends IngameObject {
 	 * @param rad Радиус объекта.
 	 * @param speed Скорость объекта.
 	 */
-	public Ball(GameField field, Point2D.Double pos, Double rad, Speed2D speed) {
+	public Ball(GameField field, IngameObjectView view, Point2D.Double pos, Double rad, Speed2D speed) {
 	    
-	    if (field == null || pos == null || rad == null || speed == null) {
+	    if (field == null || view == null || pos == null || rad == null || speed == null) {
 	        throw new NullPointerException();
 	    }
-	    
+            view.setObject(this);
+	    this._view = view;
 	    this._field = field;
 	    this._form = new Round(new Point2D.Double(pos.x - rad, pos.y - rad), rad);
             this.setPositionByPoint(pos);

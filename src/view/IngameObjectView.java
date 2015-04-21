@@ -19,7 +19,7 @@ import model.interaction.SpeedChangeListener;
 public class IngameObjectView
 		implements PositionChangeListener, SpeedChangeListener, GenericEventListener {
 
-    protected final IngameObject _ingameObject;
+    protected IngameObject _ingameObject;
     protected SpriteStorage _spriteStorage = null;
     
     protected GameFieldView _fieldView = null;
@@ -32,23 +32,18 @@ public class IngameObjectView
 	 * @param obj Модель игрового объекта.
 	 * @param sprite Спрайт, которым он будет отображен.
 	 */
-	public IngameObjectView(IngameObject obj, SpriteStorage spriteStorage, GameFieldView view) {
+	public IngameObjectView(SpriteStorage spriteStorage, GameFieldView view) {
 	    
-	    if (spriteStorage == null || obj == null) {
+	    if (spriteStorage == null) {
 	        throw new NullPointerException();
 	    }
 	    spriteStorage.setObjectView(this);
-	    this._ingameObject = obj;
+	    //this._ingameObject = obj;
 	    this._spriteStorage = spriteStorage;
-	    this._fieldView = view;
+	    this._fieldView = view;/*
 	    this._spriteStorage.setPosition(obj.getPosition());
 	    this._spriteStorage.setSpeed(obj.getSpeed());
-	    this._spriteStorage.setObjectView(this);
-	    addPositionChangeListener(obj);
-	    addSpeedChangeListener(obj);
-	    obj.addPositionChangeListener(this);
-	    obj.addSpeedChangeListener(this);
-	    obj.addGenericEventListener(this);
+	    this._spriteStorage.setObjectView(this);*/
 	}
     
 	@Override
@@ -128,4 +123,21 @@ public class IngameObjectView
 	public void destroyed() {
 		this._fieldView.removeObjectView(this);
 	}
+        
+        public void setSpeed(Speed2D speed) {
+            this._spriteStorage.setSpeed(speed);
+        }
+        
+        public Speed2D getSpeed() {
+            return this._spriteStorage.getSpeed();
+        }
+        
+        public void setObject(IngameObject object) {
+            this._ingameObject = object;
+        }
+        
+        @Override
+        public Object clone() {
+            return this;            
+        }
 }

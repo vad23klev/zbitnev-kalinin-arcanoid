@@ -49,8 +49,56 @@ public class ScreenGame extends GameObject {
 	    BufferedImage unbreakableBrickImage = bsLoader.getImage("default/gfx/bricks/unbreakable.png");
 	    BufferedImage basicPaddleImage      = bsLoader.getImage("default/gfx/paddles/basic.png");
 	    
-            // Инициализация представления уровня
+<<<<<<< HEAD
+		// Инициализация представления уровня
 		_fieldView = new GameFieldView(this.bsGraphics.getSize());
+		
+		// Задать фон уровня.
+		BufferedImage fieldBg = new BufferedImage(this.getWidth(), this.getHeight(), BufferedImage.TYPE_INT_ARGB);
+		//fieldBg.getGraphics().drawImage(bgImage, 0, 0, this.getWidth(), this.getHeight(), null);
+		Graphics g = fieldBg.getGraphics();
+		g.setColor(Color.black);
+		g.fillRect(0, 0, this.getWidth(), this.getHeight());
+		_fieldView.setBackground(new ImageBackground(fieldBg));
+		
+		// Инициализация уровня
+                GameField field = new GameField(this.bsGraphics.getSize());
+		
+		// Фабрика представлений
+		DefaultObjectViewFactory viewfact = new DefaultObjectViewFactory(basicBallImage, breakableBrickImage,
+		        unbreakableBrickImage, basicPaddleImage, _fieldView);
+		
+		// Модель слушает сообщения о коллизиях
+		_model = new GameModel();
+		_model.setField(field);
+		_fieldView.addCollisionListener(_model);
+		
+		// Построение уровня
+		// TODO: Загрузка уровня из файла (пока уровень захардкоден)
+		BasicBall newball = new BasicBall(field, new Point2D.Double(40, 160), 8, new Speed2D(0.03, -0.01));
+		BreakableBrick newbrick = new BreakableBrick(field, new Point2D.Double(180, 120), new Dimension(48, 24));
+        BreakableBrick newbrick2 = new BreakableBrick(field, new Point2D.Double(228, 120), new Dimension(48, 24));
+        UnbreakableBrick newbrick3 = new UnbreakableBrick(field, new Point2D.Double(276, 120), new Dimension(48, 24));
+        BasicPaddle paddle = new BasicPaddle(field, new Point2D.Double(0, 584), new Dimension(96, 16));
+        
+        IngameObjectView ballview = viewfact.newBasicBallView(newball);
+        IngameObjectView brick1view = viewfact.newBreakableBrickView(newbrick);
+        IngameObjectView brick2view = viewfact.newBreakableBrickView(newbrick2);
+        IngameObjectView brick3view = viewfact.newUnbreakableBrickView(newbrick3);
+        IngameObjectView paddleView = viewfact.newBasicPaddleView(paddle);
+        
+        _fieldView.addObjectView(ballview);
+        _fieldView.addObjectView(brick1view);
+        _fieldView.addObjectView(brick2view);
+        _fieldView.addObjectView(brick3view);
+        _fieldView.addObjectView(paddleView);
+        
+        // Контроллер и игрок.
+        Player player = new Player(paddle);
+        _controller = new GameController(player, bsInput);
+=======
+            // Инициализация представления уровня
+            _fieldView = new GameFieldView();
 
             // Задать фон уровня.
             BufferedImage fieldBg = new BufferedImage(this.getWidth(), this.getHeight(), BufferedImage.TYPE_INT_ARGB);
@@ -59,6 +107,7 @@ public class ScreenGame extends GameObject {
             g.setColor(Color.black);
             g.fillRect(0, 0, this.getWidth(), this.getHeight());
             _fieldView.setBackground(new ImageBackground(fieldBg));
+>>>>>>> 24d32125abf5991ad972c772051286851d804250
 		
             // Инициализация уровня
             GameField field = new GameField(this.bsGraphics.getSize());
@@ -74,19 +123,17 @@ public class ScreenGame extends GameObject {
 
             // Построение уровня
             // TODO: Загрузка уровня из файла (пока уровень захардкоден)
-            
+            BasicBall newball = new BasicBall(field, new Point2D.Double(40, 160), 8.0, new Speed2D(0.03, -0.01));
+            BreakableBrick newbrick = new BreakableBrick(field, new Point2D.Double(180, 120), new Dimension(48, 24));
+            BreakableBrick newbrick2 = new BreakableBrick(field, new Point2D.Double(228, 120), new Dimension(48, 24));
+            UnbreakableBrick newbrick3 = new UnbreakableBrick(field, new Point2D.Double(276, 120), new Dimension(48, 24));
+            BasicPaddle paddle = new BasicPaddle(field, new Point2D.Double(0, 584), new Dimension(96, 16));
 
-            IngameObjectView ballview = viewfact.newBasicBallView();
-            IngameObjectView brick1view = viewfact.newBreakableBrickView();
-            IngameObjectView brick2view = viewfact.newBreakableBrickView();
-            IngameObjectView brick3view = viewfact.newUnbreakableBrickView();
-            IngameObjectView paddleView = viewfact.newBasicPaddleView();
-            
-            BasicBall newball = new BasicBall(field, ballview, new Point2D.Double(40, 160), 8.0, new Speed2D(0.03, -0.01));
-            BreakableBrick newbrick = new BreakableBrick(field, brick1view, new Point2D.Double(180, 120), new Dimension(48, 24));
-            BreakableBrick newbrick2 = new BreakableBrick(field, brick2view, new Point2D.Double(228, 120), new Dimension(48, 24));
-            UnbreakableBrick newbrick3 = new UnbreakableBrick(field, brick3view, new Point2D.Double(276, 120), new Dimension(48, 24));
-            BasicPaddle paddle = new BasicPaddle(field, paddleView, new Point2D.Double(0, 584), new Dimension(96, 16));
+            IngameObjectView ballview = viewfact.newBasicBallView(newball);
+            IngameObjectView brick1view = viewfact.newBreakableBrickView(newbrick);
+            IngameObjectView brick2view = viewfact.newBreakableBrickView(newbrick2);
+            IngameObjectView brick3view = viewfact.newUnbreakableBrickView(newbrick3);
+            IngameObjectView paddleView = viewfact.newBasicPaddleView(paddle);
 
             _fieldView.addObjectView(ballview);
             _fieldView.addObjectView(brick1view);
@@ -102,13 +149,13 @@ public class ScreenGame extends GameObject {
             paddle.addBall(newball);
 
             // Тестирование столкновения множества шаров
-            IngameObjectView ball01_view = viewfact.newBasicBallView();
-            IngameObjectView ball02_view = viewfact.newBasicBallView();
-            BasicBall ball01 = new BasicBall(field, ball01_view, new Point2D.Double(213.3975, 250), 16.0, new Speed2D(0.043, -0.025));
-            BasicBall ball02 = new BasicBall(field, ball02_view, new Point2D.Double(400, 200), 16.0, new Speed2D(-0.05, 0));
+            BasicBall ball01 = new BasicBall(field, new Point2D.Double(213.3975, 250), 16.0, new Speed2D(0.043, -0.025));
+            BasicBall ball02 = new BasicBall(field, new Point2D.Double(400, 200), 16.0, new Speed2D(-0.05, 0));
             ball01.addDefaultCollisionBehaviour(BehaviourRebound.getInstance());
             ball02.addDefaultCollisionBehaviour(BehaviourRebound.getInstance());
 
+            IngameObjectView ball01_view = viewfact.newBasicBallView(ball01);
+            IngameObjectView ball02_view = viewfact.newBasicBallView(ball02);
             _fieldView.addObjectView(ball01_view);
             _fieldView.addObjectView(ball02_view);
 

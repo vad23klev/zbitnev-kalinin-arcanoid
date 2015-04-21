@@ -5,6 +5,7 @@ import java.awt.geom.Point2D.Double;
 
 import model.GameField;
 import model.Speed2D;
+import view.IngameObjectView;
 
 /**
  * Модель обычной ракетки.
@@ -13,14 +14,14 @@ import model.Speed2D;
  */
 public class BasicPaddle extends Paddle {
 
-    public BasicPaddle(GameField field, Double pos, Dimension dim) {
+    public BasicPaddle(GameField field, IngameObjectView view, Double pos, Dimension dim) {
         
-        super(field, pos, dim);
+        super(field, view, pos, dim);
     }
 
-    public BasicPaddle(GameField field) {
+    public BasicPaddle(GameField field,IngameObjectView view) {
 		
-        super(field);
+        super(field, view);
 	}
     
     @Override
