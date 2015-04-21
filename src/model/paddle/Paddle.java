@@ -2,11 +2,12 @@ package model.paddle;
 
 import java.awt.Dimension;
 import java.awt.geom.Point2D;
-import java.awt.geom.Point2D.Double;
 import java.util.ArrayList;
 
 import model.GameField;
 import model.IngameObject;
+import model.Rectangle;
+import model.Round;
 import model.Speed2D;
 import model.ball.Ball;
 
@@ -19,15 +20,42 @@ public abstract class Paddle extends IngameObject {
 
     protected ArrayList<Ball> _balls = new ArrayList<>();
 
-    public Paddle(GameField field, Double pos, Dimension dim) {
-        
-        super(field, pos, dim);
+    /**
+     * Создает игровой объект, координаты (0, 0), нулевая скорость, нулевой размер.
+     * @param field Игровое поле.
+     */
+    public Paddle(GameField field) {
+
+        this(field, new Point2D.Double(0.0, 0.0));
     }
 
-    public Paddle(GameField field) {
-		
-        super(field);
-	}
+    /**
+     * Создает игровой объект с нулевой скоростью.
+     * @param field Игровое поле.
+     * @param pos Позиция объекта.
+     * @param dim Размеры объекта.
+     */
+    public Paddle(GameField field, Point2D.Double pos) {
+
+        this(field, pos, new Dimension(0, 0));
+    }
+
+    /**
+     * Создает игровой объект.
+     * @param field Игровое поле.
+     * @param pos Позиция объекта.
+     * @param rad Радиус объекта.
+     */
+    public Paddle(GameField field, Point2D.Double pos, Dimension dim) {
+
+        if (field == null || pos == null || dim == null) {
+            throw new NullPointerException();
+        }
+
+        this._field = field;
+        this._form = new Rectangle(pos, dim);
+        this.setPositionByPoint(pos);
+    }
 
 	/**
 	 * Поместить шар на ракетку.
@@ -52,13 +80,13 @@ public abstract class Paddle extends IngameObject {
 	protected void fixBallsPosition() {
 	    
 	    for (Ball b : _balls) {
-            b.setPosition(new Point2D.Double(b.getPosition().x, this._position.y - b.getSize().height));
+            b.setPositionByPoint(new Point2D.Double(b.getPosition().x, this._position.y - ((Round)b.getForm()).getRadius()));
             
             if (b.getPosition().x < this._position.x) {
-                b.setPosition(new Point2D.Double(this._position.x, b.getPosition().y));
+                b.setPositionByPoint(new Point2D.Double(this._position.x, b.getPosition().y));
             }
-            if (b.getPosition().x > this._position.x + this._size.width) {
-                b.setPosition(new Point2D.Double(this._position.x + this._size.width - b.getSize().width, b.getPosition().y));
+            if (b.getPosition().x > this._position.x + ((Rectangle)this._form).getWidth()) {
+                b.setPositionByPoint(new Point2D.Double(this._position.x + ((Rectangle)this._form).getWidth() - ((Round)b.getForm()).getRadius(), b.getPosition().y));
             }
 	    }
 	}
@@ -88,24 +116,24 @@ public abstract class Paddle extends IngameObject {
     public Speed2D getFireSpeed(Ball ball) {
         
         // Найти два центра расчета вектора.
-        Point2D.Double paddleLeftCenter = new Point2D.Double(this._position.x + (this._size.width / 5) * 2, this._position.y);
-        Point2D.Double paddleRightCenter = new Point2D.Double(this._position.x + (this._size.width / 5) * 3, this._position.y);
+        Point2D.Double paddleLeftCenter = new Point2D.Double(this._position.x + ((Rectangle)this._form).getWidth() / 5 * 2, this._position.y);
+        Point2D.Double paddleRightCenter = new Point2D.Double(this._position.x + ((Rectangle)this._form).getWidth() / 5 * 3, this._position.y);
         
         // Центр ракетки
-        Point2D.Double paddleCenter = new Point2D.Double(this._position.x + this._size.width / 2, this._position.y);
+        Point2D.Double paddleCenter = new Point2D.Double(this._position.x + ((Rectangle)this._form).getWidth() / 2, this._position.y);
         
         // Относительные координаты центра мяча в декартовой системе координат (точка B).
         // Считаем, что paddleCenter - это точка A(0, 0).
-        Point2D.Double relBallCenter = new Point2D.Double(ball.getPosition().x + ball.getSize().width / 2 - paddleCenter.x,
-                paddleCenter.y - ball.getPosition().y - ball.getSize().height / 2);
+        Point2D.Double relBallCenter = new Point2D.Double(ball.getPosition().x + ((Round)ball.getForm()).getRadius() - paddleCenter.x,
+                paddleCenter.y - ball.getPosition().y - ((Round)ball.getForm()).getRadius());
         
         // Если мяч между двумя центрами, направляем вектор вверх.
-        if (relBallCenter.x <= this._size.width / 10 && relBallCenter.x >= -this._size.width / 10) {
+        if (relBallCenter.x <= ((Rectangle)this._form).getWidth() / 10 && relBallCenter.x >= -((Rectangle)this._form).getWidth() / 10) {
             return new Speed2D(0, -ball.getDefaultSpeedScalar());
         }
         
         // В зависимости от трети ракетки, в которой располагается мяч, выбираем центр расчета вектора скорости.
-        Point2D.Double paddleNewCenter = relBallCenter.x > this._size.width / 10 ? paddleRightCenter : paddleLeftCenter;
+        Point2D.Double paddleNewCenter = relBallCenter.x > ((Rectangle)this._form).getWidth() / 10 ? paddleRightCenter : paddleLeftCenter;
         
         // Рассчитываем относительное положение мяча от выбранного центра.
         relBallCenter = new Point2D.Double(relBallCenter.x + paddleCenter.x - paddleNewCenter.x, relBallCenter.y);
@@ -147,19 +175,19 @@ public abstract class Paddle extends IngameObject {
     }
     
     @Override
-    public void setPosition(Point2D.Double pos) {
+    public void setPositionByPoint(Point2D.Double pos) {
         
         if (this._position == null) {
-            super.setPosition(pos);
+            super.setPositionByPoint(pos);
             
         } else {
             double dx = pos.x - this._position.x;
             double dy = pos.y - this._position.y;
             
-            super.setPosition(pos);
+            super.setPositionByPoint(pos);
             
             for (Ball b : _balls) {
-                b.setPosition(new Point2D.Double(b.getPosition().x + dx, b.getPosition().y + dy));
+                b.setPositionByPoint(new Point2D.Double(b.getPosition().x + dx, b.getPosition().y + dy));
             }
         }
     }

@@ -2,13 +2,10 @@ package model;
 
 import java.awt.Dimension;
 import java.awt.geom.Point2D;
-import java.awt.geom.Point2D.Float;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.Set;
 
-import view.IngameObjectView;
 import model.ball.Ball;
 import model.ball.BallPositionChangedListener;
 import model.collision.CollidedObject;
@@ -67,15 +64,15 @@ public class GameField implements BallPositionChangedListener {
     public void ballPositionChanged(Ball ball) {
         
         if (ball.getPosition().y < 0) {
-            ball.setPosition(new Point2D.Double(ball.getPosition().x, 0));
+            ball.setPositionByPoint(new Point2D.Double(ball.getPosition().x, 0));
             ball.setSpeed(ball.getSpeed().flipVertical());
         }
         
-        if (ball.getPosition().x < 0 || ball.getPosition().x + ball.getSize().width > _dimensions.width) {
+        if (ball.getPosition().x < 0 || ball.getPosition().x + ((Round)ball.getForm()).getRadius() * 2 > _dimensions.width) {
             if (ball.getPosition().x < 0) {
-                ball.setPosition(new Point2D.Double(0, ball.getPosition().y));
+                ball.setPositionByPoint(new Point2D.Double(0, ball.getPosition().y));
             } else {
-                ball.setPosition(new Point2D.Double(_dimensions.width - ball.getSize().width, ball.getPosition().y));
+                ball.setPositionByPoint(new Point2D.Double(_dimensions.width - ((Round)ball.getForm()).getRadius() * 2, ball.getPosition().y));
             }
             ball.setSpeed(ball.getSpeed().flipHorizontal());
         }

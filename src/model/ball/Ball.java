@@ -1,6 +1,5 @@
 package model.ball;
 
-import java.awt.Dimension;
 import java.awt.geom.Point2D;
 
 import model.GameField;
@@ -9,6 +8,7 @@ import model.Speed2D;
 import model.collision.BehaviourPaddleRebound;
 import model.collision.BehaviourRebound;
 import model.paddle.Paddle;
+import model.Round;
 
 /**
  * Модель абстрактного шарика
@@ -17,55 +17,45 @@ import model.paddle.Paddle;
  */
 public abstract class Ball extends IngameObject {
 
-	public Ball(GameField field) {
-		this(field, new Point2D.Double(0, 0), 0);
-	}
-	
-	public Ball(GameField field, Point2D.Double pos, int radius) {
-	    
-	    this(field, pos, radius, new Speed2D(0, 0));
-	}
-	
-	public Ball(GameField field, Point2D.Double pos, int radius, Speed2D speed) {
-        
-        super(field, pos, new Dimension(2*radius, 2*radius), speed);
-        this.addDefaultCollisionBehaviour(BehaviourRebound.getInstance());
-        this.addSpecificCollisionBehaviour(Paddle.class, BehaviourPaddleRebound.getInstance(), true);
-    }
-
-	/**
-	 * Возвращает радиус мяча.
-	 * @return Радиус.
+        /**
+	 * Создает игровой объект, координаты (0, 0), нулевая скорость, нулевой размер.
+	 * @param field Игровое поле.
 	 */
-	public int getRadius() {
+	public Ball(GameField field) {
+		
+	    this(field, new Point2D.Double(0.0, 0.0), 0.0);
+	}
+	
+	/**
+	 * Создает игровой объект с нулевой скоростью.
+	 * @param field Игровое поле.
+	 * @param pos Позиция объекта.
+	 * @param dim Размеры объекта.
+	 */
+	public Ball(GameField field, Point2D.Double pos, Double rad) {
 	    
-	    if (this._size.width != this._size.height) {
-	        throw new IllegalStateException("Dimensions of Ball are not the same.");
+	    this(field, pos, rad, new Speed2D(0.0, 0.0));
+	}
+	
+	/**
+	 * Создает игровой объект.
+	 * @param field Игровое поле.
+	 * @param pos Позиция объекта.
+	 * @param rad Радиус объекта.
+	 * @param speed Скорость объекта.
+	 */
+	public Ball(GameField field, Point2D.Double pos, Double rad, Speed2D speed) {
+	    
+	    if (field == null || pos == null || rad == null || speed == null) {
+	        throw new NullPointerException();
 	    }
 	    
-	    return this._size.width;
-	}
-	
-	/**
-	 * Задает радиус мяча.
-	 * @param radius
-	 * @return 
-	 */
-	public void setRadius(int radius) {
-	    
-	    radius = Math.abs(radius);
-	    this.setSize(new Dimension(2*radius, 2*radius));
-	}
-	
-	/**
-	 * Внимание! Этот метод способен задать неодинаковые ширину и высоту, если это потребуется,
-	 * однако в этом случае вы не сможете использовать метод getRadius().
-	 * @param dim Размеры.
-	 */
-	@Override
-	public void setSize(Dimension dim) {
-	    
-	    super.setSize(dim);
+	    this._field = field;
+	    this._form = new Round(new Point2D.Double(pos.x - rad, pos.y - rad), rad);
+            this.setPositionByPoint(pos);
+	    this.setSpeed(speed);
+            this.addDefaultCollisionBehaviour(BehaviourRebound.getInstance());
+            this.addSpecificCollisionBehaviour(Paddle.class, BehaviourPaddleRebound.getInstance(), true);
 	}
 	
 	/**
@@ -75,9 +65,9 @@ public abstract class Ball extends IngameObject {
 	public abstract float getDefaultSpeedScalar();
 	
 	@Override
-	public void setPosition(Point2D.Double pos) {
+	public void setPositionByPoint(Point2D.Double pos) {
 	    
-	    super.setPosition(pos);
+	    super.setPositionByPoint(pos);
 	    _field.ballPositionChanged(this);
 	}
 	
@@ -92,19 +82,9 @@ public abstract class Ball extends IngameObject {
 	 * Задать позицию шарика, указав координаты его середины
 	 * @param center Позиция центра шарика
 	 */
-	public void setCenter(Point2D.Double center) {
-		
-		setPosition(new Point2D.Double(center.x - _size.width/2, center.y - _size.height/2));
-	}
-	
-	/**
-	 * Получить позицию центра шарика
-	 * @return Позиция центра шарика
-	 */
-	public Point2D.Double getCenter() {
-		
-		return new Point2D.Double(this._position.x + _size.width/2, 
-								 this._position.y + _size.height/2);
+	public void setPositionByCenter(Point2D.Double center) {
+		//Должно быть setPositionByCenter
+		setPositionByPoint(new Point2D.Double(center.x - ((Round)_form).getRadius(), center.y - ((Round)_form).getRadius()));
 	}
 	
 	@Override

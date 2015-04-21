@@ -40,9 +40,9 @@ public class IngameObjectView
 	    spriteStorage.setObjectView(this);
 	    this._ingameObject = obj;
 	    this._spriteStorage = spriteStorage;
-	    this._fieldView    = view;
+	    this._fieldView = view;
 	    this._spriteStorage.setPosition(obj.getPosition());
-	    this._spriteStorage.setSpeed((Speed2D)(obj.getSpeed().clone()));
+	    this._spriteStorage.setSpeed(obj.getSpeed());
 	    this._spriteStorage.setObjectView(this);
 	    addPositionChangeListener(obj);
 	    addSpeedChangeListener(obj);

@@ -1,31 +1,56 @@
 package model;
 
 import java.awt.Dimension;
+import java.awt.geom.Point2D;
 
 /**
  * Квадратная форма.
  * @author Tenk0Kugen
  */
-public class Rectangle {
+public class Rectangle extends Form{
     
-    private Dimension size;
+    private Dimension _size;
+    private Point2D.Double _coord;
     
-    public Dimension getSize(){
-        //TODO
-        return new Dimension();
+    public Rectangle(Point2D.Double coord, Dimension size){
+        
+        _coord = coord;
+        _size = size;
     }
     
-    public void setSize(Dimension dim){
-        //TODO
+    /**
+     * Возвращает размер объекта в пикселях.
+     * @return Dimension
+     */
+    public Dimension getSize(){
+
+        return _size;
+    }
+    
+    /**
+     * Задает размер объекта в пикселях.
+     * @param dim
+     */
+    public void setSize(Dimension dim) {
+
+        if (dim == null) {
+            throw new NullPointerException();
+        }
+        _size = dim;
     }
     
     public double getHeight(){
-        //TODO
-        return 0;
+
+        return _size.getHeight();
     }
     
-    public double getWeight(){
-        //TODO
-        return 0;
+    public double getWidth(){
+
+        return _size.getWidth();
+    }
+    
+    public Point2D.Double getCoordinates(){
+        
+        return _coord;
     }
 }
