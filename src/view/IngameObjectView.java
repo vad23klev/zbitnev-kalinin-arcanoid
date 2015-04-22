@@ -38,12 +38,8 @@ public class IngameObjectView
 	        throw new NullPointerException();
 	    }
 	    spriteStorage.setObjectView(this);
-	    //this._ingameObject = obj;
 	    this._spriteStorage = spriteStorage;
-	    this._fieldView = view;/*
-	    this._spriteStorage.setPosition(obj.getPosition());
-	    this._spriteStorage.setSpeed(obj.getSpeed());
-	    this._spriteStorage.setObjectView(this);*/
+	    this._fieldView = view;
 	}
     
 	@Override
