@@ -86,7 +86,7 @@ public abstract class IngameObject implements Cloneable, PositionChangeListener,
 	 */
 	public Point2D.Double getPosition() {
 
-		return (Point2D.Double) _position.clone();
+		return (Point2D.Double) _view.getSpriteStorage().getPosition().clone();
 	}
 	
 	/**
@@ -98,10 +98,7 @@ public abstract class IngameObject implements Cloneable, PositionChangeListener,
 	    if (pos == null) {
 	        throw new NullPointerException();
 	    }
-		_position = pos;
-		for (PositionChangeListener l : _positionListeners) {
-			l.positionChanged(this._position);
-		}
+		_view.getSpriteStorage().setPosition(pos);
 	}
 
 	/**
