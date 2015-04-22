@@ -26,6 +26,7 @@ public class ModelCollisionManager {
             while (j.hasNext()) {
                 CollidedObject other  = (CollidedObject)j.next();
                 current.object().processCollision(current, other);
+                other.object().processCollision(other, current);
             }
 	}
     }
