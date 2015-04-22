@@ -83,13 +83,13 @@ public abstract class Paddle extends IngameObject {
 	protected void fixBallsPosition() {
 	    
 	    for (Ball b : _balls) {
-            b.setPositionByPoint(new Point2D.Double(b.getPosition().x, this._position.y - ((Round)b.getForm()).getRadius()));
+            b.setPositionByPoint(new Point2D.Double(b.getPosition().x, this._view.getSpriteStorage().getPosition().y - ((Round)b.getForm()).getRadius()));
             
-            if (b.getPosition().x < this._position.x) {
-                b.setPositionByPoint(new Point2D.Double(this._position.x, b.getPosition().y));
+            if (b.getPosition().x < this._view.getSpriteStorage().getPosition().x) {
+                b.setPositionByPoint(new Point2D.Double(this._view.getSpriteStorage().getPosition().x, b.getPosition().y));
             }
-            if (b.getPosition().x > this._position.x + ((Rectangle)this._form).getWidth()) {
-                b.setPositionByPoint(new Point2D.Double(this._position.x + ((Rectangle)this._form).getWidth() - ((Round)b.getForm()).getRadius(), b.getPosition().y));
+            if (b.getPosition().x > this._view.getSpriteStorage().getPosition().x + ((Rectangle)this._form).getWidth()) {
+                b.setPositionByPoint(new Point2D.Double(this._view.getSpriteStorage().getPosition().x + ((Rectangle)this._form).getWidth() - ((Round)b.getForm()).getRadius(), b.getPosition().y));
             }
 	    }
 	}
@@ -119,11 +119,11 @@ public abstract class Paddle extends IngameObject {
     public Speed2D getFireSpeed(Ball ball) {
         
         // Найти два центра расчета вектора.
-        Point2D.Double paddleLeftCenter = new Point2D.Double(this._position.x + ((Rectangle)this._form).getWidth() / 5 * 2, this._position.y);
-        Point2D.Double paddleRightCenter = new Point2D.Double(this._position.x + ((Rectangle)this._form).getWidth() / 5 * 3, this._position.y);
+        Point2D.Double paddleLeftCenter = new Point2D.Double(this._view.getSpriteStorage().getPosition().x + ((Rectangle)this._form).getWidth() / 5 * 2, this._view.getSpriteStorage().getPosition().y);
+        Point2D.Double paddleRightCenter = new Point2D.Double(this._view.getSpriteStorage().getPosition().x + ((Rectangle)this._form).getWidth() / 5 * 3, this._view.getSpriteStorage().getPosition().y);
         
         // Центр ракетки
-        Point2D.Double paddleCenter = new Point2D.Double(this._position.x + ((Rectangle)this._form).getWidth() / 2, this._position.y);
+        Point2D.Double paddleCenter = new Point2D.Double(this._view.getSpriteStorage().getPosition().x + ((Rectangle)this._form).getWidth() / 2, this._view.getSpriteStorage().getPosition().y);
         
         // Относительные координаты центра мяча в декартовой системе координат (точка B).
         // Считаем, что paddleCenter - это точка A(0, 0).
