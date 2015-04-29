@@ -106,8 +106,6 @@ public class ScreenGame extends GameObject {
             IngameObjectView ball02_view = viewfact.newBasicBallView();
             BasicBall ball01 = new BasicBall(field, ball01_view, new Point2D.Double(213.3975, 250), 16.0, new Speed2D(0.043, -0.025));
             BasicBall ball02 = new BasicBall(field, ball02_view, new Point2D.Double(400, 200), 16.0, new Speed2D(-0.05, 0));
-            ball01.addDefaultCollisionBehaviour(BehaviourRebound.getInstance());
-            ball02.addDefaultCollisionBehaviour(BehaviourRebound.getInstance());
 
             _fieldView.addObjectView(ball01_view);
             _fieldView.addObjectView(ball02_view);

@@ -39,7 +39,7 @@ public class PublishingCollisionManager extends AdvanceCollisionGroup {
     public boolean isCollide(Sprite s1, Sprite s2, CollisionShape shape1, CollisionShape shape2) {
 
             boolean retval = super.isCollide(s1, s2, shape1, shape2);
-
+        _storage.clear();
             // Словарь столкновений будет формироваться в процессе детекции коллизий
             if (retval) {
 
