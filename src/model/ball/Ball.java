@@ -1,6 +1,7 @@
 package model.ball;
 
 import java.awt.geom.Point2D;
+import model.Form;
 
 import model.GameField;
 import model.IngameObject;
@@ -77,7 +78,7 @@ public abstract class Ball extends IngameObject {
 	public void positionChanged(Point2D.Double newpos) {
 
 	    super.positionChanged(newpos);
-	    _field.ballPositionChanged(this);
+	    //_field.ballPositionChanged(this);
     }
 	
 	/**
@@ -86,7 +87,8 @@ public abstract class Ball extends IngameObject {
 	 */
 	public void setPositionByCenter(Point2D.Double center) {
 		//Должно быть setPositionByCenter
-		setPositionByPoint(new Point2D.Double(center.x - ((Round)_form).getRadius(), center.y - ((Round)_form).getRadius()));
+		setPositionByPoint(new Point2D.Double(center.x - ((Round)_form).getRadius() * 2, center.y - ((Round)_form).getRadius() * 2));
+                ((Round)_form).setCenter(center);
 	}
 	
 	@Override
@@ -95,4 +97,12 @@ public abstract class Ball extends IngameObject {
 		Ball clone = (Ball) super.clone();
 		return clone;
 	}
+        
+        @Override
+        public Form  getForm(){
+            ((Round)this._form).setCenter(new Point2D.Double(this._view.getSpriteStorage().getPosition().x + ((Round)this._form).getRadius(),
+                        this._view.getSpriteStorage().getPosition().y + ((Round)this._form).getRadius()));
+            return this._form;
+            
+        }
 }
