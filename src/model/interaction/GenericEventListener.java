@@ -1,7 +1,5 @@
 package model.interaction;
 
-import model.IngameObject;
-
 /**
  * Интерфейс слушателя событий создания, удаления.
  * @author Gregory Zbitnev <zbitnev@hotmail.com>

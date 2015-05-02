@@ -7,7 +7,6 @@ import java.util.Map;
 import model.Direction;
 import model.IngameObject;
 import model.collision.CollidedObject;
-import model.collision.SpecialBehaviours;
 
 /**
  * Содержит поведение объектов при столкновении.
@@ -34,8 +33,10 @@ public class ModelCollisionManager {
     void boundsCollisionOcured(IngameObject obj, Direction direction){
         if (direction.equals(Direction.east()) || direction.equals(Direction.west())) {
             obj.setSpeed(obj.getSpeed().flipHorizontal());
-        } else {
+        } else if (direction.equals(Direction.north())) {
             obj.setSpeed(obj.getSpeed().flipVertical());
+        } else {
+            obj.destroy();
         }
     }
     

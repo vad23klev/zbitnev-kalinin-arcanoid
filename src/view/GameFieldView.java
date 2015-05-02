@@ -2,19 +2,15 @@ package view;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 
 import model.collision.CollisionManagers.PublishingCollisionManager;
-import model.IngameObject;
 import model.ball.Ball;
 import model.brick.Brick;
 import model.collision.CollidedObject;
 import model.interaction.CollisionListener;
 import model.paddle.Paddle;
 
-import com.golden.gamedev.object.CollisionManager;
 import com.golden.gamedev.object.PlayField;
-import com.golden.gamedev.object.Sprite;
 import com.golden.gamedev.object.SpriteGroup;
 import com.golden.gamedev.object.background.ColorBackground;
 import java.awt.Color;
@@ -57,7 +53,10 @@ public class GameFieldView extends PlayField {
 	@Override
 	public void update(long timeElapsed) {
 	    
+            //Если комментируем - то работает всё, кроме коллизий.
 	    super.update(timeElapsed);
+            
+            //Если комментируем - то всё работает.
 	    for (IngameObjectView ov : _objectViews) {
 	        ((SpriteStorageGTGE)ov.getSpriteStorage()).update(timeElapsed);
 	    }

@@ -1,7 +1,5 @@
 package model.collision;
 
-import model.IngameObject;
-
 /**
  * Поведение разрушения при столкновении.
  * @author Gregory Zbitnev <zbitnev@hotmail.com>
@@ -24,7 +22,7 @@ public class BehaviourDestroy extends CollisionBehaviour {
 	public static BehaviourDestroy getInstance() {
 		
 		if (_instance == null) {
-			_instance = new BehaviourDestroy();
+                    _instance = new BehaviourDestroy();
 		}
 		
 		return _instance;

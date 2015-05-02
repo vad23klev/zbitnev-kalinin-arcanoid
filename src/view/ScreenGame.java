@@ -14,7 +14,6 @@ import model.Speed2D;
 import model.ball.BasicBall;
 import model.brick.BreakableBrick;
 import model.brick.UnbreakableBrick;
-import model.collision.BehaviourRebound;
 import model.paddle.BasicPaddle;
 
 import com.golden.gamedev.GameEngine;
@@ -50,7 +49,7 @@ public class ScreenGame extends GameObject {
 	    BufferedImage basicPaddleImage      = bsLoader.getImage("default/gfx/paddles/basic.png");
 	    
             // Инициализация представления уровня
-		_fieldView = new GameFieldView(this.bsGraphics.getSize());
+            _fieldView = new GameFieldView(this.bsGraphics.getSize());
 
             // Задать фон уровня.
             BufferedImage fieldBg = new BufferedImage(this.getWidth(), this.getHeight(), BufferedImage.TYPE_INT_ARGB);
@@ -110,6 +109,8 @@ public class ScreenGame extends GameObject {
             _fieldView.addObjectView(ball01_view);
             _fieldView.addObjectView(ball02_view);
 
+            field.addObject(newbrick);
+            field.addObject(newbrick2);
             // Инициализация закончена. Спрятать курсор мыши перед началом игры.
             this.hideCursor();
 	}

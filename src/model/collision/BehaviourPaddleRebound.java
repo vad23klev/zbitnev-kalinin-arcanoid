@@ -2,6 +2,7 @@ package model.collision;
 
 import java.awt.geom.Point2D;
 import model.Round;
+import model.Speed2D;
 
 import model.ball.Ball;
 import model.paddle.Paddle;
@@ -36,7 +37,7 @@ public class BehaviourPaddleRebound extends CollisionBehaviour {
 	@Override
 	public void invoke(CollidedObject from, CollidedObject to) {
 		
-		if (from.object() instanceof Paddle && to.object() instanceof Ball) {
+		if (from.object() instanceof Paddle && to.object() instanceof Ball && !to.object().getSpeed().equals(new Speed2D(0, 0))) {
 		
 			to.object().setPositionByPoint(new Point2D.Double(to.object().getPosition().x, 
                                                        from.object().getPosition().y - ((Round)to.object().getForm()).getRadius() * 2));

@@ -131,11 +131,11 @@ public abstract class IngameObject implements Cloneable, PositionChangeListener,
 	                }
 	            }
 	        } else if (entry.getKey().equals(other.object().getClass())) {
-                foundSpecial = true;
-                for (CollisionBehaviour cb : entry.getValue()._behaviours) {
-                    cb.invoke(other, curr);
-                }
-            }
+                    foundSpecial = true;
+                    for (CollisionBehaviour cb : entry.getValue()._behaviours) {
+                        cb.invoke(other, curr);
+                    }
+                }   
 	    }
 		
 		// Если их нет, тогда вызываем коллизию по умолчанию
@@ -171,7 +171,7 @@ public abstract class IngameObject implements Cloneable, PositionChangeListener,
 	 */
 	public void removeDafaultCollisionBehavior(CollisionBehaviour behaviour) {
 		
-		// TODO Method stub
+		_defaultColBehaviour.remove(behaviour);
 	}
 	
 	/**
@@ -209,10 +209,10 @@ public abstract class IngameObject implements Cloneable, PositionChangeListener,
 	}
 	
 	/**
-     * Добавить специальное поведение при столкновении
-     * @param c Класс объектов
-     * @param cb Поведение, определяемое при столкновении с этим классом объектов
-     */
+         * Добавить специальное поведение при столкновении
+         * @param c Класс объектов
+         * @param cb Поведение, определяемое при столкновении с этим классом объектов
+         */
 	public void addSpecificCollisionBehaviour(Class<?> c, CollisionBehaviour cb) {
 	    
 	    this.addSpecificCollisionBehaviour(c, cb, false);
@@ -275,10 +275,11 @@ public abstract class IngameObject implements Cloneable, PositionChangeListener,
 	public void destroy() {
 		
 	    this._isDestroyed = true;
-	    this._field.removeObject(this);
-	    for (GenericEventListener l : _geneventListeners) {
-	    	l.destroyed();
-	    }
+	    this._field.removeObject(this);  
+            
+            //Если раскомментировать, то при первой же коллизии, которая вызывает уничтожение объекта, 
+            //игра вылетает в GameFieldView.update() с ошибкой NullPointerException.
+            //this._view.destroyed();
 	}
 	
 	/**

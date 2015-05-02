@@ -83,14 +83,14 @@ public abstract class Paddle extends IngameObject {
 	protected void fixBallsPosition() {
 	    
 	    for (Ball b : _balls) {
-            b.setPositionByPoint(new Point2D.Double(b.getPosition().x, this._view.getSpriteStorage().getPosition().y - ((Round)b.getForm()).getRadius()));
-            
-            if (b.getPosition().x < this._view.getSpriteStorage().getPosition().x) {
-                b.setPositionByPoint(new Point2D.Double(this._view.getSpriteStorage().getPosition().x, b.getPosition().y));
-            }
-            if (b.getPosition().x > this._view.getSpriteStorage().getPosition().x + ((Rectangle)this._form).getWidth()) {
-                b.setPositionByPoint(new Point2D.Double(this._view.getSpriteStorage().getPosition().x + ((Rectangle)this._form).getWidth() - ((Round)b.getForm()).getRadius(), b.getPosition().y));
-            }
+                b.setPositionByPoint(new Point2D.Double(b.getPosition().x, this._view.getSpriteStorage().getPosition().y - ((Round)b.getForm()).getRadius() * 2));
+
+                if (b.getPosition().x < this._view.getSpriteStorage().getPosition().x) {
+                    b.setPositionByPoint(new Point2D.Double(this._view.getSpriteStorage().getPosition().x, b.getPosition().y));
+                }
+                if (b.getPosition().x > this._view.getSpriteStorage().getPosition().x + ((Rectangle)this._form).getWidth() - ((Round)b.getForm()).getRadius() * 2) {
+                    b.setPositionByPoint(new Point2D.Double(this._view.getSpriteStorage().getPosition().x + ((Rectangle)this._form).getWidth() - ((Round)b.getForm()).getRadius() * 2, b.getPosition().y));
+                }
 	    }
 	}
     
@@ -193,6 +193,7 @@ public abstract class Paddle extends IngameObject {
                 b.setPositionByPoint(new Point2D.Double(b.getPosition().x + dx, b.getPosition().y + dy));
             }
         }
+        this.fixBallsPosition();
     }
     
     @Override
