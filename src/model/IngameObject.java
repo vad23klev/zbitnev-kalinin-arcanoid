@@ -279,7 +279,7 @@ public abstract class IngameObject implements Cloneable, PositionChangeListener,
             
             //Если раскомментировать, то при первой же коллизии, которая вызывает уничтожение объекта, 
             //игра вылетает в GameFieldView.update() с ошибкой NullPointerException.
-            //this._view.destroyed();
+            this._view.destroyed();
 	}
 	
 	/**

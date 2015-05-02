@@ -54,7 +54,7 @@ public class GameFieldView extends PlayField {
 	public void update(long timeElapsed) {
 	    
             //Если комментируем - то работает всё, кроме коллизий.
-	    super.update(timeElapsed);
+           super.update(timeElapsed);
             
             //Если комментируем - то всё работает.
 	    for (IngameObjectView ov : _objectViews) {
@@ -113,14 +113,7 @@ public class GameFieldView extends PlayField {
 	public void removeObjectView(IngameObjectView ov) {
 	    
 	_objectViews.remove(ov);
-        SpriteStorageGTGE storage = (SpriteStorageGTGE)ov.getSpriteStorage();
-	if (ov.getIngameObject() instanceof Ball) {
-            getBallsGroup().remove(storage.getSprite());
-        } else if (ov.getIngameObject() instanceof Brick) {
-            getBricksGroup().remove(storage.getSprite());
-        } else if (ov.getIngameObject() instanceof Paddle) {
-            getPaddlesGroup().remove(storage.getSprite());
-        }
+        ((SpriteStorageGTGE)ov.getSpriteStorage()).getSprite().setActive(false);
 	}
 	
 	/**
