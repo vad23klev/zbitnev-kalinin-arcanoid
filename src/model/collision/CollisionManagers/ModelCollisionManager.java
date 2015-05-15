@@ -20,12 +20,28 @@ public class ModelCollisionManager {
 	while (i.hasNext()) {
             Map.Entry<CollidedObject, ArrayList<CollidedObject>> entry = (Map.Entry)i.next();
             ArrayList<CollidedObject> others = entry.getValue();
+            boolean isOnOneLine = false;
+            if (others.size() > 1) {
+                isOnOneLine = true;
+                for(int k = 1; k < others.size(); k++) {
+                    if(others.get(k).object().getPosition().x != others.get(0).object().getPosition().x 
+                            && others.get(k).object().getPosition().y != others.get(0).object().getPosition().y) {
+                        isOnOneLine = false;
+                    }
+                }
+            }
             CollidedObject current  = entry.getKey();
             Iterator j = others.iterator();
             while (j.hasNext()) {
                 CollidedObject other  = (CollidedObject)j.next();
-                current.object().processCollision(current, other);
+                if(!isOnOneLine) {
+                    current.object().processCollision(current, other);
+                }
                 other.object().processCollision(other, current);
+            }
+            if(isOnOneLine) {
+                j = others.iterator();
+                current.object().processCollision(current, (CollidedObject)j.next());
             }
 	}
     }
