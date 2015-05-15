@@ -12,6 +12,7 @@ import com.golden.gamedev.object.Sprite;
 import com.golden.gamedev.object.collision.AdvanceCollisionGroup;
 import com.golden.gamedev.object.collision.CollisionGroup;
 import com.golden.gamedev.object.collision.CollisionShape;
+import java.util.Map;
 
 /**
  * Менеджер столкновений, сообщающий о коллизиях между объектами
@@ -26,7 +27,7 @@ public class PublishingCollisionManager extends AdvanceCollisionGroup {
     @Override
     public void collided(Sprite arg0, Sprite arg1) {
             // TODO Auto-generated method stub
-
+        
     }
 
     public PublishingCollisionManager(ModelCollisionManager manager) {
@@ -38,8 +39,7 @@ public class PublishingCollisionManager extends AdvanceCollisionGroup {
     @Override
     public boolean isCollide(Sprite s1, Sprite s2, CollisionShape shape1, CollisionShape shape2) {
 
-            boolean retval = super.isCollide(s1, s2, shape1, shape2);
-        _storage.clear();
+        boolean retval = super.isCollide(s1, s2, shape1, shape2);
             // Словарь столкновений будет формироваться в процессе детекции коллизий
             if (retval) {
 
@@ -86,7 +86,6 @@ public class PublishingCollisionManager extends AdvanceCollisionGroup {
                     }
                     _storage.get(obj1).add(obj2);
             }
-            _modelmanager.collisionOcured(_storage);
             return retval;
 	}
 	
@@ -105,4 +104,10 @@ public class PublishingCollisionManager extends AdvanceCollisionGroup {
 	public void clearCollidedStorage() {
 		_storage.clear();
 	}
+        
+        public void collisionOcured() {
+            _modelmanager.collisionOcured(_storage);
+            _storage.clear();
+        
+        }
 }
