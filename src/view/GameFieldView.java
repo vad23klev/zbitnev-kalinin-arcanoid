@@ -28,6 +28,7 @@ public class GameFieldView extends PlayField {
 	
 	private ArrayList<IngameObjectView> _objectViews = new ArrayList<>();
 	private ArrayList<CollisionListener> _collisionListners;
+        private PublishingCollisionManager[] managers;
 	
 	public GameFieldView(Dimension dim) {
 		
@@ -41,9 +42,13 @@ public class GameFieldView extends PlayField {
 
             // Добавить на поле менеджеры коллизий для обработки столкновений
             ModelCollisionManager manager = new ModelCollisionManager();
-            this.addCollisionGroup(balls, paddles, new PublishingCollisionManager(manager));
-            this.addCollisionGroup(balls, bricks, new PublishingCollisionManager(manager));
-            this.addCollisionGroup(balls, balls, new PublishingCollisionManager(manager));
+            managers = new PublishingCollisionManager[3];
+            managers[0] = new PublishingCollisionManager(manager);
+            managers[1] = new PublishingCollisionManager(manager);
+            managers[2] = new PublishingCollisionManager(manager);
+            this.addCollisionGroup(balls, paddles, managers[0]);
+            this.addCollisionGroup(balls, bricks, managers[1]);
+            this.addCollisionGroup(balls, balls, managers[2]);
             this.addCollisionGroup(balls, null, new PublishingCollisionBoundsManager(
                     new ColorBackground(Color.white, ((int)dim.getWidth()), ((int)dim.getHeight())), manager));
             this.addCollisionGroup(paddles, null, new PublishingCollisionBoundsManager(
@@ -55,6 +60,10 @@ public class GameFieldView extends PlayField {
 	    
             //Если комментируем - то работает всё, кроме коллизий.
            super.update(timeElapsed);
+            
+            for ( PublishingCollisionManager manager: this.managers) {
+                manager.collisionOcured();
+            }
             
             //Если комментируем - то всё работает.
 	    for (IngameObjectView ov : _objectViews) {
