@@ -57,7 +57,8 @@ public abstract class Paddle extends IngameObject {
         this._form = new Rectangle(pos, dim);
         view.setObject(this);
         this._view = view;
-        this.setPositionByPoint(pos);
+        _collisionEventListeners.add(view);
+        this.setPosition(pos);
     }
 
 	/**
@@ -83,13 +84,13 @@ public abstract class Paddle extends IngameObject {
 	protected void fixBallsPosition() {
 	    
 	    for (Ball b : _balls) {
-                b.setPositionByPoint(new Point2D.Double(b.getPosition().x, this._view.getSpriteStorage().getPosition().y - ((Round)b.getForm()).getRadius() * 2));
+                b.setPosition(new Point2D.Double(b.getPosition().x, this._view.getSpriteStorage().getPosition().y - ((Round)b.getForm()).getRadius() * 2));
 
                 if (b.getPosition().x < this._view.getSpriteStorage().getPosition().x) {
-                    b.setPositionByPoint(new Point2D.Double(this._view.getSpriteStorage().getPosition().x, b.getPosition().y));
+                    b.setPosition(new Point2D.Double(this._view.getSpriteStorage().getPosition().x, b.getPosition().y));
                 }
                 if (b.getPosition().x > this._view.getSpriteStorage().getPosition().x + ((Rectangle)this._form).getWidth() - ((Round)b.getForm()).getRadius() * 2) {
-                    b.setPositionByPoint(new Point2D.Double(this._view.getSpriteStorage().getPosition().x + ((Rectangle)this._form).getWidth() - ((Round)b.getForm()).getRadius() * 2, b.getPosition().y));
+                    b.setPosition(new Point2D.Double(this._view.getSpriteStorage().getPosition().x + ((Rectangle)this._form).getWidth() - ((Round)b.getForm()).getRadius() * 2, b.getPosition().y));
                 }
 	    }
 	}
@@ -178,28 +179,13 @@ public abstract class Paddle extends IngameObject {
     }
     
     @Override
-    public void setPositionByPoint(Point2D.Double pos) {
-        
-        if (this._position == null) {
-            super.setPositionByPoint(pos);
-            
-        } else {
-            double dx = pos.x - this._position.x;
-            double dy = pos.y - this._position.y;
-            
-            super.setPositionByPoint(pos);
-            
-            for (Ball b : _balls) {
-                b.setPositionByPoint(new Point2D.Double(b.getPosition().x + dx, b.getPosition().y + dy));
-            }
+    public void setPosition(Point2D.Double pos) {
+        super.setPosition(pos);
+        for (Ball b : _balls) {
+            b.setPosition(new Point2D.Double(b.getPosition().x, b.getPosition().y));
         }
+        
         this.fixBallsPosition();
     }
-    
-    @Override
-    public Object clone() throws CloneNotSupportedException {
-    	
-    	Paddle clone = (Paddle) super.clone();
-    	return clone;
-    }
+
 }
