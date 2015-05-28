@@ -17,6 +17,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import model.collision.CollisionManagers.ModelCollisionManager;
 import model.collision.CollisionManagers.PublishingCollisionBoundsManager;
+import model.interaction.GenericEventListener;
 
 /**
  * Игровое поле арканоида. Содержит все обекты игры, ответственнен за обновление, рендеринг и
@@ -24,7 +25,7 @@ import model.collision.CollisionManagers.PublishingCollisionBoundsManager;
  * @author Gregory Zbitnev <zbitnev@hotmail.com>
  *
  */
-public class GameFieldView extends PlayField {
+public class GameFieldView extends PlayField  implements GenericEventListener{
 	
 	private ArrayList<IngameObjectView> _objectViews = new ArrayList<>();
 	private ArrayList<CollisionListener> _collisionListners;
@@ -175,5 +176,10 @@ public class GameFieldView extends PlayField {
     			}
     		}
     	}
+    }
+
+    @Override
+    public void destroyed(Object object) {
+        this.removeObjectView((IngameObjectView) object);
     }
 }
