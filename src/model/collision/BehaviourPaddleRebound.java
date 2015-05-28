@@ -39,7 +39,7 @@ public class BehaviourPaddleRebound extends CollisionBehaviour {
 		
 		if (from.object() instanceof Paddle && to.object() instanceof Ball && !to.object().getSpeed().equals(new Speed2D(0, 0))) {
 		
-			to.object().setPositionByPoint(new Point2D.Double(to.object().getPosition().x, 
+			to.object().setPosition(new Point2D.Double(to.object().getPosition().x, 
                                                        from.object().getPosition().y - ((Round)to.object().getForm()).getRadius() * 2));
 			to.object().setSpeed(((Paddle)(from.object())).getFireSpeed((Ball)to.object()));
 		}

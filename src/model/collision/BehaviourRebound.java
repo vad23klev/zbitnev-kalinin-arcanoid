@@ -51,25 +51,25 @@ public class BehaviourRebound extends CollisionBehaviour {
                     if (to.collisionSide() == CollidedObject.SIDE_TOP) {
 
                             newpos.y = fromobj.getPosition().y - ((Round)toobj.getForm()).getRadius() * 2 - 1;
-                            toobj.setPositionByPoint(newpos);
+                            toobj.setPosition(newpos);
                             toobj.setSpeed(toobj.getSpeed().flipVertical());
                     }
                     else if (to.collisionSide()  == CollidedObject.SIDE_BOTTOM) {
 
                             newpos.y = fromobj.getPosition().y + ((Rectangle)fromobj.getForm()).getHeight() + 1;
-                            toobj.setPositionByPoint(newpos);
+                            toobj.setPosition(newpos);
                             toobj.setSpeed(toobj.getSpeed().flipVertical());
                     }
                     else if (to.collisionSide() == CollidedObject.SIDE_RIGHT) {
 
                             newpos.x = fromobj.getPosition().x + ((Rectangle)fromobj.getForm()).getWidth() + 1;
-                            toobj.setPositionByPoint(newpos);
+                            toobj.setPosition(newpos);
                             toobj.setSpeed(toobj.getSpeed().flipHorizontal());
                     }
                     else if (to.collisionSide() == CollidedObject.SIDE_LEFT) {
 
                             newpos.x = fromobj.getPosition().x - ((Round)toobj.getForm()).getRadius() * 2;
-                            toobj.setPositionByPoint(newpos);
+                            toobj.setPosition(newpos);
                             toobj.setSpeed(toobj.getSpeed().flipHorizontal());
                     }
 		}
