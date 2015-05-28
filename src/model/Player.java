@@ -72,7 +72,7 @@ public class Player {
 	        } else {
 	            actualx = x;
 	        }
-	        p.setPositionByPoint(new Point2D.Double(x, p.getPosition().y));
+	        p.setPosition(new Point2D.Double(x, p.getPosition().y));
 	    }
 	}
 	
@@ -87,9 +87,9 @@ public class Player {
 	        long delta = Math.round(((Rectangle)p._form).getSize().width / 3.0 * 2.0);
 	        delta = dir.equals(Direction.west()) ? -delta : delta;
             if (p.getPosition().x + ((Rectangle)p._form).getSize().width + delta > p.getFieldSize().width) {
-                p.setPositionByPoint(new Point2D.Double(p.getFieldSize().width - ((Rectangle)p._form).getSize().width, p.getPosition().y));
+                p.setPosition(new Point2D.Double(p.getFieldSize().width - ((Rectangle)p._form).getSize().width, p.getPosition().y));
             } else if (p.getPosition().x + delta < 0) {
-                p.setPositionByPoint(new Point2D.Double(0, p.getPosition().y));
+                p.setPosition(new Point2D.Double(0, p.getPosition().y));
             } else {
                 p.move(new Point2D.Double(delta, 0));
             }
