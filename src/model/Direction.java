@@ -92,6 +92,12 @@ public class Direction {
     
     @Override
     public boolean equals(Object obj) {
+        if (obj == this) {
+            return true;
+        }
+        if (obj == null || obj.getClass() != this.getClass()) {
+            return false;
+        }
         int otherangle = ((Direction)obj).angle;
         return this.angle == otherangle;
     }
