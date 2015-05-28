@@ -43,10 +43,6 @@ public class ScreenGame extends GameObject {
 	    
 	    // Загрузка ресурсов
 	    BufferedImage bgImage               = bsLoader.getImage("default/gfx/misc/bg-blue.png");
-	    BufferedImage basicBallImage        = bsLoader.getImage("default/gfx/balls/basic.png");
-	    BufferedImage breakableBrickImage   = bsLoader.getImage("default/gfx/bricks/breakable.png");
-	    BufferedImage unbreakableBrickImage = bsLoader.getImage("default/gfx/bricks/unbreakable.png");
-	    BufferedImage basicPaddleImage      = bsLoader.getImage("default/gfx/paddles/basic.png");
 	    
             // Инициализация представления уровня
             _fieldView = new GameFieldView(this.bsGraphics.getSize());
@@ -63,8 +59,7 @@ public class ScreenGame extends GameObject {
             GameField field = new GameField(this.bsGraphics.getSize());
 
             // Фабрика представлений
-            DefaultObjectViewFactory viewfact = new DefaultObjectViewFactory(basicBallImage, breakableBrickImage,
-                    unbreakableBrickImage, basicPaddleImage, _fieldView);
+            DefaultObjectViewFactory viewfact = new DefaultObjectViewFactory(_fieldView, bsLoader);
 
             // Модель слушает сообщения о коллизиях
             _model = new GameModel();
