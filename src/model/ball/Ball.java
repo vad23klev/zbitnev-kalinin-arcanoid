@@ -1,6 +1,7 @@
 package model.ball;
 
 import java.awt.geom.Point2D;
+import model.Bounds;
 import model.Form;
 
 import model.GameField;
@@ -10,6 +11,7 @@ import model.collision.BehaviourPaddleRebound;
 import model.collision.BehaviourRebound;
 import model.paddle.Paddle;
 import model.Round;
+import model.collision.BehaviourBoundaryRebound;
 import view.IngameObjectView;
 
 /**
@@ -55,10 +57,12 @@ public abstract class Ball extends IngameObject {
 	    this._view = view;
 	    this._field = field;
 	    this._form = new Round(new Point2D.Double(pos.x - rad, pos.y - rad), rad);
-            this.setPositionByPoint(pos);
+            _collisionEventListeners.add(view);
+            this.setPosition(pos);
 	    this.setSpeed(speed);
             this.addDefaultCollisionBehaviour(BehaviourRebound.getInstance());
             this.addSpecificCollisionBehaviour(Paddle.class, BehaviourPaddleRebound.getInstance(), true);
+            this.addSpecificCollisionBehaviour(Bounds.class, BehaviourBoundaryRebound.getInstance(), true);
 	}
 	
 	/**
@@ -68,18 +72,11 @@ public abstract class Ball extends IngameObject {
 	public abstract float getDefaultSpeedScalar();
 	
 	@Override
-	public void setPositionByPoint(Point2D.Double pos) {
+	public void setPosition(Point2D.Double pos) {
 	    
-	    super.setPositionByPoint(pos);
+	    super.setPosition(pos);
 	    _field.ballPositionChanged(this);
 	}
-	
-	@Override
-	public void positionChanged(Point2D.Double newpos) {
-
-	    super.positionChanged(newpos);
-	    //_field.ballPositionChanged(this);
-    }
 	
 	/**
 	 * Задать позицию шарика, указав координаты его середины
@@ -87,7 +84,7 @@ public abstract class Ball extends IngameObject {
 	 */
 	public void setPositionByCenter(Point2D.Double center) {
 		//Должно быть setPositionByCenter
-		setPositionByPoint(new Point2D.Double(center.x - ((Round)_form).getRadius() * 2, center.y - ((Round)_form).getRadius() * 2));
+		setPosition(new Point2D.Double(center.x - ((Round)_form).getRadius() * 2, center.y - ((Round)_form).getRadius() * 2));
                 ((Round)_form).setCenter(center);
 	}
 	
