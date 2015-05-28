@@ -1,11 +1,15 @@
 package model.collision.CollisionManagers;
 
+import com.golden.gamedev.object.collision.CollisionShape;
+import java.awt.Shape;
+import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import model.Direction;
 import model.IngameObject;
+import model.Bounds;
 import model.collision.CollidedObject;
 
 /**
@@ -35,25 +39,19 @@ public class ModelCollisionManager {
             while (j.hasNext()) {
                 CollidedObject other  = (CollidedObject)j.next();
                 if(!isOnOneLine) {
-                    current.object().processCollision(current, other);
+                    current.object().processCollision(other, current.collisionSide(), current.collisionShape());
                 }
-                other.object().processCollision(other, current);
+                other.object().processCollision(current, other.collisionSide(), other.collisionShape());
             }
             if(isOnOneLine) {
                 j = others.iterator();
-                current.object().processCollision(current, (CollidedObject)j.next());
+                current.object().processCollision((CollidedObject)j.next(), current.collisionSide(), current.collisionShape());
             }
 	}
     }
     
-    void boundsCollisionOcured(IngameObject obj, Direction direction){
-        if (direction.equals(Direction.east()) || direction.equals(Direction.west())) {
-            obj.setSpeed(obj.getSpeed().flipHorizontal());
-        } else if (direction.equals(Direction.north())) {
-            obj.setSpeed(obj.getSpeed().flipVertical());
-        } else {
-            obj.destroy();
-        }
+    void boundsCollisionOcured(IngameObject obj, int collisionSide, Shape collisionShape){
+        obj.processCollision(new CollidedObject(new Bounds(), new Point2D.Double(0, 0), collisionSide, collisionShape), collisionSide, collisionShape);
     }
     
     private HashMap DeepCopyStorage(HashMap storage){
