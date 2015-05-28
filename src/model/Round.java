@@ -52,4 +52,16 @@ public class Round extends Form{
         
         _center = cent;
     }
+    
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == this) {
+            return true;
+        }
+        if (obj == null || obj.getClass() != this.getClass()) {
+            return false;
+        }
+        return _radius == ((Round)obj).getRadius() && 
+                _center == ((Round)obj).getCenter();
+    }
 }
