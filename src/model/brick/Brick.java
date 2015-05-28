@@ -53,7 +53,8 @@ public abstract class Brick extends IngameObject {
         this._form = new Rectangle(pos, dim);
         view.setObject(this);
         this._view = view;
-        this.setPositionByPoint(pos);
+        _collisionEventListeners.add(view);
+        this.setPosition(pos);
         this.setSpeed(speed);
     }
     
