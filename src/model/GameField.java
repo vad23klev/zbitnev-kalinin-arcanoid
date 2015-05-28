@@ -1,5 +1,6 @@
 package model;
 
+import com.golden.gamedev.object.collision.CollisionShape;
 import java.awt.Dimension;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
@@ -64,15 +65,15 @@ public class GameField implements BallPositionChangedListener {
     public void ballPositionChanged(Ball ball) {
         
         if (ball.getPosition().y < 0) {
-            ball.setPositionByPoint(new Point2D.Double(ball.getPosition().x, 0));
+            ball.setPosition(new Point2D.Double(ball.getPosition().x, 0));
             ball.setSpeed(ball.getSpeed().flipVertical());
         }
         
         if (ball.getPosition().x < 0 || ball.getPosition().x + ((Round)ball.getForm()).getRadius() * 2 > _dimensions.width) {
             if (ball.getPosition().x < 0) {
-                ball.setPositionByPoint(new Point2D.Double(0, ball.getPosition().y));
+                ball.setPosition(new Point2D.Double(0, ball.getPosition().y));
             } else {
-                ball.setPositionByPoint(new Point2D.Double(_dimensions.width - ((Round)ball.getForm()).getRadius() * 2, ball.getPosition().y));
+                ball.setPosition(new Point2D.Double(_dimensions.width - ((Round)ball.getForm()).getRadius() * 2, ball.getPosition().y));
             }
             ball.setSpeed(ball.getSpeed().flipHorizontal());
         }
@@ -105,8 +106,8 @@ public class GameField implements BallPositionChangedListener {
     			
     			CollidedObject obj2 = j.next();
     			CollidedObject obj2copy = copyj.next();
-    			obj1.object().processCollision(obj1, obj2copy);
-    			obj2.object().processCollision(obj2, obj1copy);
+    			obj1.object().processCollision(obj2copy, obj1.collisionSide(), obj1.collisionShape());
+    			obj2.object().processCollision(obj1copy, obj2.collisionSide(), obj2.collisionShape());
     		}
     	}
 	}
