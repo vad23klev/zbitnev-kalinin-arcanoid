@@ -10,5 +10,5 @@ public interface GenericEventListener {
 	/**
 	 * Объект был уничтожен.
 	 */
-	void destroyed();
+	void destroyed(Object object);
 }
