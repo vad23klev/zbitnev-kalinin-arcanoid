@@ -1,5 +1,6 @@
 package view;
 
+import com.golden.gamedev.engine.BaseLoader;
 import java.awt.image.BufferedImage;
 
 import model.ball.BasicBall;
@@ -36,22 +37,20 @@ public class DefaultObjectViewFactory {
      * @param unbreakableBrickImage
      * @param basicPaddleImage
      */
-    public DefaultObjectViewFactory(BufferedImage basicBallImage, BufferedImage breakableBrickImage,
-                                    BufferedImage unbreakableBrickImage, BufferedImage basicPaddleImage,
-                                    GameFieldView view) {
+    public DefaultObjectViewFactory(GameFieldView view, BaseLoader bsLoader) {
         
-    	_view = view;
-        _basicBallImage = basicBallImage;
-        _breakableBrickImage = breakableBrickImage;
-        _unbreakableBrickImage = unbreakableBrickImage;
-        _basicPaddleImage = basicPaddleImage;
+    	_view = view;  
+	_basicBallImage = bsLoader.getImage("default/gfx/balls/basic.png");
+	_breakableBrickImage = bsLoader.getImage("default/gfx/bricks/breakable.png");
+	_unbreakableBrickImage = bsLoader.getImage("default/gfx/bricks/unbreakable.png");
+	_basicPaddleImage = bsLoader.getImage("default/gfx/paddles/basic.png");
     }
     
     /**
      * Возвращает true, если фабрика настроена и может порождать объекты.
      * @return Валидность фабрики.
      */
-    public boolean is_valid() {
+    public boolean isValid() {
         
         boolean valid = true;
         
@@ -66,98 +65,11 @@ public class DefaultObjectViewFactory {
     /**
      * Проверяет, валидна ли фабрика и выбрасывает исключение, если нет.
      */
-    public void ensure_valid() {
+    public void ensureValid() {
         
-        if (!is_valid()) {
+        if (!isValid()) {
             throw new NullPointerException("Fabric was initialized with null images.");
         }
-    }
-    
-    /**
-     * Задает изображение простого мяча.
-     * @param i Изображение.
-     */
-    public void setBasicBallImage(BufferedImage i) {
-        
-        if (i == null) {
-            throw new NullPointerException();
-        }
-        _basicBallImage = i;
-    }
-    
-    /**
-     * Задает изображение разрушаемого кирпича.
-     * @param i Изображение.
-     */
-    public void setBreakableBrickImage(BufferedImage i) {
-        
-        if (i == null) {
-            throw new NullPointerException();
-        }
-        _breakableBrickImage = i;
-        ensure_valid();
-    }
-    
-    
-    /**
-     * Задает изображение неразрушаемого кирпича.
-     * @param i Изображение.
-     */
-    public void setUnbreakableBrickImage(BufferedImage i) {
-        
-        if (i == null) {
-            throw new NullPointerException();
-        }
-        _unbreakableBrickImage = i;
-        ensure_valid();
-    }
-
-    /**
-     * Задает изображение простой ракетки.
-     * @param i Изображение.
-     */
-    public void setBasicPaddleImage(BufferedImage i) {
-        
-        if (i == null) {
-            throw new NullPointerException();
-        }
-        _basicPaddleImage = i;
-    }
-    
-    /**
-     * Возвращает изображение простого мяча.
-     * @return Изображение.
-     */
-    public BufferedImage getBasicBallImage() {
-        
-        return _basicBallImage;
-    }
-    
-    /**
-     * Возвращает изображение разрушаемого кирпича.
-     * @return Изображение.
-     */
-    public BufferedImage getBreakableBrickImage() {
-        
-        return _breakableBrickImage;
-    }
-
-    /**
-     * Возвращает изображение неразрушаемого кирпича.
-     * @return Изображение.
-     */
-    public BufferedImage getUnbreakableBrickImage() {
-        
-        return _unbreakableBrickImage;
-    }
-    
-    /**
-     * Возвращает изображение простой ракетки.
-     * @return Изображение.
-     */
-    public BufferedImage getBasicPaddleImage() {
-        
-        return _basicPaddleImage;
     }
     
     /**
@@ -167,7 +79,7 @@ public class DefaultObjectViewFactory {
      */
     public IngameObjectView newBasicBallView() {
         
-        ensure_valid();
+        ensureValid();
         
         SpriteStorage ballSprite = createSpriteStorage(_basicBallImage);
         
@@ -184,7 +96,7 @@ public class DefaultObjectViewFactory {
      */
     public IngameObjectView newBreakableBrickView() {
         
-        ensure_valid();
+        ensureValid();
         
         SpriteStorage brickSprite = createSpriteStorage(_breakableBrickImage);
         
@@ -201,7 +113,7 @@ public class DefaultObjectViewFactory {
      */
     public IngameObjectView newUnbreakableBrickView() {
         
-        ensure_valid();
+        ensureValid();
         
         SpriteStorage brickSprite = createSpriteStorage(_unbreakableBrickImage);
         
@@ -218,7 +130,7 @@ public class DefaultObjectViewFactory {
      */
     public IngameObjectView newBasicPaddleView() {
         
-        ensure_valid();
+        ensureValid();
         
         SpriteStorage paddleSprite = createSpriteStorage(_basicPaddleImage);
         
@@ -228,11 +140,11 @@ public class DefaultObjectViewFactory {
         return paddleView;
     }
     
-    public SpriteStorage createSpriteStorage(BufferedImage image) {
+    protected SpriteStorage createSpriteStorage(BufferedImage image) {
         return new SpriteStorageGTGE(image);
     }
     
-    public SpriteStorage createSpriteStorage() {        
+    protected SpriteStorage createSpriteStorage() {        
         return new SpriteStorageGTGE();
     }
 }
