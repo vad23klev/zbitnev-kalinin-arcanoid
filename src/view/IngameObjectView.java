@@ -7,30 +7,26 @@ import java.util.ArrayList;
 
 import model.IngameObject;
 import model.Speed2D;
+import model.interaction.CollisionEventListener;
 import model.interaction.GenericEventListener;
-import model.interaction.PositionChangeListener;
-import model.interaction.SpeedChangeListener;
 
 /**
  * Представление отдельного игрового объекта
  * @author Gregory Zbitnev <zbitnev@hotmail.com>
  *
  */
-public class IngameObjectView
-		implements PositionChangeListener, SpeedChangeListener, GenericEventListener {
+public class IngameObjectView implements CollisionEventListener {
 
-    protected IngameObject _ingameObject;
+    protected IngameObject _ingameObject = null;
     protected SpriteStorage _spriteStorage = null;
     
-    protected GameFieldView _fieldView = null;
-    protected ArrayList<PositionChangeListener> _positionListeners = new ArrayList<>();
-    protected ArrayList<SpeedChangeListener> _speedListeners = new ArrayList<>();
+    protected ArrayList<GenericEventListener> _genericEventListeners = new ArrayList<>();
 	
 	/**
 	 * Создает представление объекта на основе его модели и спрайта.
-	 * Этот метод автоматически согласует слушателей и связывает спрайт с объектом представления, которому он принадлежит.
-	 * @param obj Модель игрового объекта.
-	 * @param sprite Спрайт, которым он будет отображен.
+	 * Этот метод автоматически связывает спрайт с объектом представления, которому он принадлежит.
+	 * @param spriteStorage Хранилище спрайтов.
+	 * @param view представление поля.
 	 */
 	public IngameObjectView(SpriteStorage spriteStorage, GameFieldView view) {
 	    
@@ -39,19 +35,7 @@ public class IngameObjectView
 	    }
 	    spriteStorage.setObjectView(this);
 	    this._spriteStorage = spriteStorage;
-	    this._fieldView = view;
-	}
-    
-	@Override
-	public void positionChanged(Point2D.Double newpos) {
-		
-		_spriteStorage.setPosition(new Point2D.Double(newpos.x, newpos.y));
-	}
-
-	@Override
-	public void speedChanged(Speed2D newspeed) {
-		
-		_spriteStorage.setSpeed(new Speed2D(newspeed.x(), newspeed.y()));
+            this._genericEventListeners.add(view);
 	}
 	
 	/**
@@ -64,60 +48,17 @@ public class IngameObjectView
 	}
 	
 	/**
-	 * Добавить спрайт, принадлежащий данному представлению объекта
-	 * @param sprite Добавляемый спрайт
-	 */
-	public void setSpriteStorage(SpriteStorage spriteStorage) {
-		
-		if (spriteStorage == null) {
-			throw new NullPointerException();
-		}
-            	this._spriteStorage = spriteStorage;
-	}
-	
-	/**
 	 * Возвращает спрайт, принадлежащий данному представлению объекта.
 	 * @return Спрайт.
 	 */
 	public SpriteStorage getSpriteStorage() {
 	    return _spriteStorage;
 	}
-	
-	/**
-	 * Добавить слушателя изменения позиции представления объекта
-	 * @param l Новый слушатель
-	 */
-	public void addPositionChangeListener(PositionChangeListener l) {
-		_positionListeners.add(l);
-	}
-	
-	/**
-	 * Удалить слушателя изменения позиции представления объекта
-	 * @param l Удаляемый слушатель
-	 */
-	public void removePositionChangeListener(PositionChangeListener l) {
-		_positionListeners.remove(l);
-	}
-	
-	/**
-	 * Добавить слушателя изменения скорости представления объекта
-	 * @param l Новый слушатель
-	 */
-	public void addSpeedChangeListener(SpeedChangeListener l) {
-		_speedListeners.add(l);
-	}
-	
-	/**
-	 * Удалить слушателя изменения скорости представления объекта
-	 * @param l Удаляемый слушатель
-	 */
-	public void removeSpeedChangeListener(SpeedChangeListener l) {
-		_speedListeners.remove(l);
-	}
 
-	@Override
 	public void destroyed() {
-		this._fieldView.removeObjectView(this);
+            for(int i = 0; i < _genericEventListeners.size(); i++) {
+                _genericEventListeners.get(i).destroyed(this);
+            }
 	}
         
         public void setSpeed(Speed2D speed) {
@@ -129,11 +70,16 @@ public class IngameObjectView
         }
         
         public void setObject(IngameObject object) {
-            this._ingameObject = object;
+            if (this._ingameObject == null)
+                this._ingameObject = object;
         }
         
         @Override
         public Object clone() {
             return this;            
         }
+
+    @Override
+    public void collisionOccured() {
+    }
 }
