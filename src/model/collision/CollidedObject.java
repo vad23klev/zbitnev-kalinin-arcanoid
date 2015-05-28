@@ -90,8 +90,13 @@ public class CollidedObject implements Cloneable {
 	
 	@Override
 	public boolean equals(Object obj) {
-		
-		return this._object.equals(((CollidedObject)(obj))._object);
+            if (obj == this) {
+                return true;
+            }
+            if (obj == null || obj.getClass() != this.getClass()) {
+                return false;
+            }
+            return this._object.equals(((CollidedObject)(obj))._object);
 	}
 	
 	@Override
