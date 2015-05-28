@@ -65,14 +65,14 @@ public class Player {
 		
 	    for (Paddle p : _paddles) {
 	        int actualx;
-	        if (x > p.getField().getSize().width - ((Rectangle)p._form).getSize().width) {
-	            actualx = p.getField().getSize().width - ((Rectangle)p._form).getSize().width;
+	        if (x > p.getFieldSize().width - ((Rectangle)p._form).getSize().width) {
+	            actualx = p.getFieldSize().width - ((Rectangle)p._form).getSize().width;
 	        } else if (x < 0) {
 	            actualx = 0;
 	        } else {
 	            actualx = x;
 	        }
-	        p.setPositionByPoint(new Point2D.Double(actualx, p.getPosition().y));
+	        p.setPositionByPoint(new Point2D.Double(x, p.getPosition().y));
 	    }
 	}
 	
@@ -86,8 +86,8 @@ public class Player {
 	    for (Paddle p : _paddles) {
 	        long delta = Math.round(((Rectangle)p._form).getSize().width / 3.0 * 2.0);
 	        delta = dir.equals(Direction.west()) ? -delta : delta;
-            if (p.getPosition().x + ((Rectangle)p._form).getSize().width + delta > p.getField().getSize().width) {
-                p.setPositionByPoint(new Point2D.Double(p.getField().getSize().width - ((Rectangle)p._form).getSize().width, p.getPosition().y));
+            if (p.getPosition().x + ((Rectangle)p._form).getSize().width + delta > p.getFieldSize().width) {
+                p.setPositionByPoint(new Point2D.Double(p.getFieldSize().width - ((Rectangle)p._form).getSize().width, p.getPosition().y));
             } else if (p.getPosition().x + delta < 0) {
                 p.setPositionByPoint(new Point2D.Double(0, p.getPosition().y));
             } else {
