@@ -28,7 +28,12 @@ public class Speed2D implements Cloneable {
 	
 	@Override
 	public boolean equals(Object other) {
-	    
+	    if (other == this) {
+                return true;
+            }
+            if (other == null || other.getClass() != this.getClass()) {
+                return false;
+            }
 	    Speed2D oth = (Speed2D) other;
 	    return oth._x == this._x && oth._y == this._y;
 	}
