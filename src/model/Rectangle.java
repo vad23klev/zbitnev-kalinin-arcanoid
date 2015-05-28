@@ -53,4 +53,17 @@ public class Rectangle extends Form{
         
         return _coord;
     }
+    
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == this) {
+            return true;
+        }
+        if (obj == null || obj.getClass() != this.getClass()) {
+            return false;
+        }
+        return _size.width == ((Rectangle)obj).getSize().width && 
+                _size.height == ((Rectangle)obj).getSize().height && 
+                _coord == ((Rectangle)obj).getCoordinates();
+    }
 }
